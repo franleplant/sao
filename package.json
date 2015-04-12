@@ -1,0 +1,33 @@
+{
+  "name": "sao",
+  "version": "0.0.0",
+  "description": "Example Flux chat application primarily intended to explain the use of Dispatcher.waitFor().",
+  "main": "js/app.js",
+  "dependencies": {
+    "flux": "^2.0.0",
+    "keymirror": "~0.1.0",
+    "object-assign": "^1.0.0",
+    "react": "^0.13.1",
+    "react-mixin": "^1.1.0",
+    "react-router": "^0.13.2"
+  },
+  "devDependencies": {
+    "babelify": "^6.0.2",
+    "browserify": "^6.2.0",
+    "jest-cli": "~0.1.17",
+    "reactify": "^1.1.0",
+    "uglify-js": "~2.4.15",
+    "watchify": "^2.1.1"
+  },
+  "scripts": {
+    "start": "watchify -o js/bundle.js -v -d js/app.js",
+    "build": "browserify -t babelify js/app.js -o js/bundle.js",
+    "test": "jest"
+  },
+  "browserify": {
+    "transform": []
+  },
+  "jest": {
+    "rootDir": "./js"
+  }
+}
