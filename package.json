@@ -17,11 +17,11 @@
     "jest-cli": "~0.1.17",
     "reactify": "^1.1.0",
     "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
+    "watchify": "^3.1.0"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d js/app.js",
-    "build": "browserify -t babelify js/app.js -o js/bundle.js",
+    "start": "watchify -v -t babelify js/index.js -o js/bundle.js",
+    "build": "browserify -t babelify js/index.js -o js/bundle.js",
     "test": "jest"
   },
   "browserify": {
