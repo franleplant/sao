@@ -1,0 +1,30 @@
+# top-most EditorConfig file
+root = true
+
+
+[*]
+charset = "utf-8"
+
+# Javascript Source files
+[**.{js,json,yml}]
+indent_style = space
+indent_size = 4
+# Autoremove all trailing whitespaces
+trim_trailing_whitespace = true
+
+
+# Css and Less source files
+[**.{css,less}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+
+[**.html]
+indent_style = space
+indent_size = 4
+
+
+# Dont trim trailing whitespace on Markdown files, they might be significant
+[**.md]
+trim_trailing_whitespace = false
