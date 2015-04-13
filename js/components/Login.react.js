@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import ReactMixin from 'react-mixin';
+import login from '../login.js';
 
 
 export default class Login extends React.Component {
@@ -11,6 +12,7 @@ export default class Login extends React.Component {
     login(event) {
         event.preventDefault();
         console.log('login attempt!', this.state);
+        login.login(this.state.username, this.state.password);
     }
 
     render() {

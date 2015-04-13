@@ -5,6 +5,7 @@ import App from './components/App.react';
 import Login from './components/Login.react';
 import Signup from './components/Signup.react';
 import Home from './components/Home.react';
+import sessionStore from './stores/sessionStore.js';
 
 var routes = (
   <Route handler={App}>
@@ -18,6 +19,18 @@ export default Router.create({routes});
 
 
 export class Navigation extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            username: sessionStore.getUsername()
+        }
+    }
+
+    componentDidMount() {
+          sessionStore.onChange(() => {
+            this.setState({username: sessionStore.getUsername()})
+          });
+    }
     render() {
         return (
             <header>
@@ -27,7 +40,7 @@ export class Navigation extends React.Component {
                     <li><Link to="login">Login</Link></li>
                     <li><Link to="signup">Signup</Link></li>
                 </ul>
-                Usuario: cosme.fulanito@gmail.com
+                Usuario: {this.state.username}
             </header>
         );
     }
