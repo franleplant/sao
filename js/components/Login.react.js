@@ -1,12 +1,18 @@
 import React from 'react/addons';
 import ReactMixin from 'react-mixin';
 import login from '../login.js';
+import router from '../router.js';
 
 
 export default class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {username: '', password: ''};
+    }
+
+    goToSignup(event) {
+        event.preventDefault();
+        router.transitionTo('/registrarse');
     }
 
     login(event) {
@@ -36,6 +42,7 @@ export default class Login extends React.Component {
                         />
                 </div>
                 <button type="submit">Iniciar Sesion</button>
+                <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
             </form>
         );
     }

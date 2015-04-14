@@ -10,7 +10,7 @@ import sessionStore from './stores/sessionStore.js';
 var routes = (
   <Route handler={App}>
     <Route name="login" handler={Login}/>
-    <Route name="signup" handler={Signup}/>
+    <Route name="registrarse" handler={Signup}/>
     <Route name="home" path="/" handler={Home}/>
   </Route>
 );
@@ -38,7 +38,7 @@ export class Navigation extends React.Component {
                 <ul>
                     <li><Link to="home">Home</Link></li>
                     <li><Link to="login">Login</Link></li>
-                    <li><Link to="signup">Signup</Link></li>
+                    <li><Link to="registrarse">Signup</Link></li>
                 </ul>
                 Usuario: {this.state.username}
             </header>
