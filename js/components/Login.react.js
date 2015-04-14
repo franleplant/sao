@@ -21,13 +21,15 @@ export default class Login extends React.Component {
                 LOGIN
                 <div className="form-group">
                     <input
-                        type="text"
+                        type="email"
+                        required
                         name="username"
                         placeholder="Username"
                         valueLink={this.linkState('username')}
                         />
                     <input
                         type="password"
+                        required
                         name="password"
                         placeholder="Password"
                         valueLink={this.linkState('password')}
