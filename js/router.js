@@ -18,6 +18,8 @@ var routes = (
 export default Router.create({routes});
 
 
+import {Toolbar} from 'material-ui';
+
 export class Navigation extends React.Component {
     constructor() {
         super()
@@ -33,15 +35,12 @@ export class Navigation extends React.Component {
     }
     render() {
         return (
-            <header>
-                NAVIGATION!
-                <ul>
-                    <li><Link to="home">Home</Link></li>
-                    <li><Link to="login">Login</Link></li>
-                    <li><Link to="registrarse">Signup</Link></li>
-                </ul>
+            <Toolbar>
+                    <Link to="home">Home</Link>
+                    <Link to="login">Login</Link>
+                    <Link to="registrarse">Signup</Link>
                 Usuario: {this.state.username}
-            </header>
+            </Toolbar>
         );
     }
 }

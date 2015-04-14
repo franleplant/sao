@@ -2,13 +2,15 @@ import React from 'react/addons';
 import {Link} from 'react-router';
 import {Navigation} from '../router.js';
 import sessionStore from '../stores/sessionStore.js';
+import {DatePicker} from 'material-ui';
 
 export default class Home extends React.Component {
     static willTransitionTo(transition) {
         // This method is called before transitioning to this component. If the user is not logged in, we’ll send him or her to the Login page.
-        if (!sessionStore.isLoggedIn()) {
-            transition.redirect('/login');
-        }
+        // ENABLE THIS TO ADD AUTHORIZATION
+        //if (!sessionStore.isLoggedIn()) {
+            //transition.redirect('/login');
+        //}
     }
 
     constructor(props) {
@@ -18,8 +20,12 @@ export default class Home extends React.Component {
     render() {
         return (
             <div>
-                HOME!
                 <Navigation/>
+                <h1>HOME!</h1>
+                <DatePicker
+                    defaultDate={new Date()}
+                    mode="landscape"
+                    />
             </div>
         );
     }
