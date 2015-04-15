@@ -5,6 +5,7 @@ import App from './components/App.react';
 import Login from './components/Login.react';
 import Signup from './components/Signup.react';
 import Home from './components/Home.react';
+import Patients from './components/Patients.react';
 import sessionStore from './stores/sessionStore.js';
 
 var routes = (
@@ -12,6 +13,7 @@ var routes = (
     <Route name="login" handler={Login}/>
     <Route name="registrarse" handler={Signup}/>
     <Route name="home" path="/" handler={Home}/>
+    <Route name="pacientes" handler={Patients}/>
   </Route>
 );
 
@@ -39,6 +41,7 @@ export class Navigation extends React.Component {
                     <Link to="home">Home</Link>
                     <Link to="login">Login</Link>
                     <Link to="registrarse">Signup</Link>
+                    <Link to="pacientes">Pacientes</Link>
                 Usuario: {this.state.username}
             </Toolbar>
         );

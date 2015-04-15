@@ -4,7 +4,37 @@
     <meta charset="utf-8">
     <title>SAO - Sistema de Administracion Odontologico</title>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="bundle.css">
+    <script>
+
+        // Horrible polyfill and monkey patch for 
+        // react fixed-data-table lib :(
+        function ToObject(val) {
+            if (val == null) {
+                throw new TypeError('Object.assign cannot be called with null or undefined');
+            }
+
+            return Object(val);
+        }
+
+        Object.assign = Object.assign || function (target, source) {
+            var from;
+            var keys;
+            var to = ToObject(target);
+
+            for (var s = 1; s < arguments.length; s++) {
+                from = arguments[s];
+                keys = Object.keys(Object(from));
+
+                for (var i = 0; i < keys.length; i++) {
+                    to[keys[i]] = from[keys[i]];
+                }
+            }
+
+            return to;
+        };
+    </script>
   </head>
   <body>
     <section id="react"></section>

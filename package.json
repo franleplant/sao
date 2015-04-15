@@ -4,9 +4,9 @@
   "description": "Example Flux chat application primarily intended to explain the use of Dispatcher.waitFor().",
   "main": "js/app.js",
   "dependencies": {
+    "fixed-data-table": "^0.1.2",
     "flux": "^2.0.0",
     "keymirror": "~0.1.0",
-    "object-assign": "^1.0.0",
     "react": "^0.13.1",
     "react-mixin": "^1.1.0",
     "react-router": "^0.13.2",
@@ -20,6 +20,7 @@
     "material-ui": "^0.7.3",
     "react-tap-event-plugin": "^0.1.6",
     "reactify": "^1.1.0",
+    "serve": "^1.4.0",
     "uglify-js": "~2.4.15",
     "watchify": "^3.1.0"
   },
@@ -28,6 +29,7 @@
     "build:css": "lessc less/app.less bundle.css",
     "build:js": "browserify -t babelify js/index.js -o bundle.js",
     "build": "npm run build:js && npm run build:css",
+    "serve": "serve .",
     "test": "jest"
   },
   "browserify": {

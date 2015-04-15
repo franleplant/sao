@@ -5,6 +5,7 @@ import router from './router.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
+
 // Docs: https://github.com/rackt/react-router/blob/master/docs/api/create.md
 router.run(function (Handler, state) {
   React.render(<Handler/>, document.getElementById('react'));
