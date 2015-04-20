@@ -25,7 +25,7 @@
     "watchify": "^3.1.1"
   },
   "scripts": {
-    "start": "npm run watch",
+    "start": "parallelshell 'npm run watch' 'npm run serve'",
     "build:css": "lessc less/app.less bundle.css",
     "build:js": "browserify -t babelify js/index.js -o bundle.js",
     "build": "npm run build:js && npm run build:css",
