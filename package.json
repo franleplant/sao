@@ -1,34 +1,37 @@
 {
   "name": "sao",
   "version": "0.0.0",
-  "description": "Example Flux chat application primarily intended to explain the use of Dispatcher.waitFor().",
+  "description": "Academic work about building applications from scratch",
   "main": "js/app.js",
   "dependencies": {
     "fixed-data-table": "^0.1.2",
     "flux": "^2.0.0",
-    "keymirror": "~0.1.0",
     "react": "^0.13.1",
     "react-mixin": "^1.1.0",
     "react-router": "^0.13.2",
+    "material-ui": "^0.7.3",
     "react-tap-event-plugin": "^0.1.6"
   },
   "devDependencies": {
     "babelify": "^6.0.2",
     "browserify": "^6.2.0",
+    "chokidar-cli": "^0.2.0",
     "jest-cli": "~0.1.17",
     "less": "^2.5.0",
-    "material-ui": "^0.7.3",
-    "react-tap-event-plugin": "^0.1.6",
+    "parallelshell": "^1.1.1",
     "reactify": "^1.1.0",
     "serve": "^1.4.0",
     "uglify-js": "~2.4.15",
-    "watchify": "^3.1.0"
+    "watchify": "^3.1.1"
   },
   "scripts": {
-    "start": "watchify -v -t babelify js/index.js -o js/bundle.js",
+    "start": "npm run watch",
     "build:css": "lessc less/app.less bundle.css",
     "build:js": "browserify -t babelify js/index.js -o bundle.js",
     "build": "npm run build:js && npm run build:css",
+    "watch:js": "watchify -t babelify js/index.js --outfile js/bundle.js --debug --verbose --poll",
+    "watch:css": "chokidar 'less/**/*.less' -c 'npm run build:css'",
+    "watch": "parallelshell 'npm run watch:js' 'npm run watch:css'",
     "serve": "serve .",
     "test": "jest"
   },
