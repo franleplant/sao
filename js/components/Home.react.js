@@ -1,6 +1,5 @@
 import React from 'react/addons';
 import {Link} from 'react-router';
-import {Navigation} from '../router.js';
 import sessionStore from '../stores/sessionStore.js';
 import {DatePicker} from 'material-ui';
 
@@ -20,7 +19,6 @@ export default class Home extends React.Component {
     render() {
         return (
             <div>
-                <Navigation/>
                 <h1>HOME!</h1>
                 <DatePicker
                     defaultDate={new Date()}

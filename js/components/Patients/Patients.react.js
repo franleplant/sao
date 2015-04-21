@@ -38,7 +38,6 @@ export default class Patients extends React.Component {
     render() {
         return (
             <div>
-                <Navigation/>
                 <h1>Pacientes!</h1>
                 <FontIcon className="fa fa-search"/>
                 <TextField hintText="buscar" />

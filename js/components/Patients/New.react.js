@@ -1,7 +1,6 @@
 import React from 'react';
 import {TextField, FontIcon, RaisedButton, DatePicker} from 'material-ui';
 import PatientForm from './Form.react.js';
-import {Navigation} from '../../router.js';
 
 
 export default class NewPatient extends React.Component {
@@ -13,7 +12,6 @@ export default class NewPatient extends React.Component {
     render() {
         return (
             <div>
-                <Navigation/>
                 <h1>Nuevo Paciente</h1>
                 <PatientForm/>
             </div>
