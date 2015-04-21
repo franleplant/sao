@@ -1,14 +1,15 @@
 import React from 'react/addons';
-import router, {Navigation} from '../router.js';
 import {Table, Column} from "fixed-data-table";
-
 import {TextField, FontIcon, FloatingActionButton} from 'material-ui';
+
+import {Navigation} from '../../router.js';
+
 
 
 var rows = [
-    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id'],
-    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id'],
-    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id']
+    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id0'],
+    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id1'],
+    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id2']
 ];
 
 function rowGetter(rowIndex) {
@@ -17,19 +18,20 @@ function rowGetter(rowIndex) {
 
 
 export default class Patients extends React.Component {
-    constructor(props) {
+    constructor(props, context) {
         super(props);
+        this.context = context;
     }
 
     newPatient() {
         // Redirect to create a patient
-        router.transitionTo('/pacientes/new');
+        this.context.router.transitionTo('crearPaciente');
     }
 
     handleClick(event, index, rowData) {
         // On click go to the main page of the patient
         // This feature of Es6 is called template strings
-        router.transitionTo(`/pacientes/${rowData[4]}`);
+        this.context.router.transitionTo('editarPaciente', {patientId: rowData[4]});
     }
 
     // The search box should act as a filter for the table below
@@ -88,4 +90,6 @@ export default class Patients extends React.Component {
     }
 }
 
-
+Patients.contextTypes = {
+    router: React.PropTypes.func
+}
