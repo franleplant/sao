@@ -1,7 +1,9 @@
 import React from 'react';
-import Router, {Route, Link, RouteHandler, DefaultRoute} from 'react-router';
+import Router, {Route, DefaultRoute, NotFoundRoute} from 'react-router';
 
 import AuthenticatedApp from './components/AuthenticatedApp.react.js';
+
+import NotFound from './components/NotFound.react.js';
 
 import App from './components/App.react';
 import Login from './components/Login.react';
@@ -18,8 +20,9 @@ var routes = (
   <Route handler={App}>
     <Route name="login" handler={Login}/>
     <Route name="registrarse" handler={Signup}/>
-    <Route handler={AuthenticatedApp}>
-        <Route name="home" path="/" handler={Home}/>
+    <NotFoundRoute handler={NotFound}/>
+    <Route handler={AuthenticatedApp} path="/" >
+        <DefaultRoute name="home" handler={Home}/>
         <Route name="pacientes" handler={Patients}/>
         <Route name="editarPaciente" path="pacientes/editar/:patientId" handler={PatientEdit}/>
         <Route name="crearPaciente" path="pacientes/nuevo" handler={PatientNew}/>

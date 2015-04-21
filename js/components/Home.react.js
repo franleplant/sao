@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import {Link} from 'react-router';
 import sessionStore from '../stores/sessionStore.js';
 import {DatePicker} from 'material-ui';
 

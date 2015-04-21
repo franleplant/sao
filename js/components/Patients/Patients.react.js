@@ -2,10 +2,6 @@ import React from 'react/addons';
 import {Table, Column} from "fixed-data-table";
 import {TextField, FontIcon, FloatingActionButton} from 'material-ui';
 
-import {Navigation} from '../../router.js';
-
-
-
 var rows = [
     ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id0'],
     ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id1'],
@@ -13,8 +9,8 @@ var rows = [
 ];
 
 function rowGetter(rowIndex) {
-  return rows[rowIndex];
-  }
+    return rows[rowIndex];
+}
 
 
 export default class Patients extends React.Component {
