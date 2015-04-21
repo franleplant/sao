@@ -29,7 +29,7 @@
     "build:css": "lessc less/app.less bundle.css",
     "build:js": "browserify -t babelify js/index.js -o bundle.js",
     "build": "npm run build:js && npm run build:css",
-    "watch:js": "watchify -t babelify js/index.js --outfile js/bundle.js --debug --verbose --poll",
+    "watch:js": "watchify -t babelify js/index.js --outfile bundle.js --debug --verbose --poll",
     "watch:css": "chokidar 'less/**/*.less' -c 'npm run build:css'",
     "watch": "parallelshell 'npm run watch:js' 'npm run watch:css'",
     "serve": "serve .",
