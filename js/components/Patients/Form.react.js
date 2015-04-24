@@ -9,23 +9,23 @@ export default class PatientForm extends React.Component {
     render() {
         return (
             <form>
-                <TextField hintText="Nombre y Apellido"/>
+                <TextField floatingLabelText="Nombre y Apellido" />
                 <br/>
-                <TextField hintText="DNI"/>
+                <TextField floatingLabelText="DNI"/>
                 <br/>
                 <DatePicker
                     hintText="Fecha de Nacimiento"
                     mode="landscape"/>
                 <br/>
-                <TextField hintText="Localidad"/>
+                <TextField floatingLabelText="Localidad"/>
                 <br/>
-                <TextField hintText="Direccion"/>
+                <TextField floatingLabelText="Direccion"/>
                 <br/>
-                <TextField hintText="Obra Social"/>
+                <TextField floatingLabelText="Obra Social"/>
                 <br/>
-                <TextField hintText="Numero de Socio"/>
+                <TextField floatingLabelText="Numero de Socio"/>
                 <br/>
-                <TextField hintText="Plan"/>
+                <TextField floatingLabelText="Plan"/>
                 <br/>
                 <RaisedButton label="Aceptar" secondary={true} />
                 <br/>
