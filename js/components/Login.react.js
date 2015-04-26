@@ -77,7 +77,7 @@ export default class Login extends React.Component {
                     valueLink={this.linkState('password')}
                     />
                 <br/>
-                <RaisedButton type="submit" label="Iniciar Sesion" secondary={true}/>
+                <RaisedButton type="submit" label="Iniciar Sesion" secondary={true} disabled={this.state.loading}/>
                 <i className="fa fa-spinner" hidden={!this.state.loading}></i>
 
                 {/* TODO: This needs to be styled! */}
