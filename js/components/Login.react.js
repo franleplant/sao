@@ -2,13 +2,23 @@ import React from 'react/addons';
 import ReactMixin from 'react-mixin';
 import login from '../login.js';
 import router from '../router.js';
+import Firebase from 'firebase';
+import loginActions from '../actions/loginActions.js';
+
+var ref = new Firebase('https://luminous-fire-4753.firebaseio.com/');
+
 
 import {TextField, RaisedButton} from 'material-ui';
 
 export default class Login extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {username: '', password: ''};
+        this.state = {
+            username: '',
+            password: '',
+            loading: false,
+            loginError: false
+        };
     }
 
     goToSignup(event) {
@@ -19,8 +29,33 @@ export default class Login extends React.Component {
     login(event) {
         event.preventDefault();
         console.log('login attempt!', this.state);
-        login.login(this.state.username, this.state.password);
+
+
+        this.setState({
+            loading: true,
+            loginError: false
+        });
+
+        ref.authWithPassword({
+
+            email    : this.state.username,
+            password : this.state.password
+
+        }, (error, authData) => {
+            this.setState({
+                loading:false
+            });
+
+            if (error) {
+                // TODO: We are not catching network problems!
+                this.setState({loginError: true});
+            } else {
+                loginActions.login(authData.password.email);
+            }
+        });
+
     }
+
 
     render() {
         return (
@@ -43,6 +78,13 @@ export default class Login extends React.Component {
                     />
                 <br/>
                 <RaisedButton type="submit" label="Iniciar Sesion" secondary={true}/>
+                <i className="fa fa-spinner" hidden={!this.state.loading}></i>
+
+                {/* TODO: This needs to be styled! */}
+                <p hidden={!this.state.loginError}>
+                    Las credenciales ingresadas son incorrectas, por favor
+                    volve a intentarlo
+                </p>
                 <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
             </form>
         );

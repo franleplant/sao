@@ -7,13 +7,14 @@ export default {
     login: (username) => {
         // move to the home
         router.transitionTo('/');
-
-        console.log('actions!')
         dispatcher.dispatch({
             type: LOGIN,
             username: username
         })
     },
-    logout: () => {},
+
+    logout: () => {
+        router.transitionTo('/login');
+    },
     signup: () => {}
 }

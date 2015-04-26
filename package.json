@@ -4,12 +4,13 @@
   "description": "Academic work about building applications from scratch",
   "main": "js/app.js",
   "dependencies": {
+    "firebase": "^2.2.4",
     "fixed-data-table": "^0.1.2",
     "flux": "^2.0.0",
+    "material-ui": "^0.7.3",
     "react": "^0.13.1",
     "react-mixin": "^1.1.0",
     "react-router": "^0.13.2",
-    "material-ui": "^0.7.3",
     "react-tap-event-plugin": "^0.1.6"
   },
   "devDependencies": {
