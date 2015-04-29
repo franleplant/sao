@@ -36,8 +36,9 @@ export default class AuthenticatedApp extends React.Component {
                         <button onClick={this.logout.bind(this)}>Logout</button>
                     Usuario: {this.state.username}
                 </Toolbar>
-
-                <RouteHandler/>
+                <div className="container">
+                    <RouteHandler/>
+                </div>
             </div>
         );
     }
