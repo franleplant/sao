@@ -7,8 +7,14 @@ var CHANGE_EVENT = 'change';
 
 var username;
 
+// TODO: tidy up the constructor
 class SessionStore {
     constructor() {
+        if (localStorage) {
+            var auth = JSON.parse(localStorage.getItem('firebase:session::luminous-fire-4753'));
+            username = auth.password.email;
+        }
+
         //Input
         // Save the dispatch order
         this.dispatchToken = dispatcher.register((action) => {
@@ -21,7 +27,7 @@ class SessionStore {
                 default:
                     //do nothing
             }
-        })
+        });
     }
 
     //Output
