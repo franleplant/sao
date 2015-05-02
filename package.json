@@ -17,6 +17,7 @@
     "react-typeahead": "^1.0.4"
   },
   "devDependencies": {
+    "babel": "^5.2.6",
     "babelify": "^6.0.2",
     "browserify": "^6.2.0",
     "chokidar-cli": "^0.2.0",
