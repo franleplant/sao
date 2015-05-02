@@ -85,6 +85,7 @@ export default class Login extends React.Component {
                     Las credenciales ingresadas son incorrectas, por favor
                     volve a intentarlo
                 </p>
+                {/*TODO: Replace this custom link with a Link element from the router*/}
                 <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
             </form>
         );
