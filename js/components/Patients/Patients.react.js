@@ -34,15 +34,25 @@ export default class Patients extends React.Component {
     render() {
         return (
             <div>
-                <h1>Pacientes!</h1>
-                <FontIcon className="fa fa-search"/>
-                <TextField hintText="buscar" />
+                <h1>
+                    Pacientes!
+                    <button
+                        className="btn btn-primary pull-right"
+                        type="button"
+                        onClick={this.newPatient.bind(this)}
+                        >
+                        <i className="fa fa-plus"></i>
+                    </button>
+                </h1>
 
-                <FloatingActionButton
-                    iconClassName="fa fa-plus"
-                    secondary={true}
-                    onClick={this.newPatient.bind(this)}
-                    />
+                <form className="form-inline">
+                    <div className="form-group">
+                        <input type="text" className="form-control" placeholder="Ej: Carlos Salguero"/>
+                    </div>
+                    <button type="submit" className="btn btn-default">
+                        <i className="fa fa-search"></i>Buscar
+                    </button>
+                </form>
 
 
                 <Table

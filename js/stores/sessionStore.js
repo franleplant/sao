@@ -12,7 +12,9 @@ class SessionStore {
     constructor() {
         if (localStorage) {
             var auth = JSON.parse(localStorage.getItem('firebase:session::luminous-fire-4753'));
-            username = auth.password.email;
+            if (auth) {
+                username = auth.password.email;
+            }
         }
 
         //Input

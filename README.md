@@ -19,6 +19,21 @@ npm start
 ```
 
 
+## Selenium tests
+
+Use [selenium-standalone](https://www.npmjs.com/package/selenium-standalone) package
+to install and start selenium server.
+
+After that, make sure that the site is compiled with `npm run build:js` and
+after that start the localhost server with `npm run serve`.
+
+After that, run the tests with
+
+```javascript
+
+node selenium_tests/*
+```
+
 
 ### Arg places 
 
