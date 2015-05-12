@@ -21,7 +21,6 @@ var patientsRef = new Firebase('https://luminous-fire-4753.firebaseio.com/patien
 
 // TODO:
 // - Add a loading state and ui
-// - Test this shit!
 export default class PatientForm extends React.Component {
     constructor(props) {
         super(props);
@@ -40,6 +39,7 @@ export default class PatientForm extends React.Component {
             patientTel: '',
             patientMedicalHistory: ''
         }
+
 
         OSref.on('value', (snapshot) => {
             osutils.setOsList(snapshot.val())
@@ -105,7 +105,7 @@ export default class PatientForm extends React.Component {
 
         var newPatient = {
             name: this.state.patientName,
-            dni: this.state.patientDNI,
+            DNI: this.state.patientDNI,
             tel: this.state.patientTel,
             // TODO: work on the format of this DOB
             DOB: this.state.patientDOB,
@@ -126,6 +126,45 @@ export default class PatientForm extends React.Component {
             });
     }
 
+    componentWillReceiveProps(newProps) {
+        var patient = newProps.patient;
+
+        //var a = osutils.nameById(patient.osId)
+        //debugger;
+        if (patient) {
+            this.setState({
+                patientName: patient.name,
+                patientEmail: patient.email,
+                patientDNI: patient.DNI,
+                patientDOB: patient.DOB,
+                patientPostalCode: patient.postalCode,
+                patientAddress: patient.address,
+                patientOSaffiliateNumber: patient.osAffiliateNumber,
+                patientOSplan: patient.osPlan,
+                patientTel: patient.tel,
+                patientMedicalHistory: patient.medicalHistory,
+                patient: patient
+            })
+
+            // Horrible hack to wait for the OS to be loaded
+            // TODO: improve this
+            setTimeout(() => {
+                this.setState({
+                    patientOSname: osutils.nameById(patient.osId),
+                }, () => {
+                    var a = React
+                                .findDOMNode(this)
+                                .querySelectorAll('.typeahead-os')[0]
+
+                    setTimeout(() => {
+                        a.value = 'FUCK YOU'
+                    }, 1000)
+
+                    debugger;
+                });
+            }, 1000);
+        }
+    }
 
     render() {
         return (
@@ -239,15 +278,20 @@ export default class PatientForm extends React.Component {
 
                 </fieldset>
 
+                {/*TODO: suggest that the placeholder value is the selected value and that
+                the user can input the first letters to search for a new option and erase the input to
+                get the default */}
                 <fieldset className="osForm">
                     <h3>Datos de Obra Social</h3>
-
-                    <div className="form-group">
+                    {this.state.patientOSname}
+                    <div className="form-group typeahead-os">
                         <label>Obra Social</label>
                         <Typeahead
                             options={this.state.OSoptions}
                             maxVisible={2}
-                            placeholder="Ingresa las primeras letras y selecciona"
+                            allowCustomValues={1000000}
+                            placeholder={this.state.patientOSname || "Ingresa las primeras letras y selecciona"}
+                            defaultValue={this.state.patientOSname}
                             customClasses={typeaheadClasses}
                             onOptionSelected={this.onOSselected.bind(this)}
                         />

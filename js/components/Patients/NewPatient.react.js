@@ -1,11 +1,9 @@
-import React from 'react/addons';
+import React from 'react';
 import {TextField, FontIcon, RaisedButton, DatePicker} from 'material-ui';
-import {Table, Column} from "fixed-data-table";
-
-import PatientForm from './Form.react.js';
+import PatientForm from './PatientForm.react.js';
 
 
-export default class EditPatient extends React.Component {
+export default class NewPatient extends React.Component {
     constructor(props, context) {
         super(props);
         this.patientId = context.router.getCurrentParams().patientId;
@@ -14,14 +12,13 @@ export default class EditPatient extends React.Component {
     render() {
         return (
             <div>
-                <h1>Pacientes Editar</h1>
-                ID de Paciente: {this.patientId}
+                <h1>Nuevo Paciente</h1>
                 <PatientForm/>
             </div>
         );
     }
 }
 
-EditPatient.contextTypes = {
+NewPatient.contextTypes = {
     router: React.PropTypes.func
 }

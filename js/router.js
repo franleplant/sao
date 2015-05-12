@@ -11,8 +11,8 @@ import Signup from './components/Signup.react';
 import Home from './components/Home.react';
 // Patient Module
 import Patients from './components/Patients/Patients.react';
-import PatientEdit from './components/Patients/Edit.react';
-import PatientNew from './components/Patients/New.react';
+import PatientEdit from './components/Patients/EditPatient.react';
+import PatientNew from './components/Patients/NewPatient.react';
 // Appointment Module
 import AppointmentNew from './components/Appointments/NewAppointment.react.js';
 import AppointmentEdit from './components/Appointments/EditAppointment.react.js';

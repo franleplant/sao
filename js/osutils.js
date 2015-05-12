@@ -12,6 +12,7 @@ var names = () => {
 }
 
 var idByName = (name) => findKey(osHash, 'name', name);
+var nameById = (id) => osHash[id].name;
 var isValidName = (name) => names().indexOf(name) !== -1;
 
 export default {
@@ -19,5 +20,6 @@ export default {
     getOsList,
     setOsList,
     idByName,
+    nameById,
     isValidName
 };
