@@ -3,3 +3,4 @@ node_modules
 *.swo
 bundle.js
 bundle.css
+test/bundle.test.js
