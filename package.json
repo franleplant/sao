@@ -22,8 +22,10 @@
     "browserify": "^6.2.0",
     "chokidar-cli": "^0.2.0",
     "csvtojson": "^0.3.21",
+    "es5-shim": "^4.1.1",
     "glob": "^5.0.5",
     "less": "^2.5.0",
+    "mocha": "^2.2.4",
     "opener": "^1.4.1",
     "parallelshell": "^1.1.1",
     "reactify": "^1.1.0",
@@ -40,10 +42,11 @@
     "build": "npm run build:js && npm run build:css",
     "watch:js": "watchify -t babelify js/index.js --outfile bundle.js --debug --verbose --poll",
     "watch:css": "chokidar 'less/**/*.less' -c 'npm run build:css'",
+    "watch:test": "karma start --no-single-run karma.config.js",
     "watch": "parallelshell 'npm run watch:js' 'npm run watch:css'",
     "serve": "serve .",
     "open": "opener http://localhost:3000/",
-    "test": "babel-node test.js",
+    "test": "karma start karma.config.js",
     "util:argplaces": "csvtojson ./scripts/arg_data.csv > ./scripts/arg_data.json"
   }
 }

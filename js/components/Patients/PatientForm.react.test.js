@@ -1,3 +1,5 @@
+require('es5-shim');
+
 var assert = require("assert")
 var PatientForm = require('./PatientForm.react.js');
 var TestUtils = require('react/addons').addons.TestUtils;
