@@ -33,6 +33,7 @@
     "less": "^2.5.0",
     "opener": "^1.4.1",
     "parallelshell": "^1.1.1",
+    "reactify": "^1.1.1",
     "serve": "^1.4.0",
     "stream-transform": "0.0.7",
     "tape": "^4.0.0",
