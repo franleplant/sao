@@ -1,4 +1,3 @@
-import test from 'tape';
 import {setOsList, getOsList, names, idByName, isValidName} from './osutils.js';
 
 var osHashMock = {
