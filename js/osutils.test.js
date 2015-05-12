@@ -7,31 +7,36 @@ var osHashMock = {
     'c': {name: 'os3'}
 }
 
-test('osutils.js: setOsList', function (t) {
-    t.plan(1);
+describe('osutils', function() {
+    beforeEach(function() {
+        setOsList(osHashMock);
+    })
 
-    t.equal(typeof setOsList, 'function');
-    setOsList(osHashMock);
-});
+    describe('setOsList', function () {
+        it('should be a function', function() {
+            expect(typeof setOsList).toBe('function');
+        })
+    });
 
 
-test('osutils.js: getOsList', function (t) {
-    t.plan(2);
+    describe('getOsList', function() {
+        it('should return the osHask', function() {
+            expect(typeof getOsList).toBe('function');
+            expect(getOsList()).toEqual(osHashMock);
+        })
+    });
 
-    t.equal(typeof getOsList, 'function');
-    t.equal(getOsList(), osHashMock);
-});
+    describe('names', function () {
+        it('should return a names array', function() {
+            expect(typeof names).toBe('function');
+            var result = names();
+            expect(result.indexOf('os1') !== -1).toBeTruthy();
+            expect(result.indexOf('os2') !== -1).toBeTruthy();
+            expect(result.indexOf('os3') !== -1).toBeTruthy();
+        })
+    });
 
-test('osutils.js: names', function (t) {
-    t.plan(4);
-
-    t.equal(typeof names, 'function');
-    var result = names();
-    t.ok(result.indexOf('os1') !== -1);
-    t.ok(result.indexOf('os2') !== -1);
-    t.ok(result.indexOf('os3') !== -1);
-});
-
+})
 
 test('osutils.js: idByName', function (t) {
     t.plan(2);
