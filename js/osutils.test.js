@@ -36,21 +36,20 @@ describe('osutils', function() {
         })
     });
 
+
+    describe('idByName', function() {
+        it('should return the id of the given os name', function() {
+            expect(typeof idByName).toBe('function');
+            expect(idByName('os2')).toBe('b');
+        })
+    });
+
+    describe('isValidName', function() {
+        it('should return true if the given os name is present in the osHash', function() {
+            expect(typeof isValidName).toBe('function');
+            expect(isValidName('os2')).toBeTruthy();
+            expect(isValidName('not an os')).toBeFalsy();
+            expect(isValidName()).toBeFalsy();
+        })
+    });
 })
-
-test('osutils.js: idByName', function (t) {
-    t.plan(2);
-
-    t.equal(typeof idByName, 'function');
-    t.equal(idByName('os2'), 'b');
-});
-
-test('osutils.js: isValidName', function (t) {
-    t.plan(3);
-
-    t.equal(typeof isValidName, 'function');
-    t.ok(isValidName('os2'));
-    t.ok(!isValidName());
-});
-
-
