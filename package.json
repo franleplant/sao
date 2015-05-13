@@ -4,6 +4,7 @@
   "description": "Academic work about building applications from scratch",
   "main": "js/app.js",
   "dependencies": {
+    "bluebird": "^2.9.25",
     "bootstrap": "^3.3.4",
     "firebase": "^2.2.4",
     "fixed-data-table": "^0.1.2",
