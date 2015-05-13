@@ -14,7 +14,6 @@ const typeaheadClasses = {
                 listAnchor: 'list-group-item'
             };
 
-var OSref = new Firebase('https://luminous-fire-4753.firebaseio.com/OS');
 var patientsRef = new Firebase('https://luminous-fire-4753.firebaseio.com/patients');
 
 
@@ -25,7 +24,7 @@ export default class PatientForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            OSoptions: [],
+            OSoptions: osutils.getNames(),
             locOptions: [],
             patientName: '',
             patientEmail: '',
@@ -39,27 +38,6 @@ export default class PatientForm extends React.Component {
             patientTel: '',
             patientMedicalHistory: ''
         }
-
-
-        OSref.on('value', (snapshot) => {
-            osutils.setOsList(snapshot.val())
-
-            // Pretty hack to avoid settting the state
-            // of an unmounted component
-            var timer = 0;
-            // If the component is not mounted yet
-            if( !React.findDOMNode(this) ) {
-                // Set the timer to half a second
-                timer = 500;
-            }
-
-            // Set the state!
-            setTimeout(() => {
-                this.setState({
-                    OSoptions: osutils.names()
-                });
-            }, timer);
-        })
     }
 
     onProvinceSelected(province) {
@@ -95,7 +73,7 @@ export default class PatientForm extends React.Component {
             return;
         }
 
-        var osId = osutils.idByName(this.state.patientOSname);
+        var osId = osutils.getIdByName(this.state.patientOSname);
         var ownerEmail = sessionStore.getUsername();
         if (!ownerEmail) {
             // This should not happen ever
@@ -129,8 +107,6 @@ export default class PatientForm extends React.Component {
     componentWillReceiveProps(newProps) {
         var patient = newProps.patient;
 
-        //var a = osutils.nameById(patient.osId)
-        //debugger;
         if (patient) {
             this.setState({
                 patientName: patient.name,
@@ -140,29 +116,13 @@ export default class PatientForm extends React.Component {
                 patientPostalCode: patient.postalCode,
                 patientAddress: patient.address,
                 patientOSaffiliateNumber: patient.osAffiliateNumber,
+                patientOSname: osutils.getNameById(patient.osId),
                 patientOSplan: patient.osPlan,
                 patientTel: patient.tel,
                 patientMedicalHistory: patient.medicalHistory,
                 patient: patient
             })
 
-            // Horrible hack to wait for the OS to be loaded
-            // TODO: improve this
-            setTimeout(() => {
-                this.setState({
-                    patientOSname: osutils.nameById(patient.osId),
-                }, () => {
-                    var a = React
-                                .findDOMNode(this)
-                                .querySelectorAll('.typeahead-os')[0]
-
-                    setTimeout(() => {
-                        a.value = 'FUCK YOU'
-                    }, 1000)
-
-                    debugger;
-                });
-            }, 1000);
         }
     }
 
@@ -286,6 +246,13 @@ export default class PatientForm extends React.Component {
                     {this.state.patientOSname}
                     <div className="form-group typeahead-os">
                         <label>Obra Social</label>
+                        {
+                            /*
+                            TODO: work with this in order to not allow custom values.
+                            This option will avoid triggering the onOptionSelected event, but the input will not show any
+                            messages or visual feedback to the user about the error
+                            */
+                        }
                         <Typeahead
                             options={this.state.OSoptions}
                             maxVisible={2}

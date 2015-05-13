@@ -2,7 +2,10 @@ module.exports = function(karma) {
   karma.set({
 
     frameworks: [ 'browserify', 'jasmine' ],
-    files: ['./js/**/*.test.js'],
+    files: [
+        './node_modules/es5-shim/es5-shim.js',
+        './js/**/*.test.js'
+    ],
     preprocessors: {
       './js/**/*.test.js': [ 'browserify' ]
     },
@@ -14,7 +17,8 @@ module.exports = function(karma) {
 
     browserify: {
       debug: true,
-      transform: [ 'babelify' ]
+      transform: [ 'babelify' ],
+      plugin: ['proxyquire-universal']
     }
   });
 }
