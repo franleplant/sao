@@ -5,7 +5,8 @@ import Firebase from 'firebase';
 
 import sessionStore from '../../stores/sessionStore.js';
 import argutils from '../../argutils.js';
-import osutils from '../../osutils.js';
+
+import OSSelect from '../dumb/OSSelect.react.js';
 
 //TODO: move elsewhere
 const typeaheadClasses = {
@@ -115,15 +116,9 @@ export default class PatientForm extends React.Component {
     }
 
     render() {
-
-        // TODO: abstract this into a separate react component
-        var OSOptions = [<option key={'empty'} value="" disabled>Seleciona una Obra Social</option>];
-        var OSList = osutils.getOSList();
-        for (var OSId in OSList) {
-            OSOptions.push(<option key={OSId} value={OSId}>{OSList[OSId].name}</option>)
-        }
         return (
             <form onSubmit={this.submit.bind(this)}>
+
                 <div className="form-group">
                     <label>Nombre y Apellido</label>
                     <input
@@ -235,21 +230,16 @@ export default class PatientForm extends React.Component {
 
 
 
-                {/*TODO: suggest that the placeholder value is the selected value and that
-                the user can input the first letters to search for a new option and erase the input to
-                get the default */}
                 <fieldset className="osForm">
                     <h3>Datos de Obra Social</h3>
                     <div className="form-group">
                         <label>Obra Social</label>
-                        <select
+                        <OSSelect
                             className="form-control"
                             valueLink={this.linkState('patientOSId')}
                             defaultValue={this.state.patientOSId}
                             required
-                            >
-                            {OSOptions}
-                        </select>
+                        />
                     </div>
 
 
