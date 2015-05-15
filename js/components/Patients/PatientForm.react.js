@@ -24,7 +24,6 @@ export default class PatientForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            OSoptions: osutils.getNames(),
             locOptions: [],
             patientName: '',
             patientEmail: '',
@@ -32,12 +31,13 @@ export default class PatientForm extends React.Component {
             patientDOB: '',
             patientPostalCode: '',
             patientAddress: '',
-            patientOSname: '',
+            patientOSId: '',
             patientOSaffiliateNumber: '',
             patientOSplan: '',
             patientTel: '',
             patientMedicalHistory: ''
-        }
+        };
+
     }
 
     onProvinceSelected(province) {
@@ -53,12 +53,6 @@ export default class PatientForm extends React.Component {
     }
 
 
-    onOSselected(os) {
-        this.setState({
-            patientOSname: os
-        });
-    }
-
     submit(event) {
         event.preventDefault();
 
@@ -67,13 +61,7 @@ export default class PatientForm extends React.Component {
             alert('Por favor busque y seleccione provincia y localidad');
             return;
         }
-        // Check if OS is not null and if it is found in the places collectio
-        if (!osutils.isValidName(this.state.patientOSname)) {
-            alert('Por favor: buscar y selecciona una obra social');
-            return;
-        }
 
-        var osId = osutils.getIdByName(this.state.patientOSname);
         var ownerEmail = sessionStore.getUsername();
         if (!ownerEmail) {
             // This should not happen ever
@@ -92,7 +80,7 @@ export default class PatientForm extends React.Component {
             postalCode: this.state.patientPostalCode,
             medicalHistory: this.state.patientMedicalHistory,
             ownerEmail: sessionStore.getUsername(),
-            osId: osId,
+            osId: this.state.patientOSId,
             osPlan: this.state.patientOSplan,
             osAffiliateNumber: this.state.patientOSaffiliateNumber
         };
@@ -116,7 +104,7 @@ export default class PatientForm extends React.Component {
                 patientPostalCode: patient.postalCode,
                 patientAddress: patient.address,
                 patientOSaffiliateNumber: patient.osAffiliateNumber,
-                patientOSname: osutils.getNameById(patient.osId),
+                patientOSId: patient.osId,
                 patientOSplan: patient.osPlan,
                 patientTel: patient.tel,
                 patientMedicalHistory: patient.medicalHistory,
@@ -127,6 +115,13 @@ export default class PatientForm extends React.Component {
     }
 
     render() {
+
+        // TODO: abstract this into a separate react component
+        var OSOptions = [<option value="" disabled>Seleciona una Obra Social</option>];
+        var OSList = osutils.getOSList();
+        for (var OSid in OSList) {
+            OSOptions.push(<option value={OSid}>{OSList[OSid].name}</option>)
+        }
         return (
             <form onSubmit={this.submit.bind(this)}>
                 <div className="form-group">
@@ -238,33 +233,25 @@ export default class PatientForm extends React.Component {
 
                 </fieldset>
 
+
+
                 {/*TODO: suggest that the placeholder value is the selected value and that
                 the user can input the first letters to search for a new option and erase the input to
                 get the default */}
                 <fieldset className="osForm">
                     <h3>Datos de Obra Social</h3>
-                    {this.state.patientOSname}
-                    <div className="form-group typeahead-os">
+                    <div className="form-group">
                         <label>Obra Social</label>
-                        {
-                            /*
-                            TODO: work with this in order to not allow custom values.
-                            This option will avoid triggering the onOptionSelected event, but the input will not show any
-                            messages or visual feedback to the user about the error
-                            */
-                        }
-                        <Typeahead
-                            options={this.state.OSoptions}
-                            maxVisible={2}
-                            allowCustomValues={1000000}
-                            placeholder={this.state.patientOSname || "Ingresa las primeras letras y selecciona"}
-                            defaultValue={this.state.patientOSname}
-                            customClasses={typeaheadClasses}
-                            onOptionSelected={this.onOSselected.bind(this)}
-                        />
+                        <select
+                            className="form-control"
+                            valueLink={this.linkState('patientOSId')}
+                            defaultValue={this.state.patientOSId}
+                            required
+                            >
+                            {OSOptions}
+                        </select>
                     </div>
 
-                    {/*TODO: require this fields below if the OS is distinct from Particular*/}
 
                     <div className="form-group">
                         <label>Numero de Socio</label>
