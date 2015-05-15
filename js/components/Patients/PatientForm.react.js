@@ -117,10 +117,10 @@ export default class PatientForm extends React.Component {
     render() {
 
         // TODO: abstract this into a separate react component
-        var OSOptions = [<option value="" disabled>Seleciona una Obra Social</option>];
+        var OSOptions = [<option key={'empty'} value="" disabled>Seleciona una Obra Social</option>];
         var OSList = osutils.getOSList();
-        for (var OSid in OSList) {
-            OSOptions.push(<option value={OSid}>{OSList[OSid].name}</option>)
+        for (var OSId in OSList) {
+            OSOptions.push(<option key={OSId} value={OSId}>{OSList[OSId].name}</option>)
         }
         return (
             <form onSubmit={this.submit.bind(this)}>
