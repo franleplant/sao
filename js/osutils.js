@@ -1,4 +1,3 @@
-'use strict';
 
 import _, {map, values, findKey} from 'lodash';
 import Promise from 'bluebird';

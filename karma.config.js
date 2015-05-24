@@ -10,7 +10,7 @@ module.exports = function(karma) {
       './js/**/*.test.js': [ 'browserify' ]
     },
     browsers: [
-        'PhantomJS'
+        'Chrome'
     ],
     browserNoActivityTimeout: 60000,
 
