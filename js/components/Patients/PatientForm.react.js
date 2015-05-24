@@ -55,7 +55,9 @@ export default class PatientForm extends React.Component {
                     patientTel: patient.tel,
                     patientMedicalHistory: patient.medicalHistory,
                     // Save a reference to the original patient
-                    patient: patient
+                    patient: patient,
+                    auditEdited: patient.auditEdited || 'nunca',
+                    auditCreated: patient.auditCreated
                 })
 
             }, (error) => {
@@ -112,7 +114,7 @@ export default class PatientForm extends React.Component {
             // TODO: ownerEmail should be set to the currently selected DI
             // owner
             patient.ownerEmail =  loggedInUser;
-            patient.auditCreated = (new Date()).toUTCString()  + ' by ' + loggedInUser;
+            patient.auditCreated = (new Date()).toUTCString()  + ' por ' + loggedInUser;
 
             var newPatientRef = patientsRef
                 .push(patient, () => {
@@ -129,7 +131,7 @@ export default class PatientForm extends React.Component {
                 });
         } else {
             // we are editting
-            patient.auditEdited =  (new Date()).toUTCString()  + ' by ' + loggedInUser;
+            patient.auditEdited =  (new Date()).toUTCString()  + ' por ' + loggedInUser;
 
             patientsRef
                 .child(this.props.patientId)
@@ -143,14 +145,47 @@ export default class PatientForm extends React.Component {
 
 
     render() {
+        var auditAndDeleteElements;
+
+        if (this.props.patientId) {
+            auditAndDeleteElements = (
+                <fieldset className="form-inline">
+                    <div className="form-group">
+                        <label>Creacion</label>
+                        <input
+                            className="form-control margin-left-1x"
+                            type="text"
+                            disabled
+                            value={this.state.auditCreated}
+                            />
+                    </div>
+                    <div className="form-group margin-left-1x">
+                        <label>Ultima edicion</label>
+                        <input
+                            className="form-control margin-left-1x"
+                            type="text"
+                            disabled
+                            value={this.state.auditEdited}
+                            />
+                    </div>
+
+                    <button
+                        onClick={this.deletePatient.bind(this)}
+                        type="button"
+                        className="btn btn-danger pull-right"
+                        >
+                            Borrar
+                    </button>
+                </fieldset>
+            );
+        }
+
         return (
             <form onSubmit={this.submit.bind(this)}>
-                {
-                    this.props.patientId ?
-                    <button onClick={this.deletePatient.bind(this)} type="button" className="btn btn-danger pull-right" style={{marginTop: '-60px'}}>Borrar</button>
-                    :
-                    null
-                }
+
+                {auditAndDeleteElements}
+
+
                 <div className="form-group">
                     <label>Nombre y Apellido</label>
                     <input
@@ -280,6 +315,8 @@ export default class PatientForm extends React.Component {
                         >
                     </textarea>
                 </div>
+
+
                 <button type="submit" className="btn btn-primary">Aceptar</button>
 
             </form>
