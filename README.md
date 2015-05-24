@@ -29,8 +29,10 @@ after that start the localhost server with `npm run serve`.
 
 After that, run the tests with
 
-```javascript
-
+```sh
+# start selenium
+selenium-standalone start
+# run tests
 node selenium_tests/*
 ```
 

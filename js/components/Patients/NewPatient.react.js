@@ -9,11 +9,15 @@ export default class NewPatient extends React.Component {
         this.patientId = context.router.getCurrentParams().patientId;
     }
 
+    successCallback(patientId) {
+        this.context.router.transitionTo('editarPaciente', {patientId: patientId});
+    }
+
     render() {
         return (
             <div>
                 <h1>Nuevo Paciente</h1>
-                <PatientForm/>
+                <PatientForm successCallback={this.successCallback.bind(this)}/>
             </div>
         );
     }

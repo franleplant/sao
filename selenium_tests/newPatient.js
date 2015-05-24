@@ -31,8 +31,9 @@ var today = (new Date()).toUTCString();
 
 browser
     .init({browserName:'chrome'})
-    .setAsyncScriptTimeout(100000)
+    .setAsyncScriptTimeout(300000)
     .get("http://localhost:3000/#/login")
+    .waitForElementByCss('form [name=username]', 20000)
     .elementByCss('form [name=username]')
         .type(username)
     .elementByCss('form [name=password]')
@@ -59,41 +60,33 @@ browser
         .type('01071990')
     .elementByCss('form [name=patientTel]')
         .type(randomNumber)
-    // Province
-    .elementByCss('form > .addressForm > div:nth-child(2) > div > input')
-        .type('bue')
-    // First typeahead option
-    .elementByCss('form > .addressForm > div:nth-child(2) > div > ul > li > a')
+    // Province, select buenos aires
+    .elementByCss('form > .addressForm > div:nth-child(2) > div:nth-child(1) > select > option:nth-child(3)')
         .click()
-    // Locality
-    .elementByCss('form > .addressForm > div:nth-child(3) > div > input')
-        .type('campana')
-    // Select first typeahead option
-    .elementByCss('form > .addressForm > div:nth-child(3) > div > ul > li:nth-child(1) > a')
+    // Locality, select the first one
+    .elementByCss('form > .addressForm > div:nth-child(2) > div:nth-child(2) > select > option:nth-child(2)')
         .click()
-    .elementByCss('form [name=patientPostalCode]')
-        .getValue()
-        .should.become('2804')
     .elementByCss('form [name=patientAddress]')
         .type('Test Av. 12345')
-    // os form
-    .elementByCss('form > .osForm > div:nth-child(2) > div > input')
-        .type('os')
-    // Click first typeahead option
-    .elementByCss('form > .osForm > div:nth-child(2) > div > ul > li > a')
+    // os form, select the first os
+    .elementByCss('form > .osForm > div:nth-child(2) > select > option:nth-child(2)')
         .click()
     .elementByCss('form [name=patientOSaffiliateNumber]')
         .type('test 123')
     .elementByCss('form [name=patientOSplan]')
         .type('test 123')
-    .elementByCss('form [name=patientMedicalHistory]')
-        .type('Test run on: '+ today)
     .elementByCss('form')
         .submit()
 
-    .sleep(1000)
+    .sleep(2000)
     .alertText()
         .should.become('El Paciente ha sido creado exitosamente!')
+        .acceptAlert()
+    //.sleep(100000)
+    // Let the edit page load
+    .waitForConditionInBrowser("document.querySelector('h1').innerText === 'Editar Paciente'", 20000)
+    // Wait for the patient to load
+    .waitForConditionInBrowser("document.querySelector('form [name=patientName]').value.indexOf('selenium') !== -1", 20000)
 
   .fin(function() { return browser.quit(); })
   .done();

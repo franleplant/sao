@@ -1,37 +1,25 @@
 import React from 'react/addons';
 import ReactMixin from 'react-mixin';
-import {Typeahead} from 'react-typeahead';
 import Firebase from 'firebase';
-
 import sessionStore from '../../stores/sessionStore.js';
 import argutils from '../../argutils.js';
-
 import OSSelect from '../dumb/OSSelect.react.js';
-
-//TODO: move elsewhere
-const typeaheadClasses = {
-                input: 'form-control',
-                results: 'list-group',
-                listAnchor: 'list-group-item'
-            };
+import LocalitySelect from '../dumb/LocalitySelect.react.js';
 
 var patientsRef = new Firebase('https://luminous-fire-4753.firebaseio.com/patients');
 
-
-
-// TODO:
-// - Add a loading state and ui
 export default class PatientForm extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             locOptions: [],
             patientName: '',
             patientEmail: '',
             patientDNI: '',
             patientDOB: '',
-            patientPostalCode: '',
             patientAddress: '',
+            patientLocality: '',
             patientOSId: '',
             patientOSaffiliateNumber: '',
             patientOSplan: '',
@@ -41,84 +29,128 @@ export default class PatientForm extends React.Component {
 
     }
 
-    onProvinceSelected(province) {
-        this.setState({
-            locOptions: argutils.locByProvince(province)
-        });
+    componentDidMount() {
+        var patientId = this.props.patientId;
+        if (!patientId) return;
+
+        // Get the patient and dont listen for further changes.
+        patientsRef
+            .child(patientId)
+            .once('value', (snapshot) => {
+                var patient = snapshot.val();
+                if (!patient) {
+                    alert('El paciente seleccionado no existe');
+                };
+
+                this.setState({
+                    patientName: patient.name,
+                    patientEmail: patient.email,
+                    patientDNI: patient.DNI,
+                    patientDOB: patient.DOB,
+                    patientLocality: patient.locality,
+                    patientAddress: patient.address,
+                    patientOSaffiliateNumber: patient.osAffiliateNumber,
+                    patientOSId: patient.osId,
+                    patientOSplan: patient.osPlan,
+                    patientTel: patient.tel,
+                    patientMedicalHistory: patient.medicalHistory,
+                    // Save a reference to the original patient
+                    patient: patient
+                })
+
+            }, (error) => {
+                throw error;
+            });
     }
 
-    onLocalitySelected(locality) {
-        this.setState({
-            patientPostalCode: argutils.postalByLoc(locality)
-        });
-    }
+    deletePatient() {
+        if (!confirm('Esta seguro que desea borrar el pacient? Esta accion es irreversible.')) {
+            return;
+        }
 
+        patientsRef
+            .child(this.props.patientId)
+            .remove((error) => {
+                if (error) {
+                    alert('Error al borrar el paciente');
+                    return;
+                }
+
+                alert('Paciente borrado con exito');
+                this.props.onDeleteCallback();
+            });
+    }
 
     submit(event) {
         event.preventDefault();
 
-        // Check that Postal Code is not null and if it is found in the places collection
-        if (!argutils.isValidPostalCode(this.state.patientPostalCode)) {
-            alert('Por favor busque y seleccione provincia y localidad');
-            return;
-        }
-
-        var ownerEmail = sessionStore.getUsername();
-        if (!ownerEmail) {
+        var loggedInUser = sessionStore.getUsername();
+        if (!loggedInUser) {
             // This should not happen ever
-            alert('Algo salio mal, por favor reinicia sesion');
+            alert('Tu sesion ha expirado, por favor volve a iniciar sesion');
             return;
         }
 
-        var newPatient = {
+        var patient = {
             name: this.state.patientName,
             DNI: this.state.patientDNI,
             tel: this.state.patientTel,
-            // TODO: work on the format of this DOB
             DOB: this.state.patientDOB,
             email: this.state.patientEmail,
             address: this.state.patientAddress,
-            postalCode: this.state.patientPostalCode,
+            locality: this.state.patientLocality,
             medicalHistory: this.state.patientMedicalHistory,
-            ownerEmail: sessionStore.getUsername(),
             osId: this.state.patientOSId,
             osPlan: this.state.patientOSplan,
             osAffiliateNumber: this.state.patientOSaffiliateNumber
-        };
-
-        patientsRef
-            .push(newPatient, function() {
-                //on complete
-                alert('El Paciente ha sido creado exitosamente!');
-            });
-    }
-
-    componentWillReceiveProps(newProps) {
-        var patient = newProps.patient;
-
-        if (patient) {
-            this.setState({
-                patientName: patient.name,
-                patientEmail: patient.email,
-                patientDNI: patient.DNI,
-                patientDOB: patient.DOB,
-                patientPostalCode: patient.postalCode,
-                patientAddress: patient.address,
-                patientOSaffiliateNumber: patient.osAffiliateNumber,
-                patientOSId: patient.osId,
-                patientOSplan: patient.osPlan,
-                patientTel: patient.tel,
-                patientMedicalHistory: patient.medicalHistory,
-                patient: patient
-            })
-
         }
+
+
+        // If we are creating a new patient
+        if (!this.props.patientId) {
+            // When we add Dominios de Informacion this wont be always the case
+            // TODO: ownerEmail should be set to the currently selected DI
+            // owner
+            patient.ownerEmail =  loggedInUser;
+            patient.auditCreated = (new Date()).toUTCString()  + ' by ' + loggedInUser;
+
+            var newPatientRef = patientsRef
+                .push(patient, () => {
+                    //on complete
+                    alert('El Paciente ha sido creado exitosamente!');
+
+                    //hackish trick to have access to the newPatientId
+                    setTimeout(() => {
+                        // Need to do this because firebase returns the whole ref (URL) to the new patient
+                        // and I only want to use the ID for now
+                        var newPatientId = newPatientRef.key()
+                        this.props.successCallback(newPatientId);
+                    }, 100)
+                });
+        } else {
+            // we are editting
+            patient.auditEdited =  (new Date()).toUTCString()  + ' by ' + loggedInUser;
+
+            patientsRef
+                .child(this.props.patientId)
+                .update(patient, () => {
+                    alert('El paciente ha sido editado exitosamente')
+                });
+        }
+
+
     }
+
 
     render() {
         return (
             <form onSubmit={this.submit.bind(this)}>
-
+                {
+                    this.props.patientId ?
+                    <button onClick={this.deletePatient.bind(this)} type="button" className="btn btn-danger pull-right" style={{marginTop: '-60px'}}>Borrar</button>
+                    :
+                    null
+                }
                 <div className="form-group">
                     <label>Nombre y Apellido</label>
                     <input
@@ -180,39 +212,11 @@ export default class PatientForm extends React.Component {
                 <fieldset className="addressForm">
                     <h3>Domicilio</h3>
 
-                    <div className="form-group">
-                        <label>Provincia</label>
-                        <Typeahead
-                            options={argutils.provinces}
-                            maxVisible={5}
-                            placeholder="Ingresa las primeras letras y selecciona"
-                            customClasses={typeaheadClasses}
-                            onOptionSelected={this.onProvinceSelected.bind(this)}
+                    <LocalitySelect
+                        valueLink={this.linkState('patientLocality')}
+                        defaultValue={this.state.patientLocality}
                         />
-                    </div>
 
-                    <div className="form-group">
-                        <label>Localidad</label>
-                        <Typeahead
-                            options={this.state.locOptions}
-                            maxVisible={5}
-                            placeholder="Ingresa las primeras letras y selecciona"
-                            customClasses={typeaheadClasses}
-                            onOptionSelected={this.onLocalitySelected.bind(this)}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Codigo Postal</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Se completa seleccionando una localidad"
-                            disabled
-                            name="patientPostalCode"
-                            valueLink={this.linkState('patientPostalCode')}
-                            />
-                    </div>
 
                     <div className="form-group">
                         <label>Direccion</label>
@@ -277,7 +281,7 @@ export default class PatientForm extends React.Component {
                     </textarea>
                 </div>
                 <button type="submit" className="btn btn-primary">Aceptar</button>
-                <button type="button" className="btn btn-danger">Borrar</button>
+
             </form>
         );
     }

@@ -1,4 +1,4 @@
-import {provinces, locByProvince, postalByLoc} from './argutils.js';
+import {provinces, locByProvince, postalByLoc, getLocalityByKey} from './argutils.js';
 
 describe('argutils', function () {
     describe('provinces', function() {
@@ -24,6 +24,11 @@ describe('argutils', function () {
     describe('postalByLoc', function() {
         it('should return the postal code of given loc', function() {
             expect(postalByLoc('Zanjon Del Pescado')).toBe(9015);
+        });
+    });
+    describe('getLocalityByKey', function() {
+        it('should return the locality', function() {
+            expect(getLocalityByKey('2804__Campana')).toEqual({ loc_nombre: 'Campana', loc_cpostal: 2804, prv_nombre: 'Buenos Aires' });
         });
     });
 });

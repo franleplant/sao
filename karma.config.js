@@ -12,7 +12,7 @@ module.exports = function(karma) {
     browsers: [
         'PhantomJS'
     ],
-    browserNoActivityTimeout: 20000,
+    browserNoActivityTimeout: 60000,
 
     singleRun: true,
 

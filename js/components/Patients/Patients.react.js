@@ -1,22 +1,45 @@
 import React from 'react/addons';
 import {Table, Column} from "fixed-data-table";
-import {TextField, FontIcon, FloatingActionButton} from 'material-ui';
+import _ from 'lodash';
+import Firebase from 'firebase';
 
-var rows = [
-    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id0'],
-    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id1'],
-    ['Miguel Angel Faldutti', '12345678', '011 15 1234 5678', 'OSDE 210', 'id2']
-];
+import osutils from '../../osutils.js';
 
-function rowGetter(rowIndex) {
-    return rows[rowIndex];
-}
+var patientsRef = new Firebase('https://luminous-fire-4753.firebaseio.com/patients');
 
 
 export default class Patients extends React.Component {
     constructor(props, context) {
         super(props);
+        this.state = {
+            patients: []
+        }
+
         this.context = context;
+    }
+
+    componentDidMount() {
+        patientsRef.once('value', (snapshot) => {
+            var patientHash = snapshot.val();
+
+            var patients = _.values(
+                _.forIn(patientHash, (patient, patientId) => {
+                    patient.id = patientId;
+
+                    patient.osName = osutils.getNameById(patient.osId);
+                    return patient;
+                })
+            )
+
+
+            this.setState({
+                patients: patients
+            })
+        })
+    }
+
+    rowGetter(rowIndex) {
+        return this.state.patients[rowIndex]
     }
 
     newPatient() {
@@ -24,10 +47,9 @@ export default class Patients extends React.Component {
         this.context.router.transitionTo('crearPaciente');
     }
 
-    handleClick(event, index, rowData) {
+    handleClick(event, index, patient) {
         // On click go to the main page of the patient
-        // This feature of Es6 is called template strings
-        this.context.router.transitionTo('editarPaciente', {patientId: rowData[4]});
+        this.context.router.transitionTo('editarPaciente', {patientId: patient.id});
     }
 
     // The search box should act as a filter for the table below
@@ -57,8 +79,8 @@ export default class Patients extends React.Component {
 
                 <Table
                     rowHeight={50}
-                    rowGetter={rowGetter}
-                    rowsCount={rows.length}
+                    rowGetter={this.rowGetter.bind(this)}
+                    rowsCount={this.state.patients.length}
                     width={900}
                     height={5000}
                     headerHeight={50}
@@ -67,26 +89,26 @@ export default class Patients extends React.Component {
                     <Column
                         label="Nombre y Apellido"
                         width={300}
-                        dataKey={0}
+                        dataKey={'name'}
                         flexGrow={0}
                         />
                     <Column
                         label="DNI"
                         width={100}
-                        dataKey={1}
+                        dataKey={'DNI'}
                         flexGrow={0}
                         />
                     <Column
                         label="Telefono"
                         width={200}
-                        dataKey={2}
+                        dataKey={'tel'}
                         flexGrow={0}
                         />
 
                     <Column
                         label="Obra Social y Plan"
                         width={200}
-                        dataKey={3}
+                        dataKey={'osName'}
                         flexGrow={1}
                         />
                 </Table>
