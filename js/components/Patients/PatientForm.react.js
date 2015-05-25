@@ -6,12 +6,15 @@ import argutils from '../../argutils.js';
 import OSSelect from '../dumb/OSSelect.react.js';
 import LocalitySelect from '../dumb/LocalitySelect.react.js';
 
-var patientsRef = new Firebase('https://luminous-fire-4753.firebaseio.com/patients');
+//TODO: refactor this shit
+var patientsRef
 
 export default class PatientForm extends React.Component {
     constructor(props) {
         super(props);
-
+        patientsRef = (new Firebase('https://luminous-fire-4753.firebaseio.com/users'))
+                    .child(sessionStore.getUserId())
+                    .child('patients');
         this.state = {
             locOptions: [],
             patientName: '',

@@ -45,6 +45,7 @@ browser
         .click()
 
     // Click on new patient button
+     .waitForElementByCss('#react > div > div > div > h1 > button', 20000)
     .elementByCss('#react > div > div > div > h1 > button')
         .click()
     //.get("http://localhost:3000/?#/pacientes/nuevo")

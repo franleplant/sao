@@ -4,12 +4,12 @@ import router from '../router.js';
 
 
 export default {
-    login: (username) => {
+    login: (authData) => {
         // move to the home
         router.transitionTo('/');
         dispatcher.dispatch({
             type: LOGIN,
-            username: username
+            authData: authData
         })
     },
 

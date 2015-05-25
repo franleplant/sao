@@ -50,7 +50,7 @@ export default class Login extends React.Component {
                 // TODO: We are not catching network problems!
                 this.setState({loginError: true});
             } else {
-                loginActions.login(authData.password.email);
+                loginActions.login(authData);
             }
         });
 

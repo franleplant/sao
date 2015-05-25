@@ -13,12 +13,13 @@ export default {
             password : password
 
         }, function(error, authData) {
+            debugger;
             if (error) {
                 console.log("Login Failed!", error);
                 loginActions.loginFail(error);
             } else {
                 console.log("Authenticated successfully with payload:", authData);
-                loginActions.login(authData.password.email);
+                loginActions.login(authData);
             }
         });
 

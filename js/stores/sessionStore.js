@@ -6,14 +6,17 @@ var emitter = new EventEmitter();
 var CHANGE_EVENT = 'change';
 
 var username;
+var id;
 
 // TODO: tidy up the constructor
+// TODO: remove localstorage entry when loggin out
 class SessionStore {
     constructor() {
         if (localStorage) {
             var auth = JSON.parse(localStorage.getItem('firebase:session::luminous-fire-4753'));
             if (auth) {
                 username = auth.password.email;
+                id = auth.uid.split(':')[1];
             }
         }
 
@@ -22,7 +25,8 @@ class SessionStore {
         this.dispatchToken = dispatcher.register((action) => {
             switch (action.type) {
                 case LOGIN:
-                    username = action.username;
+                    username = action.authData.password.email;
+                    id = action.authData.uid.split(':')[1];
                     this.emitChange();
                     break;
 
@@ -43,6 +47,10 @@ class SessionStore {
 
     getUsername () {
         return username;
+    }
+
+    getUserId() {
+        return id
     }
 
     isLoggedIn() {

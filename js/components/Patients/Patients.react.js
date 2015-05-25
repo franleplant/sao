@@ -2,11 +2,11 @@ import React from 'react/addons';
 import {Table, Column} from "fixed-data-table";
 import _ from 'lodash';
 import Firebase from 'firebase';
+import sessionStore from '../../stores/sessionStore.js';
 
 import osutils from '../../osutils.js';
 
-var patientsRef = new Firebase('https://luminous-fire-4753.firebaseio.com/patients');
-
+var patientsRef
 
 export default class Patients extends React.Component {
     constructor(props, context) {
@@ -16,26 +16,50 @@ export default class Patients extends React.Component {
         }
 
         this.context = context;
+        patientsRef = (new Firebase('https://luminous-fire-4753.firebaseio.com/users'))
+                    .child(sessionStore.getUserId())
+                    .child('patients');
     }
 
     componentDidMount() {
-        patientsRef.once('value', (snapshot) => {
-            var patientHash = snapshot.val();
+        patientsRef
+            .limitToFirst(5)
+            .once('value', (snapshot) => {
+                this.setRows(snapshot.val())
+            });
+    }
 
-            var patients = _.values(
-                _.forIn(patientHash, (patient, patientId) => {
-                    patient.id = patientId;
+    searchPatients() {
+        var searchText = this.refs.searchInput.getDOMNode().value;
 
-                    patient.osName = osutils.getNameById(patient.osId);
-                    return patient;
-                })
-            )
-
-
-            this.setState({
-                patients: patients
+        //TODO: replace this shit with a get all patients +
+        //fuzzy filter in the client, yes, it is the best solution right now
+        patientsRef
+            .orderByChild('name')
+            //.startAt(searchText)
+            // Hack to make this shit work!
+            .endAt(searchText + '~')
+            .once('value', (snapshot) => {
+                this.setRows(snapshot.val());
             })
-        })
+    }
+
+    setRows(patientHash) {
+        if (!patientHash) {
+            alert('La busqueda no arrojo resultados')
+        }
+        var patients = _.values(
+            _.forIn(patientHash, (patient, patientId) => {
+                patient.id = patientId;
+
+                patient.osName = osutils.getNameById(patient.osId);
+                return patient;
+            })
+        )
+
+        this.setState({
+            patients: patients
+        });
     }
 
     rowGetter(rowIndex) {
@@ -47,7 +71,7 @@ export default class Patients extends React.Component {
         this.context.router.transitionTo('crearPaciente');
     }
 
-    handleClick(event, index, patient) {
+    editPatient(event, index, patient) {
         // On click go to the main page of the patient
         this.context.router.transitionTo('editarPaciente', {patientId: patient.id});
     }
@@ -69,9 +93,19 @@ export default class Patients extends React.Component {
 
                 <form className="form-inline">
                     <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Ej: Carlos Salguero"/>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Ej: Carlos Salguero"
+                            ref="searchInput"
+                            required
+                            />
                     </div>
-                    <button type="submit" className="btn btn-default">
+                    <button
+                        type="submit"
+                        className="btn btn-default"
+                        onClick={this.searchPatients.bind(this)}
+                        >
                         <i className="fa fa-search"></i>Buscar
                     </button>
                 </form>
@@ -84,7 +118,7 @@ export default class Patients extends React.Component {
                     width={900}
                     height={5000}
                     headerHeight={50}
-                    onRowClick={this.handleClick.bind(this)}
+                    onRowClick={this.editPatient.bind(this)}
                     >
                     <Column
                         label="Nombre y Apellido"
