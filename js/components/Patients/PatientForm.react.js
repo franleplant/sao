@@ -136,10 +136,15 @@ export default class PatientForm extends React.Component {
             // we are editting
             patient.auditEdited =  (new Date()).toUTCString()  + ' por ' + loggedInUser;
 
+
             patientsRef
                 .child(this.props.patientId)
                 .update(patient, () => {
                     alert('El paciente ha sido editado exitosamente')
+                    // Update the UI with the last edited date
+                    this.setState({
+                            auditEdited: patient.auditEdited
+                        })
                 });
         }
 

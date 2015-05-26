@@ -1,7 +1,6 @@
 import React from 'react/addons';
 import sessionStore from '../stores/sessionStore.js';
-import {DatePicker, FloatingActionButton} from 'material-ui';
-import {Table, Column} from "fixed-data-table";
+import MiniCalendar from './dumb/MiniCalendar.react.js';
 
 
 var rows = [
@@ -25,6 +24,13 @@ export default class Home extends React.Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            date: new Date()
+        }
+    }
+
+    componentDidMount() {
+        //Get all appointments for today
     }
 
     newAppointment() {
@@ -37,47 +43,17 @@ export default class Home extends React.Component {
         this.context.router.transitionTo('editarTurno', {appointmentId: rowData[3]});
     }
 
+    onDateChange(date) {
+        this.setState({
+            date: date
+        })
+    }
+
     render() {
         return (
             <div>
-                <h1>HOME!</h1>
-                <DatePicker
-                    defaultDate={new Date()}
-                    mode="landscape"
-                    />
-                <FloatingActionButton
-                    iconClassName="fa fa-plus"
-                    secondary={true}
-                    onClick={this.newAppointment.bind(this)}
-                    />
-                <Table
-                    rowHeight={50}
-                    rowGetter={rowGetter}
-                    rowsCount={rows.length}
-                    width={900}
-                    height={5000}
-                    headerHeight={50}
-                    onRowClick={this.editAppointment.bind(this)}
-                    >
-                    <Column
-                        label="Hora"
-                        width={300}
-                        dataKey={0}
-                        flexGrow={0}
-                        />
-                    <Column
-                        label="Nombre y Apellido"
-                        width={100}
-                        dataKey={1}
-                        flexGrow={1}
-                        />
-                    <Column
-                        label="Obra Social"
-                        width={200}
-                        dataKey={2}
-                        flexGrow={0}
-                        />
-                </Table>
+                <h1>HOME!{this.state.date.valueOf()}</h1>
+                <MiniCalendar onChange={this.onDateChange.bind(this)}/>
             </div>
         );
     }
