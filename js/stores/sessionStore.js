@@ -4,16 +4,16 @@ import dispatcher from '../dispatcher/AppDispatcher.js';
 
 var emitter = new EventEmitter();
 var CHANGE_EVENT = 'change';
+const FIREBASE_KEY = 'firebase:session::luminous-fire-4753'
 
 var username;
 var id;
 
 // TODO: tidy up the constructor
-// TODO: remove localstorage entry when loggin out
 class SessionStore {
     constructor() {
         if (localStorage) {
-            var auth = JSON.parse(localStorage.getItem('firebase:session::luminous-fire-4753'));
+            var auth = JSON.parse(localStorage.getItem(FIREBASE_KEY));
             if (auth) {
                 username = auth.password.email;
                 id = auth.uid.split(':')[1];
@@ -27,6 +27,18 @@ class SessionStore {
                 case LOGIN:
                     username = action.authData.password.email;
                     id = action.authData.uid.split(':')[1];
+                    this.emitChange();
+                    break;
+
+                case LOGOUT:
+                    username = id = undefined;
+                    try {
+                        // Clean up the localstorage entry
+                        localStorage.removeItem(FIREBASE_KEY)
+                    }
+                    catch(e) {
+
+                    }
                     this.emitChange();
                     break;
 

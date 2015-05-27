@@ -7,6 +7,14 @@ import Firebase from 'firebase';
 var ref = new Firebase("https://<your-firebase>.firebaseio.com/");
 
 export default class AuthenticatedApp extends React.Component {
+    static willTransitionTo(transition) {
+        // This method is called before transitioning to this component. If the user is not logged in, we’ll send him or her to the Login page.
+        // ENABLE THIS TO ADD AUTHORIZATION
+        if (!sessionStore.isLoggedIn()) {
+            //transition.redirect('/login');
+        }
+    }
+
     constructor() {
         super()
         this.state = {
@@ -80,4 +88,8 @@ export default class AuthenticatedApp extends React.Component {
             </div>
         );
     }
+}
+
+AuthenticatedApp.contextTypes = {
+    router: React.PropTypes.func
 }

@@ -15,6 +15,9 @@ export default {
 
     logout: () => {
         router.transitionTo('/login');
+        dispatcher.dispatch({
+            type: LOGOUT
+        })
     },
     signup: () => {}
 }

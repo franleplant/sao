@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import sessionStore from '../stores/sessionStore.js';
 import MiniCalendar from './dumb/MiniCalendar.react.js';
+import AppointmentGrid from './dumb/AppointmentGrid.react.js'
 
 
 var rows = [
@@ -14,14 +15,6 @@ function rowGetter(rowIndex) {
 }
 
 export default class Home extends React.Component {
-    static willTransitionTo(transition) {
-        // This method is called before transitioning to this component. If the user is not logged in, we’ll send him or her to the Login page.
-        // ENABLE THIS TO ADD AUTHORIZATION
-        //if (!sessionStore.isLoggedIn()) {
-            //transition.redirect('/login');
-        //}
-    }
-
     constructor(props) {
         super(props)
         this.state = {
@@ -51,14 +44,20 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>HOME!{this.state.date.valueOf()}</h1>
-                <MiniCalendar onChange={this.onDateChange.bind(this)}/>
+            <div className="">
+                <h1>
+                    HOME!{this.state.date.valueOf()}
+                    <button className="btn btn-primary pull-right">Nuevo Turno</button>
+                </h1>
+                <div className="row">
+                    <div className="col-xs-3">
+                        <MiniCalendar onChange={this.onDateChange.bind(this)}/>
+                    </div>
+                    <div className="col-xs-9">
+                        <AppointmentGrid/>
+                    </div>
+                </div>
             </div>
         );
     }
-}
-
-Home.contextTypes = {
-    router: React.PropTypes.func
 }
