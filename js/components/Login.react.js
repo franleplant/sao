@@ -7,9 +7,6 @@ import loginActions from '../actions/loginActions.js';
 
 var ref = new Firebase('https://luminous-fire-4753.firebaseio.com/');
 
-
-import {TextField, RaisedButton} from 'material-ui';
-
 export default class Login extends React.Component {
     constructor(props) {
         super(props)
@@ -28,8 +25,6 @@ export default class Login extends React.Component {
 
     login(event) {
         event.preventDefault();
-        console.log('login attempt!', this.state);
-
 
         this.setState({
             loading: true,
@@ -59,35 +54,59 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.login.bind(this)}>
-                <h1>LOGIN</h1>
-                <TextField
-                    type="email"
-                    required
-                    name="username"
-                    placeholder="Username"
-                    valueLink={this.linkState('username')}
-                    />
-                <br/>
-                <TextField
-                    type="password"
-                    required
-                    name="password"
-                    placeholder="Password"
-                    valueLink={this.linkState('password')}
-                    />
-                <br/>
-                <RaisedButton type="submit" label="Iniciar Sesion" secondary={true} disabled={this.state.loading}/>
-                <i className="fa fa-spinner" hidden={!this.state.loading}></i>
 
-                {/* TODO: This needs to be styled! */}
-                <p hidden={!this.state.loginError}>
-                    Las credenciales ingresadas son incorrectas, por favor
-                    volve a intentarlo
-                </p>
-                {/*TODO: Replace this custom link with a Link element from the router*/}
-                <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
-            </form>
+            <div className="col-xs-4">
+                <div className="panel panel-default">
+                    <div className="panel-body">
+                        <form onSubmit={this.login.bind(this)}>
+                            <h1>Iniciar Sesion</h1>
+
+                            <div className="form-group">
+                                <label>Email address</label>
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    placeholder="email"
+                                    required
+                                    valueLink={this.linkState('username')}
+                                    />
+                            </div>
+                            <div className="form-group">
+                                <label>Email address</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    placeholder="contraseña"
+                                    required
+                                    valueLink={this.linkState('password')}
+                                    />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled={this.state.loading}
+                                >
+                                Iniciar Sesion
+                            </button>
+
+                            <i className="fa fa-spinner" hidden={!this.state.loading}></i>
+
+                            <div
+                                className="alert alert-danger"
+                                role="alert"
+                                hidden={!this.state.loginError}
+                                >
+                                Las credenciales ingresadas son incorrectas, por favor
+                                volve a intentarlo
+                            </div>
+
+                            {/*TODO: Replace this custom link with a Link element from the router*/}
+                            <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
