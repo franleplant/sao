@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import {TextField, FontIcon, FloatingActionButton} from 'material-ui';
 import AppointmentForm from './AppointmentForm.react.js';
 
 
@@ -10,12 +9,15 @@ export default class NewAppointment extends React.Component {
         this.context = context;
     }
 
-    // The search box should act as a filter for the table below
+    successCallback(appointmentId) {
+        this.context.router.transitionTo('editarTurno', {appointmentId: appointmentId});
+    }
+
     render() {
         return (
             <div>
                 <h1>Nuevo Turno!</h1>
-                <AppointmentForm/>
+                <AppointmentForm  successCallback={this.successCallback.bind(this)}/>
             </div>
         );
     }

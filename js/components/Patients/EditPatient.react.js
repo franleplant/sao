@@ -5,6 +5,7 @@ import PatientForm from './PatientForm.react.js';
 export default class EditPatient extends React.Component {
     constructor(props, context) {
         super(props);
+        this.context = context;
         this.patientId = context.router.getCurrentParams().patientId;
     }
 

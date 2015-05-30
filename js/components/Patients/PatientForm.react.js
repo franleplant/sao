@@ -6,6 +6,9 @@ import argutils from '../../argutils.js';
 import OSSelect from '../dumb/OSSelect.react.js';
 import LocalitySelect from '../dumb/LocalitySelect.react.js';
 
+import Audit from '../dumb/Audit.react.js';
+import patientResource from '../../patientResource.js';
+
 //TODO: refactor this shit
 var patientsRef
 
@@ -37,14 +40,13 @@ export default class PatientForm extends React.Component {
         if (!patientId) return;
 
         // Get the patient and dont listen for further changes.
-        patientsRef
-            .child(patientId)
-            .once('value', (snapshot) => {
-                var patient = snapshot.val();
-                if (!patient) {
-                    alert('El paciente seleccionado no existe');
-                };
-
+        patientResource
+            .getById(patientId)
+            .catch((reason) => {
+                alert('El paciente seleccionado no existe');
+                throw reason;
+            })
+            .then((patient) => {
                 this.setState({
                     patientName: patient.name,
                     patientEmail: patient.email,
@@ -153,45 +155,15 @@ export default class PatientForm extends React.Component {
 
 
     render() {
-        var auditAndDeleteElements;
-
-        if (this.props.patientId) {
-            auditAndDeleteElements = (
-                <fieldset className="form-inline">
-                    <div className="form-group">
-                        <label>Creacion</label>
-                        <input
-                            className="form-control margin-left-1x"
-                            type="text"
-                            disabled
-                            value={this.state.auditCreated}
-                            />
-                    </div>
-                    <div className="form-group margin-left-1x">
-                        <label>Ultima edicion</label>
-                        <input
-                            className="form-control margin-left-1x"
-                            type="text"
-                            disabled
-                            value={this.state.auditEdited}
-                            />
-                    </div>
-
-                    <button
-                        onClick={this.deletePatient.bind(this)}
-                        type="button"
-                        className="btn btn-danger pull-right"
-                        >
-                            Borrar
-                    </button>
-                </fieldset>
-            );
-        }
-
         return (
             <form onSubmit={this.submit.bind(this)}>
 
-                {auditAndDeleteElements}
+                <Audit
+                    show={this.props.patientId}
+                    edited={this.state.auditEdited}
+                    created={this.state.auditCreated}
+                    onDelete={this.deletePatient.bind(this)}
+                    />
 
 
                 <div className="form-group">

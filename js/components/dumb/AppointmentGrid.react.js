@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import moment from 'moment';
+import timeSlots from '../../utils/appointmentTimeSlots.js';
 
 
 
@@ -20,16 +21,10 @@ export default class AppointmentGrid extends React.Component {
     }
 
     render() {
-
-        var date = moment().hour(0).minute(0).second(0);
-        var rows = [];
-        var hour = date.hour();
-
-        //TODO: add tooltips to badges with more info
-        while (date.hour() !== 23 || date.minute() !== 45) {
-            rows.push(
-                <tr key={date.format('HH:mm')}>
-                    <td>{date.format('HH:mm')}</td>
+        var rows = timeSlots.map((time) => {
+            return (
+                <tr key={time}>
+                    <td>{time}</td>
                     <td>
                         <p className="text-1-3x">
                         <span className="label label-default">Paciente A OSDE</span>&nbsp;
@@ -39,9 +34,7 @@ export default class AppointmentGrid extends React.Component {
                     </td>
                 </tr>
             );
-            date.add(15, 'minutes');
-            hour = date.hour();
-        }
+        })
 
         return (
             <div>

@@ -3,23 +3,15 @@ import sessionStore from '../stores/sessionStore.js';
 import MiniCalendar from './dumb/MiniCalendar.react.js';
 import AppointmentGrid from './dumb/AppointmentGrid.react.js'
 
-
-var rows = [
-    ['15:00', 'Miguel Angel Faldutti', 'OSDE 210', 'id0'],
-    ['15:15', 'Miguel Angel Faldutti', 'OSDE 210', 'id1'],
-    ['15:30', 'Miguel Angel Faldutti', 'OSDE 210', 'id2']
-];
-
-function rowGetter(rowIndex) {
-    return rows[rowIndex];
-}
-
 export default class Home extends React.Component {
-    constructor(props) {
+
+    constructor(props, context) {
         super(props)
         this.state = {
             date: new Date()
         }
+
+        this.context = context;
     }
 
     componentDidMount() {
@@ -47,7 +39,10 @@ export default class Home extends React.Component {
             <div className="">
                 <h1>
                     HOME!{this.state.date.valueOf()}
-                    <button className="btn btn-primary pull-right">Nuevo Turno</button>
+                    <button
+                        className="btn btn-primary pull-right"
+                        onClick={this.newAppointment.bind(this)}
+                        >Nuevo Turno</button>
                 </h1>
                 <div className="row">
                     <div className="col-xs-3">
@@ -60,4 +55,8 @@ export default class Home extends React.Component {
             </div>
         );
     }
+}
+
+Home.contextTypes = {
+    router: React.PropTypes.func
 }
