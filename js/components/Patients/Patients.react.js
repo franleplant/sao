@@ -5,8 +5,8 @@ import Firebase from 'firebase';
 import sessionStore from '../../stores/sessionStore.js';
 
 import osutils from '../../osutils.js';
+import patientResource from '../../patientResource.js';
 
-var patientsRef
 
 export default class Patients extends React.Component {
     constructor(props, context) {
@@ -16,31 +16,24 @@ export default class Patients extends React.Component {
         }
 
         this.context = context;
-        patientsRef = (new Firebase('https://luminous-fire-4753.firebaseio.com/users'))
-                    .child(sessionStore.getUserId())
-                    .child('patients');
     }
 
     componentDidMount() {
-        patientsRef
-            .limitToFirst(5)
-            .once('value', (snapshot) => {
-                this.setRows(snapshot.val())
+        patientResource
+            .getSome()
+            .then((patients) => {
+                this.setRows(patients)
             });
     }
 
     searchPatients() {
         var searchText = this.refs.searchInput.getDOMNode().value;
 
-        //TODO: replace this shit with a get all patients +
-        //fuzzy filter in the client, yes, it is the best solution right now
-        patientsRef
-            .orderByChild('name')
-            //.startAt(searchText)
-            // Hack to make this shit work!
-            .endAt(searchText + '~')
-            .once('value', (snapshot) => {
-                this.setRows(snapshot.val());
+        patientResource
+            .search(searchText)
+            .catch(console.log.bind(console))
+            .then((result) => {
+                this.setRows(result);
             })
     }
 
@@ -50,7 +43,6 @@ export default class Patients extends React.Component {
         }
         var patients = _.values(
             _.forIn(patientHash, (patient, patientId) => {
-                patient.id = patientId;
 
                 patient.osName = osutils.getNameById(patient.osId);
                 return patient;
@@ -73,7 +65,7 @@ export default class Patients extends React.Component {
 
     editPatient(event, index, patient) {
         // On click go to the main page of the patient
-        this.context.router.transitionTo('editarPaciente', {patientId: patient.id});
+        this.context.router.transitionTo('editarPaciente', {patientId: patient.patientId});
     }
 
     // The search box should act as a filter for the table below

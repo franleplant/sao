@@ -13,6 +13,24 @@ function getRef() {
 }
 
 
+function getSome() {
+    return new Promise((resolve, reject) => {
+        getRef()
+            .limitToFirst(5)
+            .once('value', (snapshot) => {
+                var patients =  _.values(_.forOwn(snapshot.val(), (patient, patientId) => {
+                    // Attach to each result patient its id
+                    patient.patientId = patientId;
+                    return patient;
+                }));
+
+                resolve(patients);
+            }, (error)=> {
+                reject(error);
+            });
+    });
+}
+
 function getById(patientId) {
     return new Promise((resolve, reject) => {
         getRef()
@@ -84,4 +102,4 @@ function search(searchText) {
 }
 
 
-export default { getRef, getById, search};
+export default { getRef, getById, getSome, search};
