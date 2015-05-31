@@ -60,8 +60,6 @@ export default class AppointmentForm extends React.Component {
             return;
         }
 
-        debugger;
-
         appointmentResource
             .remove(this.props.appointmentId)
             .catch((error) => {

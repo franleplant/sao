@@ -95,6 +95,33 @@ export default class SearchPatients extends React.Component {
                                 )
                             })
 
+        var resultOrSelectedPatient;
+
+        if (resultList.length) {
+            resultOrSelectedPatient = (
+                    <div className="list-group">
+                        {resultList}
+                    </div>
+                )
+        } else if (this.state.patient.name) {
+            //no results and a selected patient
+            resultOrSelectedPatient = (
+                    <div className="form-group">
+                        <textarea
+                            className="form-control"
+                            disabled
+                            rows="3"
+                            value={
+                                'DNI: ' + this.state.patient.DNI  + '\n' +
+                                'Tel: ' + this.state.patient.tel  + '\n' +
+                                'Obra Social: ' + this.state.patient.osName
+                            }
+                            >
+                        </textarea>
+                    </div>
+                );
+        }
+
 
         return (
             <div className="row" onKeyDown={this.onKeyHandler.bind(this)}>
@@ -111,9 +138,7 @@ export default class SearchPatients extends React.Component {
                         value={this.state.searchText}
                         />
 
-                    <div className="list-group">
-                        {resultList}
-                    </div>
+                    {resultOrSelectedPatient}
                 </div>
 
                 <div className="form-group col-xs-1">
@@ -126,24 +151,6 @@ export default class SearchPatients extends React.Component {
                         { this.state.loading ? <i className="fa fa-spinner"></i> : null}
                     </button>
                 </div>
-
-                { this.state.patient.name ?
-                <div className="form-group col-xs-5">
-                    <textarea
-                        className="form-control"
-                        disabled
-                        rows="3"
-                        value={
-                            'DNI: ' + this.state.patient.DNI  + '\n' +
-                            'Tel: ' + this.state.patient.tel  + '\n' +
-                            'Obra Social: ' + this.state.patient.osName
-                        }
-                        >
-                    </textarea>
-                </div>
-
-                    : null
-                }
             </div>
         )
     }
