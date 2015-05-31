@@ -1,6 +1,7 @@
 import userResource from './userResource.js';
 import Promise from 'bluebird';
 import _ from 'lodash';
+import osutils from './osutils.js';
 
 
 
@@ -41,6 +42,8 @@ function getById(patientId) {
                     reject('patient not found');
                     return
                 }
+
+                patient.osName = osutils.getNameById(patient.osId);
 
                 // TODO: resolve the OS by its id and attach it
                 resolve(patient);

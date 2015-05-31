@@ -66,6 +66,7 @@ export default class Login extends React.Component {
                                 <input
                                     type="email"
                                     className="form-control"
+                                    name="username"
                                     placeholder="email"
                                     required
                                     valueLink={this.linkState('username')}
@@ -76,6 +77,7 @@ export default class Login extends React.Component {
                                 <input
                                     type="password"
                                     className="form-control"
+                                    name="password"
                                     placeholder="contraseña"
                                     required
                                     valueLink={this.linkState('password')}

@@ -2,6 +2,7 @@ import React from 'react/addons';
 import sessionStore from '../stores/sessionStore.js';
 import MiniCalendar from './dumb/MiniCalendar.react.js';
 import AppointmentGrid from './dumb/AppointmentGrid.react.js'
+import moment from 'moment';
 
 export default class Home extends React.Component {
 
@@ -14,18 +15,19 @@ export default class Home extends React.Component {
         this.context = context;
     }
 
-    componentDidMount() {
-        //Get all appointments for today
-    }
-
     newAppointment() {
         // Redirect to create an appointment
         this.context.router.transitionTo('crearTurno');
     }
 
-    editAppointment(event, index, rowData) {
+    newAppointmentWithTime(time) {
+        // Redirect to create an appointment
+        this.context.router.transitionTo('crearTurno', {time: time});
+    }
+
+    editAppointment(appointmentId) {
         // On click go to the main page of the patient
-        this.context.router.transitionTo('editarTurno', {appointmentId: rowData[3]});
+        this.context.router.transitionTo('editarTurno', {appointmentId: appointmentId});
     }
 
     onDateChange(date) {
@@ -38,7 +40,7 @@ export default class Home extends React.Component {
         return (
             <div className="">
                 <h1>
-                    HOME!{this.state.date.valueOf()}
+                    HOME!
                     <button
                         className="btn btn-primary pull-right"
                         onClick={this.newAppointment.bind(this)}
@@ -49,7 +51,11 @@ export default class Home extends React.Component {
                         <MiniCalendar onChange={this.onDateChange.bind(this)}/>
                     </div>
                     <div className="col-xs-9">
-                        <AppointmentGrid/>
+                        <AppointmentGrid
+                            date={moment(this.state.date).format('YYYY-MM-DD')}
+                            onEdit={this.editAppointment.bind(this)}
+                            onCreate={this.newAppointmentWithTime.bind(this)}
+                            />
                     </div>
                 </div>
             </div>

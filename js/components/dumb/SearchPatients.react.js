@@ -9,7 +9,8 @@ export default class SearchPatients extends React.Component {
             searchText: '',
             searchResult: [],
             selectedPatientId: '',
-            selectedPatientValue: ''
+            selectedPatientValue: '',
+            patient: {}
         }
     }
 
@@ -23,23 +24,28 @@ export default class SearchPatients extends React.Component {
     }
 
     search() {
+        this.setState({
+            loading: true
+        })
+
         patientResource
             .search(this.state.searchText)
             .then((result) => {
                 this.setState({
-                    searchResult: result
+                    searchResult: result,
+                    loading: false
                 })
             })
     }
 
-//TODO!!!!
-//The search box does not work very well with edit mode, find a better way
     selectResult(patient) {
+
         this.setState({
             selectedPatientId: patient.patientId,
             searchText: patient.name,
             // Clean up the result list
-            searchResult: []
+            searchResult: [],
+            patient: patient
         })
 
         // The following is for handling the outside,
@@ -67,7 +73,8 @@ export default class SearchPatients extends React.Component {
             .then((patient) => {
                 this.setState({
                     selectedPatientId: newProps.value,
-                    searchText: patient.name
+                    searchText: patient.name,
+                    patient: patient
                 });
             })
 
@@ -91,7 +98,7 @@ export default class SearchPatients extends React.Component {
 
         return (
             <div className="row" onKeyDown={this.onKeyHandler.bind(this)}>
-                <div className="form-group col-xs-9">
+                <div className="form-group col-xs-6">
                     <input
                         required
                         type="text"
@@ -109,15 +116,34 @@ export default class SearchPatients extends React.Component {
                     </div>
                 </div>
 
-                <div className="form-group col-xs-3">
+                <div className="form-group col-xs-1">
                     <button
                         type="button"
                         className="btn btn-default"
                         onClick={this.search.bind(this)}
                         >
                         Buscar
+                        { this.state.loading ? <i className="fa fa-spinner"></i> : null}
                     </button>
                 </div>
+
+                { this.state.patient.name ?
+                <div className="form-group col-xs-5">
+                    <textarea
+                        className="form-control"
+                        disabled
+                        rows="3"
+                        value={
+                            'DNI: ' + this.state.patient.DNI  + '\n' +
+                            'Tel: ' + this.state.patient.tel  + '\n' +
+                            'Obra Social: ' + this.state.patient.osName
+                        }
+                        >
+                    </textarea>
+                </div>
+
+                    : null
+                }
             </div>
         )
     }

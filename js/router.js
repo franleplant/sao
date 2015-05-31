@@ -35,7 +35,7 @@ var routes = (
         <Route name="crearPaciente" path="pacientes/nuevo" handler={PatientNew}/>
 
         {/* Appointment Module  */}
-        <Route name="crearTurno" path="turnos/nuevo" handler={AppointmentNew}/>
+        <Route name="crearTurno" path="turnos/nuevo/:time?" handler={AppointmentNew}/>
         <Route name="editarTurno" path="turnos/editar/:appointmentId" handler={AppointmentEdit}/>
     </Route>
   </Route>

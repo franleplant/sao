@@ -7,6 +7,7 @@ export default class NewAppointment extends React.Component {
     constructor(props, context) {
         super(props);
         this.context = context;
+        this.time = context.router.getCurrentParams().time;
     }
 
     successCallback(appointmentId) {
@@ -17,7 +18,10 @@ export default class NewAppointment extends React.Component {
         return (
             <div>
                 <h1>Nuevo Turno!</h1>
-                <AppointmentForm  successCallback={this.successCallback.bind(this)}/>
+                <AppointmentForm
+                    successCallback={this.successCallback.bind(this)}
+                    time={this.time}
+                    />
             </div>
         );
     }

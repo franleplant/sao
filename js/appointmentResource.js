@@ -2,6 +2,7 @@ import Promise from 'bluebird';
 import userResource from './userResource.js';
 import patientResource from './patientResource.js';
 import createTimeStamp from './utils/createTimeStamp.js';
+import _ from 'lodash';
 
 
 const FIREBASE_CHILD_KEY = 'appointments';
@@ -38,6 +39,54 @@ function getById(appointmentId) {
                         .catch((reason) => {
                             reject(reason);
                         });
+
+            }, (error) => {
+                reject(error);
+            })
+    })
+}
+
+/**
+ * @description
+ * get all apppoinmtnets for a given date
+ *
+ * @param {string} date - with the format: "2015-05-30"
+ */
+function getByDate(date) {
+     return new Promise((resolve, reject) => {
+
+        getRef()
+            .orderByChild("selectedDate")
+            .equalTo(date)
+            .once('value', (snapshot) => {
+
+                var appointments =  _.values(_.forOwn(snapshot.val(), (appointment, appointmentId) => {
+                    // Attach to each result appointment its id
+                    appointment.appointmentId = appointmentId;
+                    return appointment;
+                }));
+
+
+                var patientPromiseArray = []
+                appointments.forEach((appointment) => {
+                    var promise = patientResource
+                                    .getById(appointment.selectedPatientId)
+                                    .then((patient) => {
+                                        appointment.selectedPatient = patient;
+                                    });
+
+                    patientPromiseArray.push(promise)
+                })
+
+
+                Promise.all(patientPromiseArray)
+                    .catch((reason) => {
+                        reject(reason);
+                        console.log(reason)
+                    })
+                    .then(() => {
+                        resolve(appointments);
+                    })
 
             }, (error) => {
                 reject(error);
@@ -86,7 +135,7 @@ function update(appointmentId, appointment) {
 function remove(appointmentId) {
     return new Promise((resolve, reject) => {
         getRef()
-            .child(this.props.appointmentId)
+            .child(appointmentId)
             .remove((error) => {
                 if (error) {
                     reject(error);
@@ -98,4 +147,4 @@ function remove(appointmentId) {
     });
 }
 
-export default {getRef, getById, create, update, remove}
+export default {getRef, getById, getByDate, create, update, remove}

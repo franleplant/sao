@@ -12,7 +12,7 @@ export default class AppointmentForm extends React.Component {
         super(props);
 
         this.state = {
-            selectedTime: '09:00',
+            selectedTime: props.time || '09:00',
             selectedDate: moment().format('YYYY-MM-DD'),
             selectedPatientId: '',
             // Not used for now
@@ -60,16 +60,16 @@ export default class AppointmentForm extends React.Component {
             return;
         }
 
+        debugger;
+
         appointmentResource
             .remove(this.props.appointmentId)
             .catch((error) => {
-                if (error) {
-                    alert('Error al borrar el paciente');
-                    return;
-                }
+                alert('Error al borrar turno');
+                throw error;
             })
             .then(() => {
-                alert('Paciente borrado con exito');
+                alert('turno borrado con exito');
                 this.props.onDeleteCallback();
             });
     }
@@ -129,18 +129,6 @@ export default class AppointmentForm extends React.Component {
         return (
             <form onSubmit={this.submit.bind(this)}>
 
-                <Audit
-                    show={this.props.appointmentId}
-                    edited={this.state.auditEdited}
-                    created={this.state.auditCreated}
-                    onDelete={this.deleteAppointment.bind(this)}
-                    />
-
-                <div className="form-group">
-                    <label>Paciente</label>
-                    <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
-                </div>
-
                 <fieldset className="row">
                     <div className="form-group col-xs-6">
                         <label>Fecha</label>
@@ -165,7 +153,19 @@ export default class AppointmentForm extends React.Component {
                     </div>
                 </fieldset>
 
-                <button type="submit" className="btn btn-primary">Aceptar</button>
+                <div className="form-group">
+                    <label>Paciente</label>
+                    <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
+                </div>
+
+                <button type="submit" className="btn btn-primary margin-bottom-20">Aceptar</button>
+
+                <Audit
+                    show={this.props.appointmentId}
+                    edited={this.state.auditEdited}
+                    created={this.state.auditCreated}
+                    onDelete={this.deleteAppointment.bind(this)}
+                    />
             </form>
         );
     }
