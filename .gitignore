@@ -2,5 +2,7 @@ node_modules
 *.swp
 *.swo
 bundle.js
+bundle.js.map
 bundle.css
 test/bundle.test.js
+npm-debug.log
