@@ -7,6 +7,8 @@ import Audit from '../dumb/Audit.react.js';
 import appointmentResource from '../../appointmentResource.js';
 import timeSlots from '../../utils/appointmentTimeSlots.js';
 
+
+// TODO: move data logic to a store
 export default class AppointmentForm extends React.Component {
     constructor(props) {
         super(props);

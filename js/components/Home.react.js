@@ -8,11 +8,11 @@ export default class Home extends React.Component {
 
     constructor(props, context) {
         super(props)
+        this.context = context;
+
         this.state = {
             date: new Date()
         }
-
-        this.context = context;
     }
 
     newAppointment() {
