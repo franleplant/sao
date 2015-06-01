@@ -10,34 +10,38 @@ export default class Audit extends React.Component {
         if (!this.props.show) return <div></div>;
 
         return (
-            <fieldset className="">
-                <div className="form-group">
-                    <label>Creacion</label>
-                    <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value={this.props.created}
-                        />
-                </div>
-                <div className="form-group">
-                    <label>Ultima edicion</label>
-                    <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value={this.props.edited}
-                        />
-                </div>
+            <div className="panel panel-danger">
+                <div className="panel-body">
+                    <form>
+                        <div className="form-group">
+                            <label>Creacion</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                disabled
+                                value={this.props.created}
+                                />
+                        </div>
+                        <div className="form-group">
+                            <label>Ultima edicion</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                disabled
+                                value={this.props.edited}
+                                />
+                        </div>
 
-                <button
-                    onClick={this.props.onDelete}
-                    type="button"
-                    className="btn btn-danger pull-right"
-                    >
-                        Borrar
-                </button>
-            </fieldset>
+                        <button
+                            onClick={this.props.onDelete}
+                            type="button"
+                            className="btn btn-danger pull-right"
+                            >
+                                Borrar
+                        </button>
+                    </form>
+                </div>
+            </div>
         );
     }
 }

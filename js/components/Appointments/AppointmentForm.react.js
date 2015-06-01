@@ -125,38 +125,44 @@ export default class AppointmentForm extends React.Component {
 
 
         return (
-            <form onSubmit={this.submit.bind(this)}>
+            <div>
+                <div className="panel panel-default">
+                    <div className="panel-body">
+                        <form onSubmit={this.submit.bind(this)}>
 
-                <fieldset className="row">
-                    <div className="form-group col-xs-6">
-                        <label>Fecha</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            required
-                            valueLink={this.linkState('selectedDate')}
-                            />
+                            <fieldset className="row">
+                                <div className="form-group col-xs-6">
+                                    <label>Fecha</label>
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        required
+                                        valueLink={this.linkState('selectedDate')}
+                                        />
+                                </div>
+
+                                <div className="form-group col-xs-6">
+                                    <label>Hora</label>
+                                    <select
+                                        required
+                                        className="form-control"
+                                        valueLink={this.linkState('selectedTime')}
+                                        defaultValue={this.state.selectedTime}
+                                        >
+                                        {options}
+                                    </select>
+                                </div>
+                            </fieldset>
+
+                            <div className="form-group">
+                                <label>Paciente</label>
+                                <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
+                            </div>
+
+                            <button type="submit" className="btn btn-primary">Aceptar</button>
+                        </form>
                     </div>
-
-                    <div className="form-group col-xs-6">
-                        <label>Hora</label>
-                        <select
-                            required
-                            className="form-control"
-                            valueLink={this.linkState('selectedTime')}
-                            defaultValue={this.state.selectedTime}
-                            >
-                            {options}
-                        </select>
-                    </div>
-                </fieldset>
-
-                <div className="form-group">
-                    <label>Paciente</label>
-                    <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
                 </div>
-
-                <button type="submit" className="btn btn-primary margin-bottom-20">Aceptar</button>
 
                 <Audit
                     show={this.props.appointmentId}
@@ -164,7 +170,7 @@ export default class AppointmentForm extends React.Component {
                     created={this.state.auditCreated}
                     onDelete={this.deleteAppointment.bind(this)}
                     />
-            </form>
+            </div>
         );
     }
 }

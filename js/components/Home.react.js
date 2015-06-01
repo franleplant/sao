@@ -40,12 +40,15 @@ export default class Home extends React.Component {
         return (
             <div className="">
                 <h1>
-                    HOME!
+                    Bienvenido!
                     <button
                         className="btn btn-primary pull-right"
                         onClick={this.newAppointment.bind(this)}
-                        >Nuevo Turno</button>
+                        >
+                        Nuevo Turno
+                    </button>
                 </h1>
+
                 <div className="row">
                     <div className="col-xs-3">
                         <MiniCalendar onChange={this.onDateChange.bind(this)}/>

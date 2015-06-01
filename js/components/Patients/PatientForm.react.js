@@ -156,150 +156,154 @@ export default class PatientForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.submit.bind(this)}>
+            <div>
+                <div className="panel panel-default">
+                    <div className="panel-body">
+                        <form onSubmit={this.submit.bind(this)}>
 
+                            <div className="form-group">
+                                <label>Nombre y Apellido</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Ejemplo: Juanito Perez"
+                                    name="patientName"
+                                    required
+                                    valueLink={this.linkState('patientName')}
+                                    />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    placeholder="Ejemplo: juan_perez@pokemart.com.ar"
+                                    name="patientEmail"
+                                    valueLink={this.linkState('patientEmail')}
+                                    />
+                            </div>
+
+                            <div className="form-group">
+                                <label>DNI</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Ejemplo: 123456789"
+                                    required
+                                    name="patientDNI"
+                                    valueLink={this.linkState('patientDNI')}
+                                    />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Fecha de Nacimiento</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    required
+                                    name="patientDOB"
+                                    valueLink={this.linkState('patientDOB')}
+                                    />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Telefono</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Ejemplo: Tel: 01234 123566, Cel: 011 15 12345677"
+                                    required
+                                    name="patientTel"
+                                    valueLink={this.linkState('patientTel')}
+                                    />
+                            </div>
+
+                            <fieldset className="addressForm">
+                                <h3>Domicilio</h3>
+
+                                <LocalitySelect
+                                    valueLink={this.linkState('patientLocality')}
+                                    defaultValue={this.state.patientLocality}
+                                    />
+
+
+                                <div className="form-group">
+                                    <label>Direccion</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Ejemplo: Av Siempre Viva 123"
+                                        required
+                                        name="patientAddress"
+                                        valueLink={this.linkState('patientAddress')}
+                                        />
+                                </div>
+
+                            </fieldset>
+
+
+
+                            <fieldset className="osForm">
+                                <h3>Datos de Obra Social</h3>
+                                <div className="form-group">
+                                    <label>Obra Social</label>
+                                    <OSSelect
+                                        className="form-control"
+                                        valueLink={this.linkState('patientOSId')}
+                                        defaultValue={this.state.patientOSId}
+                                        required
+                                    />
+                                </div>
+
+
+                                <div className="form-group">
+                                    <label>Numero de Socio</label>
+                                    <input
+                                        valueLink={this.linkState('patientOSaffiliateNumber')}
+                                        name="patientOSaffiliateNumber"
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Numero de Socio"
+                                        />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Plan</label>
+                                    <input
+                                        valueLink={this.linkState('patientOSplan')}
+                                        name="patientOSplan"
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Plan"
+                                        />
+                                </div>
+                            </fieldset>
+
+                            <div className="form-group">
+                                <label>Historia Clinica</label>
+                                <textarea
+                                    className="form-control"
+                                    rows="3"
+                                    name="patientMedicalHistory"
+                                    valueLink={this.linkState('patientMedicalHistory')}
+                                    >
+                                </textarea>
+                            </div>
+
+
+                            <button type="submit" className="btn btn-primary">Aceptar</button>
+                        </form>
+
+                    </div>
+                </div>
                 <Audit
                     show={this.props.patientId}
                     edited={this.state.auditEdited}
                     created={this.state.auditCreated}
                     onDelete={this.deletePatient.bind(this)}
                     />
-
-
-                <div className="form-group">
-                    <label>Nombre y Apellido</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Ejemplo: Juanito Perez"
-                        name="patientName"
-                        required
-                        valueLink={this.linkState('patientName')}
-                        />
-                </div>
-
-                <div className="form-group">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        placeholder="Ejemplo: juan_perez@pokemart.com.ar"
-                        name="patientEmail"
-                        valueLink={this.linkState('patientEmail')}
-                        />
-                </div>
-
-                <div className="form-group">
-                    <label>DNI</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Ejemplo: 123456789"
-                        required
-                        name="patientDNI"
-                        valueLink={this.linkState('patientDNI')}
-                        />
-                </div>
-
-                <div className="form-group">
-                    <label>Fecha de Nacimiento</label>
-                    <input
-                        type="date"
-                        className="form-control"
-                        required
-                        name="patientDOB"
-                        valueLink={this.linkState('patientDOB')}
-                        />
-                </div>
-
-                <div className="form-group">
-                    <label>Telefono</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Ejemplo: Tel: 01234 123566, Cel: 011 15 12345677"
-                        required
-                        name="patientTel"
-                        valueLink={this.linkState('patientTel')}
-                        />
-                </div>
-
-                <fieldset className="addressForm">
-                    <h3>Domicilio</h3>
-
-                    <LocalitySelect
-                        valueLink={this.linkState('patientLocality')}
-                        defaultValue={this.state.patientLocality}
-                        />
-
-
-                    <div className="form-group">
-                        <label>Direccion</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Ejemplo: Av Siempre Viva 123"
-                            required
-                            name="patientAddress"
-                            valueLink={this.linkState('patientAddress')}
-                            />
-                    </div>
-
-                </fieldset>
-
-
-
-                <fieldset className="osForm">
-                    <h3>Datos de Obra Social</h3>
-                    <div className="form-group">
-                        <label>Obra Social</label>
-                        <OSSelect
-                            className="form-control"
-                            valueLink={this.linkState('patientOSId')}
-                            defaultValue={this.state.patientOSId}
-                            required
-                        />
-                    </div>
-
-
-                    <div className="form-group">
-                        <label>Numero de Socio</label>
-                        <input
-                            valueLink={this.linkState('patientOSaffiliateNumber')}
-                            name="patientOSaffiliateNumber"
-                            type="text"
-                            className="form-control"
-                            placeholder="Numero de Socio"
-                            />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Plan</label>
-                        <input
-                            valueLink={this.linkState('patientOSplan')}
-                            name="patientOSplan"
-                            type="text"
-                            className="form-control"
-                            placeholder="Plan"
-                            />
-                    </div>
-                </fieldset>
-
-                <div className="form-group">
-                    <label>Historia Clinica</label>
-                    <textarea
-                        className="form-control"
-                        rows="3"
-                        name="patientMedicalHistory"
-                        valueLink={this.linkState('patientMedicalHistory')}
-                        >
-                    </textarea>
-                </div>
-
-
-                <button type="submit" className="btn btn-primary">Aceptar</button>
-
-            </form>
+            </div>
         );
     }
 }

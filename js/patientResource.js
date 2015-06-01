@@ -22,6 +22,7 @@ function getSome() {
                 var patients =  _.values(_.forOwn(snapshot.val(), (patient, patientId) => {
                     // Attach to each result patient its id
                     patient.patientId = patientId;
+                    patient.osName = osutils.getNameById(patient.osId);
                     return patient;
                 }));
 
@@ -68,6 +69,8 @@ function searchPatientsInHash(searchText, patients) {
     return _.values(_.forOwn(patients, (patient, patientId) => {
         // Attach to each result patient its id
         patient.patientId = patientId;
+        patient.osName = osutils.getNameById(patient.osId);
+
         return patient;
     }))
     .filter((patient) => {

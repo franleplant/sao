@@ -3,7 +3,6 @@ import moment from 'moment';
 
 //TODO:
 //- Refactor this, make it more clear
-//- Add click functionality
 
 var date = new Date();
 
@@ -19,7 +18,7 @@ const MESES = [
     'Octubre',
     'Noviembre',
     'Diciembre'
-    ];
+];
 
 
 

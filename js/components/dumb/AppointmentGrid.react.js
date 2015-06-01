@@ -37,6 +37,9 @@ export default class AppointmentGrid extends React.Component {
     componentWillReceiveProps(newProps) {
         // Kickoff loading
         appointmentListActions.getDailyData(newProps.date);
+        this.setState({
+            loading: true
+        });
     }
 
     componentWillUpdate() {
@@ -105,8 +108,6 @@ export default class AppointmentGrid extends React.Component {
 
         return (
             <div>
-                {this.state.loading ? <p>Loading...</p> : null}
-
                 <table className="table table-hover table-scroll-table-header">
                     <thead>
                         <tr>
@@ -114,7 +115,8 @@ export default class AppointmentGrid extends React.Component {
                                 Hora
                             </th>
                             <th>
-                                Pacientes
+                                Pacientes &nbsp;
+                                { this.state.loading ? <i className="fa fa-spinner"></i> : null }
                             </th>
                         </tr>
                     </thead>

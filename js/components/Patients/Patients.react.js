@@ -12,7 +12,8 @@ export default class Patients extends React.Component {
     constructor(props, context) {
         super(props);
         this.state = {
-            patients: []
+            patients: [],
+            loading: false
         }
 
         this.context = context;
@@ -26,7 +27,14 @@ export default class Patients extends React.Component {
             });
     }
 
-    searchPatients() {
+    searchPatients(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.setState({
+            loading: true
+        });
+
         var searchText = this.refs.searchInput.getDOMNode().value;
 
         patientResource
@@ -34,20 +42,16 @@ export default class Patients extends React.Component {
             .catch(console.log.bind(console))
             .then((result) => {
                 this.setRows(result);
+                this.setState({
+                    loading: false
+                });
             })
     }
 
-    setRows(patientHash) {
-        if (!patientHash) {
+    setRows(patients) {
+        if (!patients.length) {
             alert('La busqueda no arrojo resultados')
         }
-        var patients = _.values(
-            _.forIn(patientHash, (patient, patientId) => {
-
-                patient.osName = osutils.getNameById(patient.osId);
-                return patient;
-            })
-        )
 
         this.setState({
             patients: patients
@@ -98,7 +102,9 @@ export default class Patients extends React.Component {
                         className="btn btn-default"
                         onClick={this.searchPatients.bind(this)}
                         >
-                        <i className="fa fa-search"></i>Buscar
+                        <i className="fa fa-search"></i>
+                        Buscar
+                        { this.state.loading ? <i className="fa fa-spinner"></i> : null}
                     </button>
                 </form>
 
@@ -108,7 +114,7 @@ export default class Patients extends React.Component {
                     rowGetter={this.rowGetter.bind(this)}
                     rowsCount={this.state.patients.length}
                     width={900}
-                    height={5000}
+                    height={400}
                     headerHeight={50}
                     onRowClick={this.editPatient.bind(this)}
                     >
@@ -132,7 +138,7 @@ export default class Patients extends React.Component {
                         />
 
                     <Column
-                        label="Obra Social y Plan"
+                        label="Obra Social"
                         width={200}
                         dataKey={'osName'}
                         flexGrow={1}
