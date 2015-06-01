@@ -54,58 +54,62 @@ export default class Login extends React.Component {
 
     render() {
         return (
+            <div className="col-xs-12">
+                <div className="page-header">
+                    <h1>SAO <small>Sistema de Administracion Odontologico</small></h1>
+                </div>
+                <div className="col-xs-4">
+                    <div className="panel panel-default">
+                        <div className="panel-body">
+                            <form onSubmit={this.login.bind(this)}>
+                                <h1>Iniciar Sesion</h1>
 
-            <div className="col-xs-4">
-                <div className="panel panel-default">
-                    <div className="panel-body">
-                        <form onSubmit={this.login.bind(this)}>
-                            <h1>Iniciar Sesion</h1>
+                                <div className="form-group">
+                                    <label>Email address</label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        name="username"
+                                        placeholder="email"
+                                        required
+                                        valueLink={this.linkState('username')}
+                                        />
+                                </div>
+                                <div className="form-group">
+                                    <label>Email address</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        name="password"
+                                        placeholder="contraseña"
+                                        required
+                                        valueLink={this.linkState('password')}
+                                        />
+                                </div>
 
-                            <div className="form-group">
-                                <label>Email address</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    name="username"
-                                    placeholder="email"
-                                    required
-                                    valueLink={this.linkState('username')}
-                                    />
-                            </div>
-                            <div className="form-group">
-                                <label>Email address</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    name="password"
-                                    placeholder="contraseña"
-                                    required
-                                    valueLink={this.linkState('password')}
-                                    />
-                            </div>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    disabled={this.state.loading}
+                                    >
+                                    Iniciar Sesion
+                                </button>
 
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                disabled={this.state.loading}
-                                >
-                                Iniciar Sesion
-                            </button>
+                                <i className="fa fa-spinner" hidden={!this.state.loading}></i>
 
-                            <i className="fa fa-spinner" hidden={!this.state.loading}></i>
+                                <div
+                                    className="alert alert-danger"
+                                    role="alert"
+                                    hidden={!this.state.loginError}
+                                    >
+                                    Las credenciales ingresadas son incorrectas, por favor
+                                    volve a intentarlo
+                                </div>
 
-                            <div
-                                className="alert alert-danger"
-                                role="alert"
-                                hidden={!this.state.loginError}
-                                >
-                                Las credenciales ingresadas son incorrectas, por favor
-                                volve a intentarlo
-                            </div>
-
-                            {/*TODO: Replace this custom link with a Link element from the router*/}
-                            <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
-                        </form>
+                                {/*TODO: Replace this custom link with a Link element from the router*/}
+                                <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

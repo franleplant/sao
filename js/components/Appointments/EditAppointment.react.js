@@ -16,7 +16,7 @@ export default class EditAppointment extends React.Component {
     render() {
         return (
             <div>
-                <h1>Editar Turno!</h1>
+                <h1>Editar Turno</h1>
                 <AppointmentForm appointmentId={this.appointmentId} onDeleteCallback={this.onDeleteCallback.bind(this)}/>
             </div>
         );

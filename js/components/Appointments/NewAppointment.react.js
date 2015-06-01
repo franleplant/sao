@@ -17,7 +17,7 @@ export default class NewAppointment extends React.Component {
     render() {
         return (
             <div>
-                <h1>Nuevo Turno!</h1>
+                <h1>Nuevo Turno</h1>
                 <AppointmentForm
                     successCallback={this.successCallback.bind(this)}
                     time={this.time}
