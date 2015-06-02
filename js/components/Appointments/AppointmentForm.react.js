@@ -35,7 +35,9 @@ export default class AppointmentForm extends React.Component {
         var appointmentId = this.props.appointmentId;
         if (!appointmentId) return;
         appointmentActions.get(appointmentId)
-        //TODO: set loading state
+        this.setState({
+            loading: true
+        })
     }
 
     componentWillUnmount() {
@@ -49,6 +51,8 @@ export default class AppointmentForm extends React.Component {
             this.props.onDeleteCallback();
             return;
         }
+
+        newState.loading = false;
 
         this.setState(newState);
 
@@ -69,6 +73,9 @@ export default class AppointmentForm extends React.Component {
         }
 
         appointmentActions.remove(this.props.appointmentId)
+        this.setState({
+            loading: true
+        })
     }
 
     submit(event) {
@@ -88,6 +95,10 @@ export default class AppointmentForm extends React.Component {
             appointmentActions.update(this.props.appointmentId, appointment);
         }
 
+        this.setState({
+            loading: true
+        })
+
     }
 
     render() {
@@ -102,6 +113,7 @@ export default class AppointmentForm extends React.Component {
 
         return (
             <div>
+                { this.state.loading ? <i className="fa fa-spinner"></i> : null }
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <form onSubmit={this.submit.bind(this)}>
@@ -135,7 +147,13 @@ export default class AppointmentForm extends React.Component {
                                 <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
                             </div>
 
-                            <button type="submit" className="btn btn-primary">Aceptar</button>
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled={this.state.loading}
+                                >
+                                Aceptar
+                            </button>
                         </form>
                     </div>
                 </div>
