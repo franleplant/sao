@@ -1,10 +1,10 @@
 {
   "name": "sao",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Academic work about building applications from scratch",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/franleplant/sao.git"
+    "type": "git",
+    "url": "https://github.com/franleplant/sao.git"
   },
   "main": "js/app.js",
   "dependencies": {
