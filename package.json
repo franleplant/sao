@@ -2,6 +2,10 @@
   "name": "sao",
   "version": "0.0.2",
   "description": "Academic work about building applications from scratch",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/franleplant/sao.git"
+  },
   "main": "js/app.js",
   "dependencies": {
     "bluebird": "^2.9.25",
