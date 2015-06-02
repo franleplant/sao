@@ -4,18 +4,24 @@ import moment from 'moment';
 
 import SearchPatients from '../dumb/SearchPatients.react.js';
 import Audit from '../dumb/Audit.react.js';
-import appointmentResource from '../../appointmentResource.js';
 import timeSlots from '../../utils/appointmentTimeSlots.js';
 
+import appointmentStore from '../../stores/appointmentStore.js';
+import homeStore from '../../stores/homeStore.js';
+import appointmentActions from '../../actions/appointmentActions.js';
 
-// TODO: move data logic to a store
+
 export default class AppointmentForm extends React.Component {
     constructor(props) {
         super(props);
 
+        this._onChange = this._onChange.bind(this);
+
         this.state = {
             selectedTime: props.time || '09:00',
-            selectedDate: moment().format('YYYY-MM-DD'),
+            // Create the new appointment in the day which the user was navigating
+            // in the appointment grid :)
+            selectedDate: moment(homeStore.getState().date).format('YYYY-MM-DD'),
             selectedPatientId: '',
             // Not used for now
             selectedPatient: {}
@@ -23,32 +29,32 @@ export default class AppointmentForm extends React.Component {
     }
 
     componentDidMount() {
+        appointmentStore.onChange(this._onChange);
+
         // Only if we are editting
         var appointmentId = this.props.appointmentId;
         if (!appointmentId) return;
+        appointmentActions.get(appointmentId)
+        //TODO: set loading state
+    }
 
-        // Get the patient
-        appointmentResource
-            .getById(appointmentId)
-            .then((appointment) => {
-                // It already comes with the patient bound
+    componentWillUnmount() {
+        appointmentStore.removeChangeListener(this._onChange);
+    }
 
-                this.setState({
-                    selectedTime: appointment.selectedTime,
-                    selectedDate: appointment.selectedDate,
-                    selectedPatientId: appointment.selectedPatientId,
-                    //not used for now
-                    selectedPatient: appointment.selectedPatient,
-                    appointment: appointment,
-                    auditEdited: appointment.auditEdited || 'nunca',
-                    auditCreated: appointment.auditCreated
-                })
+    _onChange() {
+        var newState = appointmentStore.getState();
 
-            })
-            .catch((reason) => {
-                alert('El turno seleccionado no existe');
-                throw reason;
-            });
+        if (newState.meta.justRemoved) {
+            this.props.onDeleteCallback();
+            return;
+        }
+
+        this.setState(newState);
+
+        if (newState.meta.justCreated) {
+            this.props.successCallback(newState.appointmentId);
+        }
     }
 
     selectPatient(patientId) {
@@ -62,16 +68,7 @@ export default class AppointmentForm extends React.Component {
             return;
         }
 
-        appointmentResource
-            .remove(this.props.appointmentId)
-            .catch((error) => {
-                alert('Error al borrar turno');
-                throw error;
-            })
-            .then(() => {
-                alert('turno borrado con exito');
-                this.props.onDeleteCallback();
-            });
+        appointmentActions.remove(this.props.appointmentId)
     }
 
     submit(event) {
@@ -83,35 +80,12 @@ export default class AppointmentForm extends React.Component {
             selectedPatientId: this.state.selectedPatientId
         };
 
-
-        // If we are creating an appointment
         if (!this.props.appointmentId)  {
-
-            appointmentResource
-                .create(appointment)
-                .then((id, newAppointment) => {
-                    alert('El turno ha sido creado exitosamente!');
-                    this.props.successCallback(id);
-                })
-                .catch((reason) => {
-                    alert('Ha habido un problema al crear el turno, por favor volve a intentar');
-                    throw reason;
-                })
-
+            //Appointment Creation
+            appointmentActions.create(appointment);
         } else {
-            appointmentResource
-                .update(this.props.appointmentId, appointment)
-                .then((id) => {
-                    alert('El turno ha sido editado exitosamente')
-                    // Update the UI with the last edited date
-                    this.setState({
-                            auditEdited: appointment.auditEdited
-                        })
-                })
-                .catch((reason) => {
-                    alert('Ha habido un problema al editar el turno');
-                    throw reason;
-                })
+            //Appointment Edition
+            appointmentActions.update(this.props.appointmentId, appointment);
         }
 
     }
@@ -168,7 +142,7 @@ export default class AppointmentForm extends React.Component {
 
                 <Audit
                     show={this.props.appointmentId}
-                    edited={this.state.auditEdited}
+                    edited={this.state.auditEdited || 'nunca'}
                     created={this.state.auditCreated}
                     onDelete={this.deleteAppointment.bind(this)}
                     />

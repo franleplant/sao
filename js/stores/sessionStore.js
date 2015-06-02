@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import {LOGIN, LOGOUT, SIGNUP} from '../constants/actionTypes.js';
+import constants from '../constants/actionTypes.js';
 import dispatcher from '../dispatcher/AppDispatcher.js';
 
 var emitter = new EventEmitter();
@@ -24,13 +24,13 @@ class SessionStore {
         // Save the dispatch order
         this.dispatchToken = dispatcher.register((action) => {
             switch (action.type) {
-                case LOGIN:
+                case constants.LOGIN:
                     username = action.authData.password.email;
                     id = action.authData.uid.split(':')[1];
                     this.emitChange();
                     break;
 
-                case LOGOUT:
+                case constants.LOGOUT:
                     username = id = undefined;
                     try {
                         // Clean up the localstorage entry

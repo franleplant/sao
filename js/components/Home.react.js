@@ -3,16 +3,28 @@ import sessionStore from '../stores/sessionStore.js';
 import MiniCalendar from './dumb/MiniCalendar.react.js';
 import AppointmentGrid from './dumb/AppointmentGrid.react.js'
 import moment from 'moment';
+import homeStore from '../stores/homeStore.js';
+import homeActions from '../actions/homeActions.js';
 
 export default class Home extends React.Component {
-
     constructor(props, context) {
         super(props)
         this.context = context;
+        this._onChange = this._onChange.bind(this);
 
-        this.state = {
-            date: new Date()
-        }
+        this.state = homeStore.getState();
+    }
+
+    componentDidMount() {
+        homeStore.onChange(this._onChange);
+    }
+
+    componentWillUnmount() {
+        homeStore.removeChangeListener(this._onChange);
+    }
+
+    _onChange() {
+        this.setState(homeStore.getState());
     }
 
     newAppointment() {
@@ -31,9 +43,7 @@ export default class Home extends React.Component {
     }
 
     onDateChange(date) {
-        this.setState({
-            date: date
-        })
+        homeActions.selectDate(date);
     }
 
     render() {
@@ -51,7 +61,7 @@ export default class Home extends React.Component {
 
                 <div className="row">
                     <div className="col-xs-3">
-                        <MiniCalendar onChange={this.onDateChange.bind(this)}/>
+                        <MiniCalendar onChange={this.onDateChange.bind(this)} value={this.state.date}/>
                     </div>
                     <div className="col-xs-9">
                         <AppointmentGrid

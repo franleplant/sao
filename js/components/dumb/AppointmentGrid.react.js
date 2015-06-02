@@ -11,18 +11,14 @@ import appointmentListActions from '../../actions/appointmentListActions.js';
 export default class AppointmentGrid extends React.Component {
     constructor(props) {
         super(props);
+
+        this._onChange = this._onChange.bind(this);
+
         this.state = {
             loading: true
         }
 
         this.appointmentList = [];
-
-        appointmentListStore.onChange(() => {
-            this.appointmentList = appointmentListStore.getAppointmentList();
-            this.setState({
-                loading: false
-            })
-        })
     }
 
     componentDidMount() {
@@ -30,13 +26,27 @@ export default class AppointmentGrid extends React.Component {
         var node = React.findDOMNode(this);
         node.querySelectorAll('td')[60].scrollIntoView(true);
 
+        appointmentListStore.onChange(this._onChange);
+
         // Kickoff loading
         appointmentListActions.getDailyData(this.props.date);
+    }
+
+    componentWillUnmount() {
+        appointmentListStore.removeChangeListener(this._onChange);
+    }
+
+    _onChange() {
+        this.appointmentList = appointmentListStore.getAppointmentList();
+        this.setState({
+            loading: false
+        })
     }
 
     componentWillReceiveProps(newProps) {
         // Kickoff loading
         appointmentListActions.getDailyData(newProps.date);
+
         this.setState({
             loading: true
         });
@@ -80,9 +90,9 @@ export default class AppointmentGrid extends React.Component {
 
         var rows = timeSlots.map((time) => {
             return (
-                <tr key={time} ref={time}>
+                <tr key={time} ref={time} onClick={(event) => {this.onTimeSlotClick.call(this, event, time)}}>
                     <td>{time}</td>
-                    <td onClick={(event) => {this.onTimeSlotClick.call(this, event, time)}}>
+                    <td>
                         <p className="text-1-3x">
                         {
                             hash[time] && hash[time].map((index) => {

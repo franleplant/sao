@@ -28,7 +28,8 @@ export default class MiniCalendar extends React.Component {
         super(props)
 
         this.state = {
-            date: moment()
+            // keep the last selected date :)
+            date: moment(props.value)
         }
     }
 

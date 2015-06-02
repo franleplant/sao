@@ -47,6 +47,9 @@ class AppointmentListStore {
         return _appointmentList;
     }
 
+    removeChangeListener(callback) {
+        emitter.removeListener(CHANGE_EVENT, callback);
+    }
 }
 
 export default new AppointmentListStore();

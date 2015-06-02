@@ -6,6 +6,7 @@
   "dependencies": {
     "bluebird": "^2.9.25",
     "bootstrap": "^3.3.4",
+    "es6-symbol": "^2.0.1",
     "firebase": "^2.2.4",
     "fixed-data-table": "^0.1.2",
     "flux": "^2.0.0",
