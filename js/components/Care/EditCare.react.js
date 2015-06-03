@@ -1,11 +1,11 @@
 import React from 'react/addons';
-import AppointmentForm from './AppointmentForm.react.js';
+import CareForm from './CareForm.react.js';
 
-export default class EditAppointment extends React.Component {
+export default class EditCare extends React.Component {
     constructor(props, context) {
         super(props);
         this.context = context;
-        this.appointmentId = context.router.getCurrentParams().appointmentId;
+        this.careId = context.router.getCurrentParams().careId;
     }
 
     onDeleteCallback() {
@@ -13,7 +13,7 @@ export default class EditAppointment extends React.Component {
     }
 
     care() {
-        this.context.router.transitionTo('crearConsulta');
+        this.context.router.transitionTo('atender');
     }
 
     render() {
@@ -29,12 +29,12 @@ export default class EditAppointment extends React.Component {
                         Atender
                     </button>
                 </h1>
-                <AppointmentForm appointmentId={this.appointmentId} onDeleteCallback={this.onDeleteCallback.bind(this)}/>
+                <CareForm careId={this.careId} onDeleteCallback={this.onDeleteCallback.bind(this)}/>
             </div>
         );
     }
 }
 
-EditAppointment.contextTypes = {
+EditCare.contextTypes = {
     router: React.PropTypes.func
 }
