@@ -1,12 +1,11 @@
 import React from 'react/addons';
 import ReactMixin from 'react-mixin';
-import moment from 'moment';
 import Audit from '../dumb/Audit.react.js';
 import SearchPatients from '../dumb/SearchPatients.react.js';
 import CarePracticesForm from '../dumb/CarePracticesFrom.react.js';
 import Odontogram from '../dumb/Odontogram.react.js';
 
-//import careStore from '../../stores/careStore.js';
+import careStore from '../../stores/careStore.js';
 //import careActions from '../../actions/careActions.js';
 
 
@@ -17,9 +16,7 @@ export default class CareForm extends React.Component {
         // Pre bind
         this._onChange = this._onChange.bind(this);
 
-        this.state = {
-            selectedDate: moment().format('YYYY-MM-DD')
-        }
+        this.state = careStore.getState();
     }
 
     componentDidMount() {
@@ -74,6 +71,12 @@ export default class CareForm extends React.Component {
         })
     }
 
+    onCarePracticesChange(newCarePractices) {
+        this.setState({
+            carePractices: newCarePractices
+        });
+    }
+
     submit(event) {
         event.preventDefault();
 
@@ -116,12 +119,12 @@ export default class CareForm extends React.Component {
                                         valueLink={this.linkState('selectedDate')}
                                         />
                                 </div>
-
-                                <div className="form-group">
-                                    <label>Paciente</label>
-                                    <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
-                                </div>
                             </fieldset>
+
+                            <div className="form-group">
+                                <label>Paciente</label>
+                                <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
+                            </div>
 
 
                             <div className="panel panel-default">
@@ -134,8 +137,17 @@ export default class CareForm extends React.Component {
                             </div>
 
 
-                            <CarePracticesForm />
+                            <div className="panel panel-default">
+                              <div className="panel-heading">Practicas</div>
+                                <div className="panel-body">
 
+                                    <CarePracticesForm
+                                        value={this.state.carePractices}
+                                        onChange={this.onCarePracticesChange.bind(this)}
+                                        />
+
+                                </div>
+                            </div>
 
                             <div className="panel panel-default">
                               <div className="panel-heading">Multimedia</div>
