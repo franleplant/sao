@@ -1,17 +1,19 @@
 import React from 'react/addons';
 import patientResource from '../../patientResource.js';
 import patientActions from '../../actions/patientActions.js';
+import patientStore from '../../stores/patientStore.js';
 
 export default class SearchPatients extends React.Component {
     constructor(props) {
         super(props);
 
+        var patient = patientStore.getState()
+
         this.state = {
-            searchText: '',
-            searchResult: [],
-            selectedPatientId: '',
-            selectedPatientValue: '',
-            patient: {}
+            searchText: patient.name,
+            selectedPatientId: patient.patientId,
+            patient: patient,
+            searchResult: []
         }
     }
 
@@ -67,7 +69,7 @@ export default class SearchPatients extends React.Component {
         })
     }
 
-     componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
         if (!newProps.value) return;
 
 
@@ -80,6 +82,8 @@ export default class SearchPatients extends React.Component {
                     searchText: patient.name,
                     patient: patient
                 });
+                // Save the selected patient in the patient store
+                patientActions.set(patient.patientId, patient);
             })
 
 

@@ -10,6 +10,9 @@ import patientStore from '../../stores/patientStore.js';
 //import careActions from '../../actions/careActions.js';
 
 
+// TODO: (app wide)
+// - Add the data points for creating and deleting
+// - (we are almost there)
 export default class CareForm extends React.Component {
     constructor(props) {
         super(props);
@@ -78,16 +81,6 @@ export default class CareForm extends React.Component {
         //})
     }
 
-    //TODO: check if this is needed
-    //This functionality is superseeded by the patientStore
-    //but we might still need to do some refactor of the SearchPatients
-    //component in order to migrate to a full actions and stores approach
-    selectPatient(patientId) {
-        this.setState({
-            selectedPatientId: patientId
-        })
-    }
-
     onCarePracticesChange(newCarePractices) {
         this.setState({
             carePractices: newCarePractices
@@ -150,7 +143,7 @@ export default class CareForm extends React.Component {
 
                             <div className="form-group">
                                 <label>Paciente</label>
-                                <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
+                                <SearchPatients value={this.state.selectedPatientId}/>
                             </div>
 
 
