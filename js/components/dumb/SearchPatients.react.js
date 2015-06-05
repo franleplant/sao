@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import patientResource from '../../patientResource.js';
+import patientActions from '../../actions/patientActions.js';
 
 export default class SearchPatients extends React.Component {
     constructor(props) {
@@ -47,6 +48,9 @@ export default class SearchPatients extends React.Component {
             searchResult: [],
             patient: patient
         })
+
+        // Save the selected patient in the patient store
+        patientActions.set(patient.patientId, patient);
 
         // The following is for handling the outside,
         // run the onChange handler

@@ -19,3 +19,7 @@ export var appointment = {
 export var home = {
     SELECT_DATE: Symbol('home selected date')
 }
+
+export let patient = {
+    SET: Symbol('patient_set')
+}

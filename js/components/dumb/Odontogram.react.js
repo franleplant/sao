@@ -8,9 +8,8 @@ import {right, left, TOOTH_STATES} from '../../constants/odontogramConstants.js'
 // - Make the searchPatients component to use a PatientStore so we
 // can use the searched and selected patient accross the app, this
 // will enable to care an already selected patient comming for example
-// from an Appointment
-// - Make the odontogram to be loaded by default with that patients
-// odontogram
+// from an Appointment. This is partially done, we need to make the patientStore the
+// only interface to searchPatients component
 // - Add the data points for creating and deleting
 // - (we are almost there)
 export default class Odontogram extends React.Component {

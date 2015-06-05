@@ -6,6 +6,7 @@ import CarePracticesForm from '../dumb/CarePracticesFrom.react.js';
 import Odontogram from '../dumb/Odontogram.react.js';
 
 import careStore from '../../stores/careStore.js';
+import patientStore from '../../stores/patientStore.js';
 //import careActions from '../../actions/careActions.js';
 
 
@@ -15,12 +16,15 @@ export default class CareForm extends React.Component {
 
         // Pre bind
         this._onChange = this._onChange.bind(this);
+        this._onPatientChange = this._onPatientChange.bind(this);
 
         this.state = careStore.getState();
+        this.state.patient = patientStore.getState();
     }
 
     componentDidMount() {
         //careStore.onChange(this._onChange);
+        patientStore.onChange(this._onPatientChange);
 
         //// Only if we are editting
         //var careId = this.props.careId;
@@ -33,6 +37,15 @@ export default class CareForm extends React.Component {
 
     componentWillUnmount() {
         //careStore.removeChangeListener(this._onChange);
+        patientStore.removeChangeListener(this._onPatientChange);
+    }
+
+    _onPatientChange() {
+        var newPatient = patientStore.getState();
+
+        this.setState({
+            patient: newPatient
+        })
     }
 
     _onChange() {
@@ -65,6 +78,10 @@ export default class CareForm extends React.Component {
         //})
     }
 
+    //TODO: check if this is needed
+    //This functionality is superseeded by the patientStore
+    //but we might still need to do some refactor of the SearchPatients
+    //component in order to migrate to a full actions and stores approach
     selectPatient(patientId) {
         this.setState({
             selectedPatientId: patientId
@@ -77,9 +94,13 @@ export default class CareForm extends React.Component {
         });
     }
 
+
+
+
     onOdontogramChange(teethState) {
+        this.state.patient.odontogramTeethState = teethState;
         this.setState({
-            odontogramTeethState: teethState
+            patient: this.state.patient
         })
     }
 
@@ -138,7 +159,7 @@ export default class CareForm extends React.Component {
                                 <div className="panel-body">
 
                                     <Odontogram
-                                        teethState={this.state.odontogramTeethState}
+                                        teethState={this.state.patient.odontogramTeethState}
                                         onChange={this.onOdontogramChange.bind(this)}
                                         />
 
