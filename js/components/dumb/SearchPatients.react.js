@@ -53,7 +53,7 @@ export default class SearchPatients extends React.Component {
         var onChangeHandler = this.props.onChange;
         if (!onChangeHandler) return
 
-        onChangeHandler(patient.patientId);
+        onChangeHandler(patient.patientId, patient);
     }
 
     onInputChange(event) {

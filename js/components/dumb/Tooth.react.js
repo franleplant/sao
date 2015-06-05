@@ -8,11 +8,13 @@ export default class Tooth extends React.Component {
 
         this.activeZone = props.activeZone;
         this.toothNumber = props.toothNumber;
+        this.markedZones = props.markedZones;
     }
 
     componentWillReceiveProps(nextProps) {
         this.activeZone = nextProps.activeZone;
         this.toothNumber = nextProps.toothNumber;
+        this.markedZones = nextProps.markedZones;
     }
 
     onClick(zone, event) {
@@ -31,6 +33,20 @@ export default class Tooth extends React.Component {
         var right = `${L},${0} ${b+a},${b} ${b+a},${b+a} ${L},${L}`;
         var bottom = `${0},${L} ${b},${b+a} ${b+a},${b+a} ${L},${L}`;
 
+        let getClassNamesByZone = (zone) => {
+            let classNames = [];
+
+            if (this.activeZone === zone) {
+                classNames.push('active');
+            }
+
+            if (this.markedZones.indexOf(zone) !== -1) {
+                classNames.push('marked-zone');
+            }
+
+            return classNames.join(' ');
+        }
+
         return (
             <div style={{width: `${L}px`}} className="tooth-wrapper">
                 <span>{this.toothNumber}</span>
@@ -41,31 +57,31 @@ export default class Tooth extends React.Component {
                         width={a}
                         height={a}
                         onClick={this.onClick.bind(this, 'center')}
-                        className={this.activeZone === 'center' ? 'active' : null}
+                        className={getClassNamesByZone('center')}
                         />
 
                     <polygon
                         points={top}
                         onClick={this.onClick.bind(this, 'top')}
-                        className={this.activeZone === 'top' ? 'active' : null}
+                        className={getClassNamesByZone('top')}
                         />
 
                     <polygon
                         points={left}
                         onClick={this.onClick.bind(this, 'left')}
-                        className={this.activeZone === 'left' ? 'active' : null}
+                        className={getClassNamesByZone('left')}
                         />
 
                     <polygon
                         points={right}
                         onClick={this.onClick.bind(this, 'right')}
-                        className={this.activeZone === 'right' ? 'active' : null}
+                        className={getClassNamesByZone('right')}
                         />
 
                     <polygon
                         points={bottom}
                         onClick={this.onClick.bind(this, 'bottom')}
-                        className={this.activeZone === 'bottom' ? 'active' : null}
+                        className={getClassNamesByZone('bottom')}
                         />
 
                 </svg>
@@ -79,11 +95,13 @@ export default class Tooth extends React.Component {
 Tooth.propTypes = {
     activeZone: React.PropTypes.string,
     onClick: React.PropTypes.func,
-    toothNumber: React.PropTypes.number.isRequired
+    toothNumber: React.PropTypes.number.isRequired,
+    markedZones: React.PropTypes.array
 };
 
 // Default props
 Tooth.defaultProps = {
     activeZone: '',
-    onClick: function() {}
+    onClick: function() {},
+    markedZones: []
 };
