@@ -20,7 +20,25 @@ let _state = {
     },{
         practiceId: '01.03',
         notes: ''
-    }]
+    }],
+    odontogramTeethState: {
+                //toothNumber
+                18: {
+                    //zone: [StateId: bool, StateId: bool]
+                    'center': {
+                        3: true,
+                        4: true
+                    },
+                    'left': {
+                        1: true
+                    }
+                },
+                17: {
+                    'left': {
+                        1: true
+                    }
+                }
+            }
 };
 
 function onChange(fn) {

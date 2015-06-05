@@ -77,6 +77,12 @@ export default class CareForm extends React.Component {
         });
     }
 
+    onOdontogramChange(teethState) {
+        this.setState({
+            odontogramTeethState: teethState
+        })
+    }
+
     submit(event) {
         event.preventDefault();
 
@@ -131,7 +137,10 @@ export default class CareForm extends React.Component {
                                 <div className="panel-heading">Odontograma</div>
                                 <div className="panel-body">
 
-                                    <Odontogram />
+                                    <Odontogram
+                                        teethState={this.state.odontogramTeethState}
+                                        onChange={this.onOdontogramChange.bind(this)}
+                                        />
 
                                 </div>
                             </div>

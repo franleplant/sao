@@ -1,47 +1,35 @@
 import React from 'react/addons';
-import ReactMixin from 'react-mixin';
 import Tooth from './Tooth.react.js';
 
 import {right, left, TOOTH_STATES} from '../../constants/odontogramConstants.js';
 
 
-// TODO: make this component stateless :)
+// TODO: (app wide)
+// - Make the searchPatients component to use a PatientStore so we
+// can use the searched and selected patient accross the app, this
+// will enable to care an already selected patient comming for example
+// from an Appointment
+// - Make the odontogram to be loaded by default with that patients
+// odontogram
+// - Add the data points for creating and deleting
+// - (we are almost there)
 export default class Odontogram extends React.Component {
     constructor(props) {
         super(props);
 
+        this.teethState = props.teethState;
+
         this.state = {
-            activeToothNumber: 21,
-            activeToothZone: 'top',
-            teethState: {
-                //toothNumber
-                18: {
-                    //zone: [StateId: bool, StateId: bool]
-                    'center': {
-                        3: true,
-                        4: true
-                    },
-                    'left': {
-                        1: true
-                    }
-                },
-                17: {
-                    'left': {
-                        1: true
-                    }
-                }
-            }
+            activeToothNumber: left[0][0],
+            activeToothZone: 'top'
         }
     }
 
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
+    componentWillReceiveProps(nextProps) {
+        this.teethState = nextProps.teethState;
     }
 
     onToothZoneClick(toothNumber, toothZone) {
-
         this.setState({
             activeToothNumber: toothNumber,
             activeToothZone: toothZone
@@ -52,7 +40,7 @@ export default class Odontogram extends React.Component {
     onStateClick(stateId, event) {
         var toothNumber = this.state.activeToothNumber;
         var toothZone = this.state.activeToothZone;
-        var teethState = this.state.teethState;
+        var teethState = this.teethState;
 
         if (!teethState[toothNumber]) {
             teethState[toothNumber] = {}
@@ -63,26 +51,19 @@ export default class Odontogram extends React.Component {
         }
 
         teethState[toothNumber][toothZone][stateId] = !teethState[toothNumber][toothZone][stateId];
-        this.setState({
-            teethState: teethState
-        })
+
+        this.props.onChange(teethState)
     }
 
     isStateChecked(stateId) {
         try {
-        return this.state.teethState[this.state.activeToothNumber][this.state.activeToothZone][stateId]
+        return this.teethState[this.state.activeToothNumber][this.state.activeToothZone][stateId]
         } catch(e) {
             return false;
         }
     }
 
     render() {
-        //Se usa el mismo y se renueva cada 6 meses aprox
-        //
-        //
-
-
-
         var hasActiveZone = (toothNumber) => {
             if (this.state.activeToothNumber !== toothNumber) {
                 return ''
@@ -93,7 +74,17 @@ export default class Odontogram extends React.Component {
 
         var getToothZonesToMark = (toothNumber) => {
             try {
-                return Object.keys(this.state.teethState[toothNumber]);
+                var toothState = this.teethState[toothNumber];
+                var activeZones = Object.keys(toothState).filter((zone) => {
+                    var states = toothState[zone];
+                    var activeStates = Object.keys(states).filter((stateId) => {
+                        return !!states[stateId];
+                    });
+
+                    return !!activeStates.length
+                });
+
+                return activeZones
             } catch(e) {
                 return [];
             }
@@ -190,4 +181,14 @@ export default class Odontogram extends React.Component {
 }
 
 
-ReactMixin(Odontogram.prototype, React.addons.LinkedStateMixin);
+// Prop Types
+Odontogram.propTypes = {
+    teethState: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.isRequired
+};
+
+// Default props
+Odontogram.defaultProps = {
+    activeZone: {},
+    onChange: function() {}
+};
