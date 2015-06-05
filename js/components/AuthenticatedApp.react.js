@@ -53,9 +53,9 @@ export default class AuthenticatedApp extends React.Component {
 
                             <ul className="nav navbar-nav">
                                 <li><Link to="home">Home</Link></li>
-                                <li><Link to="login">Login</Link></li>
-                                <li><Link to="registrarse">Signup</Link></li>
                                 <li><Link to="pacientes">Pacientes</Link></li>
+                                <li><Link to="crearConsulta">Atender</Link></li>
+                                <li><Link to="login">Login</Link></li>
                                 <li><Link to="registrarse">Signup</Link></li>
                             </ul>
 

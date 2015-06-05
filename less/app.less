@@ -1,5 +1,3 @@
-/*@import "../node_modules/material-ui/src/less/scaffolding.less";*/
-/*@import "../node_modules/material-ui/src/less/components.less";*/
 @import (inline) "../node_modules/fixed-data-table/dist/fixed-data-table.css";
 @import "../node_modules/bootstrap/less/bootstrap.less";
 
@@ -62,3 +60,44 @@
 .text-1-3x {
   font-size: 1.3em;
 }
+
+
+svg.tooth {
+  * {
+    cursor: pointer;
+    fill: white;
+  }
+
+  *:hover {
+    fill: @gray-lighter;
+  }
+
+  .active {
+    fill: @gray-light;
+  }
+
+  polygon {
+    stroke: black;
+    stroke-width: 1;
+  }
+}
+
+.tooth-wrapper {
+  margin: 0 2px;
+}
+
+.flex-container-justify {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex-container-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex-container-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
