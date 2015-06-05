@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../dispatcher/AppDispatcher.js';
 import moment from 'moment';
+import copy from 'deepcopy';
 //import { care as constants } from '../constants/actionTypes.js';
 
 const CHANGE_EVENT = 'change';
@@ -50,7 +51,7 @@ function removeChangeListener(callback) {
 }
 
 function getState() {
-    return _state;
+    return copy(_state);
 }
 
 

@@ -125,26 +125,15 @@ export default class CarePracticesForm extends React.Component {
 
 // Prop Types
 CarePracticesForm.propTypes = {
-    value: React.PropTypes.array.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    onChange: React.PropTypes.func.isRequired,
+    value: React.PropTypes.array.isRequired
 };
 
 // Default props
 CarePracticesForm.defaultProps = {
-    value: [],
-    onChage: function() {}
+    onChage: function() {},
+    value: [{
+            practiceId: '01.01',
+            notes: 'Se realizo tal y tal cosa en pieza 21'
+        }]
 };
-
-/// Perhaps a good default Value could be this:
- //this.state = {
-            //carePractices: [{
-                //practiceId: '01.01',
-                //notes: 'Se realizo tal y tal cosa en pieza 21'
-            //},{
-                //practiceId: '01.02',
-                //notes: 'Se realizo tal y tal cosa en pieza 21'
-            //},{
-                //practiceId: '02.01',
-                //notes: 'Se realizo tal y tal cosa en pieza 21'
-            //}]
-        //}
