@@ -8,7 +8,9 @@ import timeSlots from '../../utils/appointmentTimeSlots.js';
 
 import appointmentStore from '../../stores/appointmentStore.js';
 import homeStore from '../../stores/homeStore.js';
+import patientStore from '../../stores/patientStore.js';
 import appointmentActions from '../../actions/appointmentActions.js';
+import patientActions from '../../actions/patientActions.js';
 
 
 export default class AppointmentForm extends React.Component {
@@ -16,6 +18,7 @@ export default class AppointmentForm extends React.Component {
         super(props);
 
         this._onChange = this._onChange.bind(this);
+        this._onPatientChange = this._onPatientChange.bind(this);
 
         this.state = {
             selectedTime: props.time || '09:00',
@@ -30,6 +33,7 @@ export default class AppointmentForm extends React.Component {
 
     componentDidMount() {
         appointmentStore.onChange(this._onChange);
+        patientStore.onChange(this._onPatientChange);
 
         // Only if we are editting
         var appointmentId = this.props.appointmentId;
@@ -42,6 +46,7 @@ export default class AppointmentForm extends React.Component {
 
     componentWillUnmount() {
         appointmentStore.removeChangeListener(this._onChange);
+        patientStore.removeChangeListener(this._onPatientChange);
     }
 
     _onChange() {
@@ -56,14 +61,17 @@ export default class AppointmentForm extends React.Component {
 
         this.setState(newState);
 
+        patientActions.get(newState.selectedPatientId)
+
         if (newState.meta.justCreated) {
             this.props.successCallback(newState.appointmentId);
         }
     }
 
-    selectPatient(patientId) {
+    _onPatientChange() {
+        var patient = patientStore.getState();
         this.setState({
-            selectedPatientId: patientId
+            selectedPatient: patient
         })
     }
 
@@ -84,7 +92,7 @@ export default class AppointmentForm extends React.Component {
         var appointment = {
             selectedTime: this.state.selectedTime,
             selectedDate: this.state.selectedDate,
-            selectedPatientId: this.state.selectedPatientId
+            selectedPatientId: this.state.selectedPatient.patientId
         };
 
         if (!this.props.appointmentId)  {
@@ -144,7 +152,7 @@ export default class AppointmentForm extends React.Component {
 
                             <div className="form-group">
                                 <label>Paciente</label>
-                                <SearchPatients value={this.state.selectedPatientId} onChange={this.selectPatient.bind(this)}/>
+                                <SearchPatients/>
                             </div>
 
                             <button

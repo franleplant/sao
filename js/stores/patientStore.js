@@ -31,7 +31,7 @@ function removeChangeListener(callback) {
  *
  */
 function getState() {
-    //Return a copy of the state to avoid unwanted modification, 
+    //Return a copy of the state to avoid unwanted modification,
     //
     // remeber that javascript only passes object as references trough
     // functions
@@ -60,6 +60,7 @@ patientStore.dispatchToken = dispatcher.register((payload) => {
                 meta: {},
                 odontogramTeethState: {}
             };
+            emitter.emit(CHANGE_EVENT);
             break;
         default:
             break;

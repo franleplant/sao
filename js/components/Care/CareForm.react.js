@@ -143,7 +143,7 @@ export default class CareForm extends React.Component {
 
                             <div className="form-group">
                                 <label>Paciente</label>
-                                <SearchPatients value={this.state.selectedPatientId}/>
+                                <SearchPatients/>
                             </div>
 
 

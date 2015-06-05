@@ -8,6 +8,7 @@ export default class SearchPatients extends React.Component {
         super(props);
 
         var patient = patientStore.getState()
+        this._onChange = this._onChange.bind(this);
 
         this.state = {
             searchText: patient.name,
@@ -16,6 +17,30 @@ export default class SearchPatients extends React.Component {
             searchResult: []
         }
     }
+
+    componentDidMount() {
+        patientStore.onChange(this._onChange);
+    }
+
+    componentWillUnmount() {
+        patientStore.removeChangeListener(this._onChange);
+    }
+
+    _onChange() {
+        var patient = patientStore.getState()
+        if (patient.patientId === this.state.patient.patientId) {
+            return;
+        }
+
+        this.state = {
+            searchText: patient.name,
+            selectedPatientId: patient.patientId,
+            patient: patient,
+            searchResult: []
+        }
+
+    }
+
 
     onKeyHandler(event) {
         if (event.key === 'Enter') {
@@ -68,26 +93,6 @@ export default class SearchPatients extends React.Component {
             searchText: event.target.value
         })
     }
-
-    componentWillReceiveProps(newProps) {
-        if (!newProps.value) return;
-
-
-        patientResource
-            .getById(newProps.value)
-            .catch(console.log.bind(console))
-            .then((patient) => {
-                this.setState({
-                    selectedPatientId: newProps.value,
-                    searchText: patient.name,
-                    patient: patient
-                });
-                // Save the selected patient in the patient store
-                patientActions.set(patient.patientId, patient);
-            })
-
-
-     }
 
     render() {
         var resultList = this.state.searchResult
