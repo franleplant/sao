@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import AppointmentForm from './AppointmentForm.react.js';
+import patientActions from '../../actions/patientActions.js';
 
 
 
@@ -8,6 +9,9 @@ export default class NewAppointment extends React.Component {
         super(props);
         this.context = context;
         this.time = context.router.getCurrentParams().time;
+
+        // Clean up the selected patient
+        patientActions.clean();
     }
 
     successCallback(appointmentId) {

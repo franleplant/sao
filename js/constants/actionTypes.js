@@ -21,5 +21,6 @@ export var home = {
 }
 
 export let patient = {
-    SET: Symbol('patient_set')
+    SET: Symbol('patient_set'),
+    CLEAN: Symbol('patient_clean')
 }

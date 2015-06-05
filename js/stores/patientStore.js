@@ -55,6 +55,12 @@ patientStore.dispatchToken = dispatcher.register((payload) => {
             persistData(payload.data)
             break;
 
+        case constants.CLEAN:
+            _state = {
+                meta: {},
+                odontogramTeethState: {}
+            };
+            break;
         default:
             break;
     }

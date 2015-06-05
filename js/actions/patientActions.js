@@ -10,4 +10,14 @@ function set(patientId, patient) {
     });
 }
 
-export default { set };
+/**
+ * @description
+ * Clean the selected patient inside the store
+ */
+function clean() {
+    dispatcher.dispatch({
+        actionType: constants.CLEAN
+    });
+}
+
+export default { set, clean };
