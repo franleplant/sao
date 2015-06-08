@@ -43,7 +43,28 @@ export default class Odontogram extends React.Component {
 
         teethState[toothNumber][toothZone][stateId] = !teethState[toothNumber][toothZone][stateId];
 
-        this.props.onChange(teethState)
+        this.props.onChange(teethState);
+    }
+
+
+    // The toothNumber is taken as a parameter
+    // instead of using the activeToothNumber to
+    // enable better usability
+    //
+    //
+    // The main purpouse of this is to mark
+    // missing teeth
+    onToothClick(toothNumber, event) {
+        let teethState = this.teethState;
+        let isMissing = 'isMissing';
+
+        if (!teethState[toothNumber]) {
+            teethState[toothNumber] = {}
+        }
+
+        teethState[toothNumber][isMissing] = !teethState[toothNumber][isMissing];
+
+        this.props.onChange(teethState);
     }
 
     isStateChecked(stateId) {
@@ -89,7 +110,9 @@ export default class Odontogram extends React.Component {
                         toothNumber={toothNumber}
                         activeZone={hasActiveZone(toothNumber)}
                         markedZones={getToothZonesToMark(toothNumber)}
+                        isMissing={this.teethState[toothNumber] && this.teethState[toothNumber].isMissing}
                         onClick={this.onToothZoneClick.bind(this, toothNumber)}
+                        onToothClick={this.onToothClick.bind(this, toothNumber)}
                         />
                 )
             })
@@ -175,7 +198,7 @@ export default class Odontogram extends React.Component {
 // Prop Types
 Odontogram.propTypes = {
     teethState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.isRequired
+    onChange: React.PropTypes.func.isRequired
 };
 
 // Default props

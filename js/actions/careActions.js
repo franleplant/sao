@@ -59,12 +59,13 @@ function update(careId, care, odontogramData) {
                 data: {
                     careId: id,
                     care: care,
-                    odontogramData: odontogramData,
                     meta: {
                         justUpdated: true
                     }
                 }
             });
+
+            patientActions.set(care.selectedPatientId, {odontogramData: odontogramData})
         })
 }
 

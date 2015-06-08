@@ -10,9 +10,6 @@ import patientStore from '../../stores/patientStore.js';
 import careActions from '../../actions/careActions.js';
 
 
-// TODO: (app wide)
-// - Add the data points for creating and deleting
-// - (we are almost there)
 export default class CareForm extends React.Component {
     constructor(props) {
         super(props);
@@ -144,7 +141,7 @@ export default class CareForm extends React.Component {
             selectedDate: this.state.care.selectedDate,
             selectedPatientId: this.state.care.selectedPatient.patientId,
             carePractices: this.state.care.carePractices,
-            files: this.state.care.files
+            files: this.state.care.files || []
         }
 
         var odontogramData = this.state.care.selectedPatient.odontogramData;
