@@ -54,13 +54,15 @@ export default class CareForm extends React.Component {
     _onChange() {
         var newState = careStore.getState();
 
+        if (newState.meta.justRemoved) {
+            this.props.onDeleteCallback();
+            return;
+        }
+
+
         // As patient and care come from different stores, we
         // need to attacht it again
         newState.care.selectedPatient = patientStore.getState();
-        //if (newState.meta.justRemoved) {
-            //this.props.onDeleteCallback();
-            //return;
-        //}
 
         newState.loading = false;
 
@@ -73,15 +75,15 @@ export default class CareForm extends React.Component {
 
 
     deleteCare() {
-        //if (!confirm('Esta seguro que desea borrar el turno? Esta accion es irreversible.')) {
-            //return;
-        //}
+        if (!confirm('Esta seguro que desea borrar la consulta? Esta accion es irreversible.')) {
+            return;
+        }
 
-        //careActions.remove(this.props.careId)
+        careActions.remove(this.props.careId)
 
-        //this.setState({
-            //loading: true
-        //})
+        this.setState({
+            loading: true
+        })
     }
 
     onCarePracticesChange(newCarePractices) {

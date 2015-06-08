@@ -111,18 +111,18 @@ function update(careId, care, odontogramData) {
 
 
 function remove(careId) {
-    //return new Promise((resolve, reject) => {
-        //getRef()
-            //.child(careId)
-            //.remove((error) => {
-                //if (error) {
-                    //reject(error);
-                    //return;
-                //}
+    return new Promise((resolve, reject) => {
+        getRef()
+            .child(careId)
+            .remove((error) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
 
-                //resolve()
-            //});
-    //});
+                resolve()
+            });
+    });
 }
 
 export default {getRef, getById, create, update, remove};

@@ -7,7 +7,7 @@ import { care as constants } from '../constants/actionTypes.js';
 const CHANGE_EVENT = 'change';
 const emitter = new EventEmitter();
 
-let _state = {
+let _default_state = {
     meta: {},
     care: {
         selectedDate: moment().format('YYYY-MM-DD'),
@@ -16,6 +16,8 @@ let _state = {
     },
     careId: null
 };
+
+let _state = copy(_default_state);
 
 function onChange(fn) {
     emitter.on(CHANGE_EVENT, fn);
@@ -55,15 +57,14 @@ careStore.dispatchToken = dispatcher.register((payload) => {
             _state.meta = {};
             persistData(payload.data)
             break;
-        //case constants.REMOVE:
-            //_state = {
-                //meta: {
-                    //justRemoved: true
-                //}
-            //}
+        case constants.REMOVE:
+            _state = copy(_default_state);
+            _state.meta = {
+                    justRemoved: true
+                }
 
-            //emitter.emit(CHANGE_EVENT);
-            //break;
+            emitter.emit(CHANGE_EVENT);
+            break;
 
         default:
             break;

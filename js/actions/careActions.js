@@ -68,20 +68,22 @@ function update(careId, care, odontogramData) {
         })
 }
 
-function remove(appointmentId) {
-    //appointmentResource
-        //.remove(appointmentId)
-        //.catch((error) => {
-            //alert('Error al borrar turno');
-            //throw error;
-        //})
-        //.then(() => {
-            //alert('turno borrado con exito');
+function remove(careId) {
+    careResource
+        .remove(careId)
+        .catch((error) => {
+            alert('Error al borrar consulta');
+            throw error;
+        })
+        .then(() => {
+            alert('Consulta borrada con exito');
 
-            //dispatcher.dispatch({
-                //actionType: constants.REMOVE
-            //});
-        //});
+            dispatcher.dispatch({
+                actionType: constants.REMOVE
+            });
+
+            patientActions.clean();
+        });
 }
 
 export default { get, create, update, remove};

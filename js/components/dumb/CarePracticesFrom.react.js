@@ -85,6 +85,8 @@ export default class CarePracticesForm extends React.Component {
                                                 value={carePractice.notes}
                                                 onChange={this.onCarePracticeNoteChange.bind(this, index)}
                                                 placeholder="Notas"
+                                                name="care_practice_name"
+                                                required
                                                 />
 
                                         </td>
