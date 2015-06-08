@@ -181,5 +181,6 @@ Odontogram.propTypes = {
 // Default props
 Odontogram.defaultProps = {
     activeZone: {},
-    onChange: function() {}
+    onChange: function() {},
+    teethState: {}
 };

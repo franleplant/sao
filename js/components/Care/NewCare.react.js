@@ -7,15 +7,16 @@ export default class NewCare extends React.Component {
         this.context = context;
     }
 
-    //successCallback(careId) {
-        //this.context.router.transitionTo('editarTurno', {careId: careId});
-    //}
+    successCallback(careId) {
+        this.context.router.transitionTo('editarConsulta', {careId: careId});
+    }
 
     render() {
         return (
             <div>
-                <h1>Nuevo Turno</h1>
+                <h1>Registrar Consulta</h1>
                 <CareForm
+                    successCallback={this.successCallback.bind(this)}
                     />
             </div>
         );

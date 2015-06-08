@@ -2,44 +2,19 @@ import { EventEmitter } from 'events';
 import dispatcher from '../dispatcher/AppDispatcher.js';
 import moment from 'moment';
 import copy from 'deepcopy';
-//import { care as constants } from '../constants/actionTypes.js';
+import { care as constants } from '../constants/actionTypes.js';
 
 const CHANGE_EVENT = 'change';
 const emitter = new EventEmitter();
 
 let _state = {
     meta: {},
-
-    // Some initial state
-    selectedDate: moment().format('YYYY-MM-DD'),
-    carePractices: [{
-        practiceId: '01.01',
-        notes: ''
-    },{
-        practiceId: '01.02',
-        notes: ''
-    },{
-        practiceId: '01.03',
-        notes: ''
-    }],
-    odontogramTeethState: {
-                //toothNumber
-                18: {
-                    //zone: [StateId: bool, StateId: bool]
-                    'center': {
-                        3: true,
-                        4: true
-                    },
-                    'left': {
-                        1: true
-                    }
-                },
-                17: {
-                    'left': {
-                        1: true
-                    }
-                }
-            }
+    care: {
+        selectedDate: moment().format('YYYY-MM-DD'),
+        files: [],
+        selectedPatient: {}
+    },
+    careId: null
 };
 
 function onChange(fn) {
@@ -67,28 +42,19 @@ function persistData(care) {
 // Main dispatcher
 careStore.dispatchToken = dispatcher.register((payload) => {
 
-    //switch (payload.actionType) {
-        //case constants.GET:
-            //payload.data.meta = {}
-
-            //persistData(payload.data)
-            //break;
-        //case constants.CREATE:
-
-            //payload.data.meta = {
-                //justCreated: true
-            //};
-
-            //persistData(payload.data)
-            //break;
-        //case constants.UPDATE:
-            //payload.data.meta = {
-                //justUpdated: true
-            //};
-
-
-            //persistData(payload.data)
-            //break;
+    switch (payload.actionType) {
+        case constants.GET:
+            _state.meta = {};
+            persistData(payload.data)
+            break;
+        case constants.CREATE:
+            _state.meta = {};
+            persistData(payload.data)
+            break;
+        case constants.UPDATE:
+            _state.meta = {};
+            persistData(payload.data)
+            break;
         //case constants.REMOVE:
             //_state = {
                 //meta: {
@@ -99,9 +65,9 @@ careStore.dispatchToken = dispatcher.register((payload) => {
             //emitter.emit(CHANGE_EVENT);
             //break;
 
-        //default:
-            //break;
-    //}
+        default:
+            break;
+    }
 });
 
 

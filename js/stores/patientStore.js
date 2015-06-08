@@ -9,7 +9,7 @@ const emitter = new EventEmitter();
 
 let _state = {
     meta: {},
-    odontogramTeethState: {}
+    odontogramData: {}
 };
 
 function onChange(fn) {

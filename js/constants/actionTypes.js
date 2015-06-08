@@ -22,5 +22,17 @@ export var home = {
 
 export let patient = {
     SET: Symbol('patient_set'),
-    CLEAN: Symbol('patient_clean')
+    CLEAN: Symbol('patient_clean'),
+    CREATE: Symbol('patient_create'),
+    UPDATE: Symbol('patient_update'),
+    REMOVE: Symbol('patient_remove')
+}
+
+
+
+export let care = {
+    GET: Symbol('care_get'),
+    CREATE: Symbol('care_create'),
+    UPDATE: Symbol('care_update'),
+    REMOVE: Symbol('care_remove')
 }

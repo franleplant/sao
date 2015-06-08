@@ -134,6 +134,6 @@ CarePracticesForm.defaultProps = {
     onChage: function() {},
     value: [{
             practiceId: '01.01',
-            notes: 'Se realizo tal y tal cosa en pieza 21'
+            notes: ''
         }]
 };

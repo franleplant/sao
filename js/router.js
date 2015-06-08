@@ -17,7 +17,9 @@ import PatientNew from './components/Patients/NewPatient.react';
 import AppointmentNew from './components/Appointments/NewAppointment.react.js';
 import AppointmentEdit from './components/Appointments/EditAppointment.react.js';
 
+// Care Module
 import NewCare from './components/Care/NewCare.react.js';
+import EditCare from './components/Care/EditCare.react.js';
 
 
 
@@ -42,6 +44,7 @@ var routes = (
 
         {/* Care Module  */}
         <Route name="crearConsulta" path="consultas/nueva" handler={NewCare}/>
+        <Route name="editarConsulta" path="consultas/editar/:careId" handler={EditCare}/>
     </Route>
   </Route>
 );

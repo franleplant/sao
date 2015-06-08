@@ -11,7 +11,7 @@ export default class AuthenticatedApp extends React.Component {
         // This method is called before transitioning to this component. If the user is not logged in, we’ll send him or her to the Login page.
         // ENABLE THIS TO ADD AUTHORIZATION
         if (!sessionStore.isLoggedIn()) {
-            //transition.redirect('/login');
+            transition.redirect('/login');
         }
     }
 
