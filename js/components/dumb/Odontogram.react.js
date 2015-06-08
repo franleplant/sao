@@ -119,7 +119,7 @@ export default class Odontogram extends React.Component {
         }
 
         return (
-                <div className="row">
+                <div className="row odontogram">
                     <div className="col-xs-6">
                         <div className="row">
                             {
@@ -154,7 +154,7 @@ export default class Odontogram extends React.Component {
                     <div className="col-xs-12">
                         <div className="panel panel-default" style={{marginBottom: '0px', marginTop: '20px'}}>
                             <div className="panel-body">
-                                <div className="row">
+                                <div className="row teethState">
                                     {
                                         [0,1,2,3].map((index) => {
                                             let lowerIndex =  0 + index * 5;

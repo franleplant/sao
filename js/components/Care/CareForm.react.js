@@ -105,6 +105,12 @@ export default class CareForm extends React.Component {
         })
     }
 
+    onNotesChange(event) {
+        this.state.care.notes = event.target.value;
+        this.setState({
+            care: this.state.care
+        })
+    }
 
     onFileChange(event) {
         var self = this;
@@ -141,7 +147,8 @@ export default class CareForm extends React.Component {
             selectedDate: this.state.care.selectedDate,
             selectedPatientId: this.state.care.selectedPatient.patientId,
             carePractices: this.state.care.carePractices,
-            files: this.state.care.files || []
+            files: this.state.care.files || [],
+            notes: this.state.care.notes
         }
 
         var odontogramData = this.state.care.selectedPatient.odontogramData;
@@ -175,6 +182,7 @@ export default class CareForm extends React.Component {
                                     <input
                                         type="date"
                                         className="form-control"
+                                        name="date"
                                         required
                                         value={this.state.care.selectedDate}
                                         onChange={this.onSelectedDateChange.bind(this)}
@@ -254,6 +262,19 @@ export default class CareForm extends React.Component {
                                         }
                                     </div>
                                 </div>
+                            </div>
+
+
+                            <div className="form-group">
+                                <label>Notas</label>
+                                <textarea
+                                    className="form-control"
+                                    value={this.state.care.notes}
+                                    onChange={this.onNotesChange.bind(this)}
+                                    name="notes"
+                                    rows="3"
+                                    >
+                                </textarea>
                             </div>
 
                             <button

@@ -137,14 +137,14 @@ export default class SearchPatients extends React.Component {
 
 
         return (
-            <div className="row" onKeyDown={this.onKeyHandler.bind(this)}>
+            <div className="row search-patients-component" onKeyDown={this.onKeyHandler.bind(this)}>
                 <div className="form-group col-xs-6">
                     <input
                         required
                         type="text"
                         className="form-control"
                         placeholder="Ingresa nombre, appellido o dni"
-                        name="searchInput"
+                        name="patient"
                         ref="searchInput"
                         autoComplete="off"
                         onChange={this.onInputChange.bind(this)}
@@ -158,6 +158,7 @@ export default class SearchPatients extends React.Component {
                     <button
                         type="button"
                         className="btn btn-default"
+                        name="search-patient-button"
                         onClick={this.search.bind(this)}
                         >
                         Buscar

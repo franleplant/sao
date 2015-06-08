@@ -58,7 +58,7 @@ export default class CarePracticesForm extends React.Component {
 
     render() {
         return (
-            <fieldset>
+            <fieldset className="care-practices">
                 <table className="table">
                     <thead>
                         <tr>

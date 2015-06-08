@@ -12,7 +12,8 @@ let _default_state = {
     care: {
         selectedDate: moment().format('YYYY-MM-DD'),
         files: [],
-        selectedPatient: {}
+        selectedPatient: {},
+        notes: ''
     },
     careId: null
 };
