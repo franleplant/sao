@@ -12,23 +12,11 @@ export default class EditCare extends React.Component {
         this.context.router.transitionTo('home');
     }
 
-    care() {
-        this.context.router.transitionTo('atender');
-    }
 
     render() {
         return (
             <div>
-                <h1>
-                    Editar Turno
-                    <button
-                        className="btn btn-primary pull-right"
-                        type="button"
-                        onClick={this.care.bind(this)}
-                        >
-                        Atender
-                    </button>
-                </h1>
+                <h1> Editar Consulta </h1>
                 <CareForm careId={this.careId} onDeleteCallback={this.onDeleteCallback.bind(this)}/>
             </div>
         );

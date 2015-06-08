@@ -1,45 +1,23 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../dispatcher/AppDispatcher.js';
 import moment from 'moment';
-//import { care as constants } from '../constants/actionTypes.js';
+import copy from 'deepcopy';
+import { care as constants } from '../constants/actionTypes.js';
 
 const CHANGE_EVENT = 'change';
 const emitter = new EventEmitter();
 
-let _state = {
+let _default_state = {
     meta: {},
-
-    // Some initial state
-    selectedDate: moment().format('YYYY-MM-DD'),
-    carePractices: [{
-        practiceId: '01.01',
-        notes: ''
-    },{
-        practiceId: '01.02',
-        notes: ''
-    },{
-        practiceId: '01.03',
-        notes: ''
-    }],
-    odontogramTeethState: {
-                //toothNumber
-                18: {
-                    //zone: [StateId: bool, StateId: bool]
-                    'center': {
-                        3: true,
-                        4: true
-                    },
-                    'left': {
-                        1: true
-                    }
-                },
-                17: {
-                    'left': {
-                        1: true
-                    }
-                }
-            }
+    care: {
+        selectedDate: moment().format('YYYY-MM-DD'),
+        files: [],
+        selectedPatient: {}
+    },
+    careId: null
 };
+
+let _state = copy(_default_state);
 
 function onChange(fn) {
     emitter.on(CHANGE_EVENT, fn);
@@ -50,7 +28,7 @@ function removeChangeListener(callback) {
 }
 
 function getState() {
-    return _state;
+    return copy(_state);
 }
 
 
@@ -66,41 +44,31 @@ function persistData(care) {
 // Main dispatcher
 careStore.dispatchToken = dispatcher.register((payload) => {
 
-    //switch (payload.actionType) {
-        //case constants.GET:
-            //payload.data.meta = {}
+    switch (payload.actionType) {
+        case constants.GET:
+            _state.meta = {};
+            persistData(payload.data)
+            break;
+        case constants.CREATE:
+            _state.meta = {};
+            persistData(payload.data)
+            break;
+        case constants.UPDATE:
+            _state.meta = {};
+            persistData(payload.data)
+            break;
+        case constants.REMOVE:
+            _state = copy(_default_state);
+            _state.meta = {
+                    justRemoved: true
+                }
 
-            //persistData(payload.data)
-            //break;
-        //case constants.CREATE:
+            emitter.emit(CHANGE_EVENT);
+            break;
 
-            //payload.data.meta = {
-                //justCreated: true
-            //};
-
-            //persistData(payload.data)
-            //break;
-        //case constants.UPDATE:
-            //payload.data.meta = {
-                //justUpdated: true
-            //};
-
-
-            //persistData(payload.data)
-            //break;
-        //case constants.REMOVE:
-            //_state = {
-                //meta: {
-                    //justRemoved: true
-                //}
-            //}
-
-            //emitter.emit(CHANGE_EVENT);
-            //break;
-
-        //default:
-            //break;
-    //}
+        default:
+            break;
+    }
 });
 
 

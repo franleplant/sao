@@ -1,19 +1,6 @@
 @import (inline) "../node_modules/fixed-data-table/dist/fixed-data-table.css";
 @import "../node_modules/bootstrap/less/bootstrap.less";
 
-/*.osForm input::-webkit-input-placeholder {*/
-  /*color: black !important;*/
-/*}*/
-/*.osForm input::-moz-placeholder {*/
-  /*color: black !important;*/
-/*}*/
-/*.osForm input:-moz-placeholder {   [> Older versions of Firefox <]*/
-  /*color: black !important;*/
-/*}*/
-/*.osForm input:-ms-input-placeholder {*/
-  /*color: black !important;*/
-/*}*/
-
 .cursor-pointer {
   cursor:pointer;
 }
@@ -89,6 +76,7 @@ svg.tooth {
 
 .tooth-wrapper {
   margin: 0 2px;
+  position: relative;
 }
 
 .flex-container-justify {
@@ -106,3 +94,14 @@ svg.tooth {
   justify-content: flex-start;
 }
 
+
+.no-tooth {
+  font-size: 5.8em;
+  position: absolute;
+  color: red;
+  left: -3px;
+  top: 7px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}

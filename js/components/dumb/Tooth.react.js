@@ -34,6 +34,9 @@ export default class Tooth extends React.Component {
         var bottom = `${0},${L} ${b},${b+a} ${b+a},${b+a} ${L},${L}`;
 
         let getClassNamesByZone = (zone) => {
+            if (this.props.isMissing) {
+                return [];
+            }
             let classNames = [];
 
             if (this.activeZone === zone) {
@@ -49,7 +52,13 @@ export default class Tooth extends React.Component {
 
         return (
             <div style={{width: `${L}px`}} className="tooth-wrapper">
-                <span>{this.toothNumber}</span>
+                { this.props.isMissing ? <i className="fa fa-times no-tooth" onClick={this.props.onToothClick}></i> : null}
+                <span
+                    style={{display: 'block', cursor: 'pointer'}}
+                    onClick={this.props.onToothClick}
+                    >
+                    {this.toothNumber}
+                </span>
                 <svg width={L} height={L} className="tooth">
                     <rect
                         x={b}
@@ -95,6 +104,7 @@ export default class Tooth extends React.Component {
 Tooth.propTypes = {
     activeZone: React.PropTypes.string,
     onClick: React.PropTypes.func,
+    onToothClick: React.PropTypes.func,
     toothNumber: React.PropTypes.number.isRequired,
     markedZones: React.PropTypes.array
 };
@@ -103,5 +113,7 @@ Tooth.propTypes = {
 Tooth.defaultProps = {
     activeZone: '',
     onClick: function() {},
-    markedZones: []
+    onToothClick: function() {},
+    markedZones: [],
+    isMissing: false
 };

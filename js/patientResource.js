@@ -108,4 +108,21 @@ function search(searchText) {
 }
 
 
-export default { getRef, getById, getSome, search};
+function updateOdontogram(patientId, odontogramData) {
+    // TODO: make odontogramData a constant
+    return new Promise((resolve, reject) => {
+        getRef()
+            .child(patientId)
+            .child('odontogramData')
+            .update(odontogramData, (error) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+
+                resolve(odontogramData);
+            });
+    })
+}
+
+export default { getRef, getById, getSome, search, updateOdontogram};
