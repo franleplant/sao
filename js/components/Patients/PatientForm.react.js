@@ -8,6 +8,7 @@ import LocalitySelect from '../dumb/LocalitySelect.react.js';
 
 import Audit from '../dumb/Audit.react.js';
 import patientResource from '../../patientResource.js';
+import Odontogram from '../dumb/Odontogram.react.js';
 
 //TODO: refactor this shit
 var patientsRef
@@ -30,7 +31,8 @@ export default class PatientForm extends React.Component {
             patientOSaffiliateNumber: '',
             patientOSplan: '',
             patientTel: '',
-            patientMedicalHistory: ''
+            patientMedicalHistory: '',
+            odontogramData: {}
         };
 
     }
@@ -62,7 +64,8 @@ export default class PatientForm extends React.Component {
                     // Save a reference to the original patient
                     patient: patient,
                     auditEdited: patient.auditEdited || 'nunca',
-                    auditCreated: patient.auditCreated
+                    auditCreated: patient.auditCreated,
+                    odontogramData: patient.odontogramData
                 })
 
             }, (error) => {
@@ -88,6 +91,12 @@ export default class PatientForm extends React.Component {
             });
     }
 
+    onOdontogramChange(teethState) {
+        this.setState({
+            odontogramData: teethState
+        })
+    }
+
     submit(event) {
         event.preventDefault();
 
@@ -109,7 +118,8 @@ export default class PatientForm extends React.Component {
             medicalHistory: this.state.patientMedicalHistory,
             osId: this.state.patientOSId,
             osPlan: this.state.patientOSplan,
-            osAffiliateNumber: this.state.patientOSaffiliateNumber
+            osAffiliateNumber: this.state.patientOSaffiliateNumber,
+            odontogramData: this.state.odontogramData
         }
 
 
@@ -291,6 +301,17 @@ export default class PatientForm extends React.Component {
                                 </textarea>
                             </div>
 
+                            <div className="panel panel-default">
+                                <div className="panel-heading">Odontograma</div>
+                                <div className="panel-body">
+
+                                    <Odontogram
+                                        teethState={this.state.odontogramData}
+                                        onChange={this.onOdontogramChange.bind(this)}
+                                        />
+
+                                </div>
+                            </div>
 
                             <button type="submit" className="btn btn-primary">Aceptar</button>
                         </form>
