@@ -3,6 +3,8 @@ import Router, {Route, Link, RouteHandler, DefaultRoute} from 'react-router';
 import sessionStore from '../stores/sessionStore.js';
 import loginActions from '../actions/loginActions.js';
 import Firebase from 'firebase';
+import patientActions from '../actions/patientActions.js';
+import careActions from '../actions/careActions.js';
 
 var ref = new Firebase("https://<your-firebase>.firebaseio.com/");
 
@@ -32,6 +34,13 @@ export default class AuthenticatedApp extends React.Component {
             this.setState({username: sessionStore.getUsername()})
           });
     }
+
+    onNewCareClick() {
+        patientActions.clean();
+        careActions.clean();
+
+    }
+
     render() {
         return (
             <div>
@@ -54,7 +63,7 @@ export default class AuthenticatedApp extends React.Component {
                             <ul className="nav navbar-nav">
                                 <li><Link to="home">Home</Link></li>
                                 <li><Link to="pacientes">Pacientes</Link></li>
-                                <li><Link to="crearConsulta">Atender</Link></li>
+                                <li><Link to="crearConsulta" onClick={this.onNewCareClick.bind(this)}>Atender</Link></li>
                                 <li><Link to="login">Login</Link></li>
                                 <li><Link to="registrarse">Signup</Link></li>
                             </ul>

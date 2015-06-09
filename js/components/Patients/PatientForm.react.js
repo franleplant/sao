@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import ReactMixin from 'react-mixin';
 import Firebase from 'firebase';
+import {Link} from 'react-router';
 import sessionStore from '../../stores/sessionStore.js';
 import argutils from '../../argutils.js';
 import OSSelect from '../dumb/OSSelect.react.js';
@@ -8,11 +9,17 @@ import LocalitySelect from '../dumb/LocalitySelect.react.js';
 
 import Audit from '../dumb/Audit.react.js';
 import patientResource from '../../patientResource.js';
+import careResource from '../../careResource.js';
 import Odontogram from '../dumb/Odontogram.react.js';
 
 //TODO: refactor this shit
-var patientsRef
+var patientsRef;
 
+// TODO:
+// this component is primarly a good old spaghetti code and
+// needs heavy refactoring.
+// We need to add stores, abstract some common places, improve the
+// data models, etc
 export default class PatientForm extends React.Component {
     constructor(props) {
         super(props);
@@ -68,9 +75,17 @@ export default class PatientForm extends React.Component {
                     odontogramData: patient.odontogramData
                 })
 
-            }, (error) => {
-                throw error;
-            });
+            })
+            .then(() => {
+                careResource
+                    .getAllByPatientId(patientId)
+                    .catch(console.log.bind(console))
+                    .then((cares) => {
+                        this.setState({
+                            cares: cares
+                        })
+                    })
+            })
     }
 
     deletePatient() {
@@ -165,6 +180,17 @@ export default class PatientForm extends React.Component {
 
 
     render() {
+        let cares = Object
+                        .keys(this.state.cares || {})
+                        .map((careId, index) => {
+                            return (
+
+                                <Link to="editarConsulta" params={{careId: careId}} className="list-group-item" key={`care${index}`}>
+                                    {this.state.cares[careId].selectedDate}
+                                </Link>
+                            );
+                        })
+
         return (
             <div>
                 <div className="panel panel-default">
@@ -312,6 +338,21 @@ export default class PatientForm extends React.Component {
 
                                 </div>
                             </div>
+
+                            {
+                                this.props.patientId ?
+                                <div className="panel panel-default">
+                                    <div className="panel-heading">Consultas Realizadas</div>
+                                    <div className="panel-body">
+                                        <div className="list-group">
+
+                                            {cares}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                : null
+                            }
 
                             <button type="submit" className="btn btn-primary">Aceptar</button>
                         </form>

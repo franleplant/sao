@@ -32,6 +32,7 @@ export let patient = {
 
 export let care = {
     GET: Symbol('care_get'),
+    CLEAN: Symbol('care_clean'),
     CREATE: Symbol('care_create'),
     UPDATE: Symbol('care_update'),
     REMOVE: Symbol('care_remove')

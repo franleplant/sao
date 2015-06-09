@@ -46,6 +46,27 @@ function getById(careId) {
 }
 
 
+function getAllByPatientId(patientId) {
+    return new Promise((resolve, reject) => {
+        getRef()
+            .orderByChild('selectedPatientId')
+            .equalTo(patientId)
+            .once('value', (snapshot) => {
+                    var cares = snapshot.val();
+                    if (!cares) {
+                        reject('cares not found');
+                        return;
+                    };
+
+                    resolve(cares);
+
+            }, (error) => {
+                reject(error);
+            })
+    })
+}
+
+
 function create(care, odontogramData) {
     care.auditCreated = createTimeStamp();
 
@@ -125,4 +146,4 @@ function remove(careId) {
     });
 }
 
-export default {getRef, getById, create, update, remove};
+export default {getRef, getById, getAllByPatientId, create, update, remove};

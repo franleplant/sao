@@ -67,6 +67,12 @@ careStore.dispatchToken = dispatcher.register((payload) => {
             emitter.emit(CHANGE_EVENT);
             break;
 
+        case constants.CLEAN:
+            _state = copy(_default_state);
+
+            emitter.emit(CHANGE_EVENT);
+            break;
+
         default:
             break;
     }

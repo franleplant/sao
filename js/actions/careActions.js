@@ -3,6 +3,13 @@ import { care as constants } from '../constants/actionTypes.js';
 import patientActions from './patientActions.js';
 import careResource from '../careResource.js';
 
+
+function clean() {
+    dispatcher.dispatch({
+        actionType: constants.CLEAN
+    });
+}
+
 function get(careId) {
     careResource
         .getById(careId)
@@ -87,4 +94,4 @@ function remove(careId) {
         });
 }
 
-export default { get, create, update, remove};
+export default { clean, get, create, update, remove};

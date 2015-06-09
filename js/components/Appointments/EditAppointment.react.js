@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import AppointmentForm from './AppointmentForm.react.js';
+import careActions from '../../actions/careActions.js';
 
 export default class EditAppointment extends React.Component {
     constructor(props, context) {
@@ -13,6 +14,7 @@ export default class EditAppointment extends React.Component {
     }
 
     care() {
+        careActions.clean();
         this.context.router.transitionTo('crearConsulta');
     }
 

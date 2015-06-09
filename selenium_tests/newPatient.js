@@ -41,7 +41,7 @@ browser
     .elementByCss('form')
         .submit()
     // On home, click for patients
-    .waitForElementByCss('#bs-example-navbar-collapse-1 > ul:nth-child(1) > li:nth-child(4) > a', 20000)
+    .waitForElementByCss('#main-navbar > ul:nth-child(1) > li:nth-child(2) > a', 20000)
         .click()
 
     // Click on new patient button
