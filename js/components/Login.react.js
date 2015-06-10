@@ -4,6 +4,7 @@ import login from '../login.js';
 import router from '../router.js';
 import Firebase from 'firebase';
 import loginActions from '../actions/loginActions.js';
+import {Link} from 'react-router';
 
 var ref = new Firebase('https://luminous-fire-4753.firebaseio.com/');
 
@@ -65,7 +66,7 @@ export default class Login extends React.Component {
                                 <h1>Iniciar Sesion</h1>
 
                                 <div className="form-group">
-                                    <label>Email address</label>
+                                    <label>Email</label>
                                     <input
                                         type="email"
                                         className="form-control"
@@ -76,7 +77,7 @@ export default class Login extends React.Component {
                                         />
                                 </div>
                                 <div className="form-group">
-                                    <label>Email address</label>
+                                    <label>Contraseña</label>
                                     <input
                                         type="password"
                                         className="form-control"
@@ -93,9 +94,9 @@ export default class Login extends React.Component {
                                     disabled={this.state.loading}
                                     >
                                     Iniciar Sesion
+                                    <i className="fa fa-spinner" hidden={!this.state.loading}></i>
                                 </button>
 
-                                <i className="fa fa-spinner" hidden={!this.state.loading}></i>
 
                                 <div
                                     className="alert alert-danger"
@@ -106,8 +107,7 @@ export default class Login extends React.Component {
                                     volve a intentarlo
                                 </div>
 
-                                {/*TODO: Replace this custom link with a Link element from the router*/}
-                                <p>Si aun no tenes cuenta, <a href="" onClick={this.goToSignup.bind(this)}>creala</a></p>
+                                <p>Si aun no tenes cuenta, <Link to="registrarse">creala</Link> </p>
                             </form>
                         </div>
                     </div>

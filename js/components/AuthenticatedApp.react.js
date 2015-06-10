@@ -6,7 +6,7 @@ import Firebase from 'firebase';
 import patientActions from '../actions/patientActions.js';
 import careActions from '../actions/careActions.js';
 
-var ref = new Firebase("https://<your-firebase>.firebaseio.com/");
+var ref = new Firebase('https://luminous-fire-4753.firebaseio.com/');
 
 export default class AuthenticatedApp extends React.Component {
     static willTransitionTo(transition) {
@@ -20,12 +20,11 @@ export default class AuthenticatedApp extends React.Component {
     constructor() {
         super()
         this.state = {
-            username: sessionStore.getUsername() || 'usuario@prueba.com'
+            username: sessionStore.getUsername() || 'algo fallo'
         }
     }
 
     logout() {
-        ref.unauth();
         loginActions.logout();
     }
 
@@ -64,7 +63,6 @@ export default class AuthenticatedApp extends React.Component {
                                 <li><Link to="home">Home</Link></li>
                                 <li><Link to="pacientes">Pacientes</Link></li>
                                 <li><Link to="crearConsulta" onClick={this.onNewCareClick.bind(this)}>Atender</Link></li>
-                                <li><Link to="login">Login</Link></li>
                                 <li><Link to="registrarse">Signup</Link></li>
                             </ul>
 
@@ -74,7 +72,7 @@ export default class AuthenticatedApp extends React.Component {
                                     <p
                                         className="navbar-text"
                                         >
-                                        {this.state.username}
+                                        <Link to="administrarCuenta">{this.state.username}</Link>
                                     </p>
                                 </li>
                                 <li>

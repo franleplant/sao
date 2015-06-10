@@ -21,6 +21,8 @@ import AppointmentEdit from './components/Appointments/EditAppointment.react.js'
 import NewCare from './components/Care/NewCare.react.js';
 import EditCare from './components/Care/EditCare.react.js';
 
+import AccountManagement from './components/AccountManagement.react.js';
+
 
 
 
@@ -45,6 +47,9 @@ var routes = (
         {/* Care Module  */}
         <Route name="crearConsulta" path="consultas/nueva" handler={NewCare}/>
         <Route name="editarConsulta" path="consultas/editar/:careId" handler={EditCare}/>
+
+        {/* */}
+        <Route name="administrarCuenta" path="micuenta" handler={AccountManagement}/>
     </Route>
   </Route>
 );

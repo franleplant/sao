@@ -36,8 +36,9 @@ export default class AppointmentGrid extends React.Component {
         appointmentListStore.removeChangeListener(this._onChange);
     }
 
+
     _onChange() {
-        this.appointmentList = appointmentListStore.getAppointmentList();
+        this.appointmentList = appointmentListStore.getAppointmentList() || [];
         this.setState({
             loading: false
         })

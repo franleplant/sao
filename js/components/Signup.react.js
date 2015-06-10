@@ -1,45 +1,49 @@
 import React from 'react/addons';
 import ReactMixin from 'react-mixin';
 import router from '../router.js';
+import {Link} from 'react-router';
+import UserForm from './User/UserForm.react.js';
 
 
 export default class Signup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {username: '', password: ''};
+        this.state = {};
     }
 
-    goToLogin(event) {
-        event.preventDefault();
-        router.transitionTo('/login');
+    onUserFormChange(user) {
+        this.setState({
+            user: user
+        })
     }
 
-    signup(event) {
+    submit(event) {
+        debugger;
         event.preventDefault();
         console.log('signup attempt!', this.state);
     }
 
     render() {
         return (
-            <form onSubmit={this.signup.bind(this)}>
-                SIGNUP
-                <div className="form-group">
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        valueLink={this.linkState('username')}
-                        />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        valueLink={this.linkState('password')}
-                        />
+            <div className="container">
+                <div className="page-header">
+                    <h1>SAO <small>Sistema de Administracion Odontologico</small></h1>
                 </div>
-                <button type="submit">Crear Cuenta</button>
-                <p>Si ya tenes cuenta, <a href="" onClick={this.goToLogin.bind(this)}>inicia sesion</a></p>
-            </form>
+                <div className="col-xs-12">
+                    <div className="panel panel-default">
+                        <div className="panel-body">
+
+                            <UserForm
+                                onChange={this.onUserFormChange.bind(this)}
+                                loading={this.state.loading}
+                                submit={this.submit.bind(this)}
+                                user={this.state.user}
+                                />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
