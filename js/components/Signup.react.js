@@ -3,6 +3,7 @@ import ReactMixin from 'react-mixin';
 import router from '../router.js';
 import {Link} from 'react-router';
 import UserForm from './User/UserForm.react.js';
+import loginActions from '../actions/loginActions.js';
 
 
 export default class Signup extends React.Component {
@@ -18,9 +19,8 @@ export default class Signup extends React.Component {
     }
 
     submit(event) {
-        debugger;
         event.preventDefault();
-        console.log('signup attempt!', this.state);
+        loginActions.signup(this.state.user);
     }
 
     render() {

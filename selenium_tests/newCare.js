@@ -1,3 +1,6 @@
+// This script will attempt to create a new care on a patient whose name contains 'hernan'
+// right now it is not factored into a single variable so be sure that a patient exists :)
+
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
 var wd = require('wd');

@@ -23,7 +23,7 @@ export default class Patients extends React.Component {
         patientResource
             .getSome()
             .then((patients) => {
-                this.setRows(patients)
+                this.setRows(patients, true)
             });
     }
 
@@ -48,8 +48,8 @@ export default class Patients extends React.Component {
             })
     }
 
-    setRows(patients) {
-        if (!patients.length) {
+    setRows(patients, failSilently) {
+        if (!patients.length && !failSilently) {
             alert('La busqueda no arrojo resultados')
         }
 

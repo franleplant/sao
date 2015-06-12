@@ -134,7 +134,7 @@ export default class PatientForm extends React.Component {
             osId: this.state.patientOSId,
             osPlan: this.state.patientOSplan,
             osAffiliateNumber: this.state.patientOSaffiliateNumber,
-            odontogramData: this.state.odontogramData
+            odontogramData: this.state.odontogramData || {}
         }
 
 

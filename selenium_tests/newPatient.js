@@ -1,5 +1,6 @@
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
+var credentials = require('./credentials.js');
 chai.use(chaiAsPromised);
 chai.should();
 
@@ -22,8 +23,6 @@ browser.on('http', function(meth, path, data) {
 });
 
 
-var username = "a@a.com";
-var password = "test";
 var prefix = 'selenium'
 var randomString = Math.random().toString(36).substring(7);
 var randomNumber = Math.floor(Math.random()*1000000000);
@@ -35,9 +34,9 @@ browser
     .get("http://localhost:3000/#/login")
     .waitForElementByCss('form [name=username]', 20000)
     .elementByCss('form [name=username]')
-        .type(username)
+        .type(credentials.username)
     .elementByCss('form [name=password]')
-        .type(password)
+        .type(credentials.password)
     .elementByCss('form')
         .submit()
     // On home, click for patients

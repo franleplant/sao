@@ -16,7 +16,7 @@ class SessionStore {
             var auth = JSON.parse(localStorage.getItem(FIREBASE_KEY));
             if (auth) {
                 username = auth.password.email;
-                id = auth.uid.split(':')[1];
+                id = auth.uid;
             }
         }
 
@@ -26,7 +26,7 @@ class SessionStore {
             switch (action.type) {
                 case constants.LOGIN:
                     username = action.authData.password.email;
-                    id = action.authData.uid.split(':')[1];
+                    id = action.authData.uid;
                     this.emitChange();
                     break;
 

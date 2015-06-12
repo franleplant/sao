@@ -36,13 +36,14 @@ export default class UserForm extends React.Component {
             var password = React.findDOMNode(this.refs.password).value;
             var passwordConfirmationDOM = React.findDOMNode(this.refs.passwordConfirmation);
             var passwordConfirmation = passwordConfirmationDOM.value;
+            var formDOM = React.findDOMNode(this.refs.form);
 
             if (password && password !== passwordConfirmation ) {
 
                 passwordConfirmationDOM.setCustomValidity('La clave ingresada no es igual a la primera');
                 // reportValidy is throwing a weird HTML error that I cannot get
                 // rid of and it looks like a weird interaction between react and the DOM
-                passwordConfirmationDOM.form.reportValidity()
+                formDOM.reportValidity()
             } else {
                 passwordConfirmationDOM.setCustomValidity('');
             }
@@ -84,7 +85,7 @@ export default class UserForm extends React.Component {
         var user = this.props.user;
 
         return (
-            <form onSubmit={props.submit}>
+            <form onSubmit={props.submit} ref="form" name="form">
                 <h1>Crear Cuenta</h1>
 
                 <div className="form-group">
@@ -100,7 +101,6 @@ export default class UserForm extends React.Component {
                         />
                 </div>
 
-                <fieldset>
                     <div className="form-group">
                         <label>Contraseña</label>
                         <input
@@ -128,7 +128,6 @@ export default class UserForm extends React.Component {
                             onChange={this.onPasswordConfirmationChange.bind(this)}
                             />
                     </div>
-                </fieldset>
 
                 <div className="form-group">
                     <label>Nombre y Apellido</label>
@@ -144,7 +143,6 @@ export default class UserForm extends React.Component {
                 </div>
 
 
-                <fieldset>
                     <h3>Tarjeta de Credito</h3>
 
                     <div className="form-group">
@@ -216,9 +214,9 @@ export default class UserForm extends React.Component {
                             onChange={this.onCCsecurityCodeChange.bind(this)}
                             />
                     </div>
-                </fieldset>
 
                 <button
+                    name="submitButton"
                     type="submit"
                     className="btn btn-primary"
                     disabled={props.loading}
