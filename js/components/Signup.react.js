@@ -33,6 +33,7 @@ export default class Signup extends React.Component {
                     <div className="panel panel-default">
                         <div className="panel-body">
 
+                            <h1>Crear Cuenta</h1>
                             <UserForm
                                 onChange={this.onUserFormChange.bind(this)}
                                 loading={this.state.loading}

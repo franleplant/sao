@@ -86,7 +86,6 @@ export default class UserForm extends React.Component {
 
         return (
             <form onSubmit={props.submit} ref="form" name="form">
-                <h1>Crear Cuenta</h1>
 
                 <div className="form-group">
                     <label>Email</label>
@@ -101,6 +100,8 @@ export default class UserForm extends React.Component {
                         />
                 </div>
 
+                {
+                    !this.props.hidePassword ?
                     <div className="form-group">
                         <label>Contraseña</label>
                         <input
@@ -114,7 +115,12 @@ export default class UserForm extends React.Component {
                             onChange={this.onPasswordChange.bind(this)}
                             />
                     </div>
+                     : null
 
+                }
+
+                {
+                    !this.props.hidePassword ?
                     <div className="form-group">
                         <label>Confirmar Contraseña</label>
                         <input
@@ -128,6 +134,9 @@ export default class UserForm extends React.Component {
                             onChange={this.onPasswordConfirmationChange.bind(this)}
                             />
                     </div>
+                    : null
+
+                }
 
                 <div className="form-group">
                     <label>Nombre y Apellido</label>
@@ -205,7 +214,7 @@ export default class UserForm extends React.Component {
                     <div className="form-group">
                         <label>Codigo de Seguridad</label>
                         <input
-                            type="password"
+                            type="text"
                             className="form-control"
                             name="CCsecurityCode"
                             placeholder="Codigo de Seguridad"
@@ -238,6 +247,8 @@ UserForm.propTypes = {
 };
 
 UserForm.defaultProps = {
+    // Hide password form
+    hidePassword: false,
     onChange: function() {},
     submit: function() {},
     loading: false,

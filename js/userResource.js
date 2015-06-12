@@ -15,4 +15,5 @@ function getRef() {
                 .child(userId);
 }
 
+
 export default { getRef }

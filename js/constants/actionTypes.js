@@ -37,3 +37,9 @@ export let care = {
     UPDATE: Symbol('care_update'),
     REMOVE: Symbol('care_remove')
 }
+
+
+export let user = {
+    SET: Symbol('user_set'),
+    UPDATE: Symbol('user_update')
+}
