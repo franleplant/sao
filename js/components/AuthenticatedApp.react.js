@@ -28,6 +28,7 @@ export default class AuthenticatedApp extends React.Component {
         loginActions.logout();
     }
 
+    // TODO: add componentDidUnmount onchange cleaning!
     componentDidMount() {
           sessionStore.onChange(() => {
             this.setState({username: sessionStore.getUsername()})
@@ -72,7 +73,7 @@ export default class AuthenticatedApp extends React.Component {
                                     <p
                                         className="navbar-text"
                                         >
-                                        <Link to="administrarCuenta">{this.state.username}</Link>
+                                        <Link to="administrarUsuario">{this.state.username}</Link>
                                     </p>
                                 </li>
                                 <li>

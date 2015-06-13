@@ -21,37 +21,42 @@ import AppointmentEdit from './components/Appointments/EditAppointment.react.js'
 import NewCare from './components/Care/NewCare.react.js';
 import EditCare from './components/Care/EditCare.react.js';
 
+// User module
 import AccountManagement from './components/AccountManagement.react.js';
-
+import EditUser from './components/User/EditUser.react.js';
+import SharingManagement from './components/User/SharingManagement.react.js';
 
 
 
 var routes = (
-  <Route handler={App}>
-    <Route name="login" handler={Login}/>
-    <Route name="registrarse" handler={Signup}/>
-    <NotFoundRoute handler={NotFound}/>
+    <Route handler={App}>
+        <Route name="login" handler={Login}/>
+        <Route name="registrarse" handler={Signup}/>
+        <NotFoundRoute handler={NotFound}/>
 
-    <Route handler={AuthenticatedApp} path="/" >
-        <DefaultRoute name="home" handler={Home}/>
+        <Route handler={AuthenticatedApp} path="/" >
+            <DefaultRoute name="home" handler={Home}/>
 
-        {/* Patient Module  */}
-        <Route name="pacientes" handler={Patients}/>
-        <Route name="editarPaciente" path="pacientes/editar/:patientId" handler={PatientEdit}/>
-        <Route name="crearPaciente" path="pacientes/nuevo" handler={PatientNew}/>
+            {/* Patient Module  */}
+            <Route name="pacientes" handler={Patients}/>
+            <Route name="editarPaciente" path="pacientes/editar/:patientId" handler={PatientEdit}/>
+            <Route name="crearPaciente" path="pacientes/nuevo" handler={PatientNew}/>
 
-        {/* Appointment Module  */}
-        <Route name="crearTurno" path="turnos/nuevo/:time?" handler={AppointmentNew}/>
-        <Route name="editarTurno" path="turnos/editar/:appointmentId" handler={AppointmentEdit}/>
+            {/* Appointment Module  */}
+            <Route name="crearTurno" path="turnos/nuevo/:time?" handler={AppointmentNew}/>
+            <Route name="editarTurno" path="turnos/editar/:appointmentId" handler={AppointmentEdit}/>
 
-        {/* Care Module  */}
-        <Route name="crearConsulta" path="consultas/nueva" handler={NewCare}/>
-        <Route name="editarConsulta" path="consultas/editar/:careId" handler={EditCare}/>
+            {/* Care Module  */}
+            <Route name="crearConsulta" path="consultas/nueva" handler={NewCare}/>
+            <Route name="editarConsulta" path="consultas/editar/:careId" handler={EditCare}/>
 
-        {/* */}
-        <Route name="administrarCuenta" path="micuenta" handler={AccountManagement}/>
+            {/* User Module */}
+            <Route path="micuenta" handler={AccountManagement}>
+                <Route name="administrarUsuario" path="usuario" handler={EditUser}/>
+                <Route name="administrarCompartir" path="compartir" handler={SharingManagement}/>
+            </Route>
+        </Route>
     </Route>
-  </Route>
 );
 
 export default Router.create({routes});

@@ -1,65 +1,56 @@
 import React from 'react/addons';
-import ReactMixin from 'react-mixin';
-import UserForm from './User/UserForm.react.js';
-import userActions from '../actions/userActions.js';
-import userStore from '../stores/userStore.js';
+import Router, {Route, Link, RouteHandler, DefaultRoute} from 'react-router';
+
+const USER_TAB = 'user';
+const SHARE_TAB = 'share';
 
 export default class AccountManagement extends React.Component {
-    constructor(props) {
+    constructor(props, context) {
         super(props);
+        this.context = context;
 
-        this._onChange = this._onChange.bind(this);
+        var path = context.router.getCurrentPath()
+        var activeTab = path.indexOf('compartir') !== -1 ? SHARE_TAB : USER_TAB;
 
-        this.state = userStore.getState();
+        this.state = {
+            activeTab: activeTab
+        }
     }
 
     componentDidMount() {
-        userStore.onChange(this._onChange);
-
-        userActions.get();
     }
 
-    componentWillUnmount() {
-        userStore.removeChangeListener(this._onChange);
+    componentDidUpdate() {
     }
 
-    _onChange() {
-        var newState = userStore.getState();
-        this.setState(newState);
-    }
-
-    onUserFormChange(user) {
+    onTabClick(tab) {
         this.setState({
-            user: user
-        })
-    }
-
-    submit() {
-        event.preventDefault();
-        userActions.update(this.state.user);
-        this.setState({
-           loading: true
+            activeTab: tab
         })
     }
 
     render() {
         return (
-            <div>
-                <h1>Mi cuenta</h1>
-                <div className="panel panel-default">
-                    <div className="panel-body">
+            <div className="row">
+                <ul className="nav nav-tabs" ref="nav">
+                    <li role="presentation" className={this.state.activeTab === USER_TAB ? 'active' : null}>
+                        <Link to="administrarUsuario" onClick={this.onTabClick.bind(this, USER_TAB)}>Usuario</Link>
+                    </li>
+                    <li role="presentation" className={this.state.activeTab === SHARE_TAB ? 'active' : null}>
+                        <Link to="administrarCompartir" onClick={this.onTabClick.bind(this, SHARE_TAB)}>Compartir</Link>
+                    </li>
+                </ul>
 
-                        <UserForm
-                            onChange={this.onUserFormChange.bind(this)}
-                            loading={this.state.loading}
-                            submit={this.submit.bind(this)}
-                            user={this.state.user}
-                            hidePassword={true}
-                            />
 
-                    </div>
+                <div className="container">
+                    <RouteHandler/>
                 </div>
             </div>
         );
     }
+}
+
+
+AccountManagement.contextTypes = {
+    router: React.PropTypes.func
 }

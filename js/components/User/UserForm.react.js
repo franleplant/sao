@@ -230,11 +230,15 @@ export default class UserForm extends React.Component {
                     className="btn btn-primary"
                     disabled={props.loading}
                     >
-                    Crear Cuenta
+                    {props.editMode ? 'Guardar' : 'Crear Cuenta'}
                     <i className="fa fa-spinner" hidden={!props.loading}></i>
                 </button>
 
-                <p>Si ya tenes cuenta, <Link to="login">inicia sesion</Link> </p>
+                {
+                    !props.editMode ?
+                    <p>Si ya tenes cuenta, <Link to="login">inicia sesion</Link> </p>
+                    : null
+                }
             </form>
         );
     }
@@ -249,6 +253,7 @@ UserForm.propTypes = {
 UserForm.defaultProps = {
     // Hide password form
     hidePassword: false,
+    editMode: false,
     onChange: function() {},
     submit: function() {},
     loading: false,
