@@ -41,5 +41,11 @@ export let care = {
 
 export let user = {
     SET: Symbol('user_set'),
-    UPDATE: Symbol('user_update')
+    UPDATE: Symbol('user_update'),
+    SHARE_TO_START: Symbol('user_share_to_start'),
+    SHARE_TO_END: Symbol('user_share_to_end'),
+    SHARE_TO_ERROR_USER_NOT_FOUND: Symbol('user_share_to_error: user not found'),
+    GET_PERMISSION_LIST_START: Symbol('user_get_permission_list_start'),
+    GET_PERMISSION_LIST_END: Symbol('user_get_permission_list_end'),
+    SHARE_TO_ERROR_DUPLICATED_PASSIVE_USER: Symbol('user share to error duplicated passive user')
 }

@@ -4,7 +4,7 @@ import UserForm from './UserForm.react.js';
 import userActions from '../../actions/userActions.js';
 import userStore from '../../stores/userStore.js';
 
-export default class AccountManagement extends React.Component {
+export default class EditUser extends React.Component {
     constructor(props) {
         super(props);
 
@@ -63,4 +63,4 @@ export default class AccountManagement extends React.Component {
             </div>
         );
     }
-}   
+}

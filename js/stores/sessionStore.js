@@ -65,6 +65,10 @@ class SessionStore {
         return id
     }
 
+    getId() {
+        return id
+    }
+
     isLoggedIn() {
         return !!username;
     }

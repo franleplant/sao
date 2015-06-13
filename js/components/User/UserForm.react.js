@@ -95,6 +95,7 @@ export default class UserForm extends React.Component {
                         name="username"
                         placeholder="email"
                         required
+                        disabled={props.editMode}
                         value={user.email}
                         onChange={this.onEmailChange.bind(this)}
                         />
