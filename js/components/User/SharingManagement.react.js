@@ -31,9 +31,8 @@ export default class AccountManagement extends React.Component {
         this.setState(newState);
     }
 
-    // TODO
     removeActivePermission(permissionId) {
-        debugger;
+        userActions.removeActivePermission(permissionId);
     }
 
     submit() {

@@ -47,5 +47,7 @@ export let user = {
     SHARE_TO_ERROR_USER_NOT_FOUND: Symbol('user_share_to_error: user not found'),
     GET_PERMISSION_LIST_START: Symbol('user_get_permission_list_start'),
     GET_PERMISSION_LIST_END: Symbol('user_get_permission_list_end'),
-    SHARE_TO_ERROR_DUPLICATED_PASSIVE_USER: Symbol('user share to error duplicated passive user')
+    SHARE_TO_ERROR_DUPLICATED_PASSIVE_USER: Symbol('user share to error duplicated passive user'),
+    REMOVE_ACTIVE_PERMISSION_START: Symbol('user: remove active permission start'),
+    REMOVE_ACTIVE_PERMISSION_END: Symbol('user: remove active permission end')
 }

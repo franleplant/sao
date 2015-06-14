@@ -52,12 +52,14 @@ function update(user) {
 
 
 function shareTo(activeUserID, passiveUserEmail) {
-    var newPermission = {
+    let newPermission = {
         activeUser: activeUserID,
         passiveUser: null,
         write: true,
         read: true
     };
+
+    let passiveUser;
 
     dispatcher.dispatch({
         actionType: constants.SHARE_TO_START
@@ -75,8 +77,9 @@ function shareTo(activeUserID, passiveUserEmail) {
                 throw reason;
             }
         })
-        .then((passiveUser) => {
-            newPermission.passiveUser = passiveUser.userId;
+        .then((_passiveUser) => {
+            newPermission.passiveUser = _passiveUser.userId;
+            passiveUser = _passiveUser;
 
             let permissions = sharingPermissionStore.getState().activePermissions;
             permissions.forEach((p) => {
@@ -92,7 +95,8 @@ function shareTo(activeUserID, passiveUserEmail) {
 
 
             // Save the freaking new permission
-            ref
+            let newPermissionRef =
+                ref
                 .child(PERMISSIONS_KEY)
                 .push(newPermission, (error) => {
                     if (error) {
@@ -100,12 +104,18 @@ function shareTo(activeUserID, passiveUserEmail) {
                     }
 
 
-                    dispatcher.dispatch({
-                        actionType: constants.SHARE_TO_END,
-                        data: {
-                            permission: newPermission
-                        }
-                    });
+                    setTimeout(() => {
+                        newPermission.permissionId = newPermissionRef.key()
+                        newPermission.passiveUser = passiveUser;
+
+
+                        dispatcher.dispatch({
+                            actionType: constants.SHARE_TO_END,
+                            data: {
+                                permission: newPermission
+                            }
+                        });
+                    })
                 })
 
         })
@@ -135,5 +145,29 @@ function getPermissionList(userId) {
         })
 }
 
+function removeActivePermission(permissionId) {
+    dispatcher.dispatch({
+        actionType: constants.REMOVE_ACTIVE_PERMISSION_START
+    });
 
-export default { get, update, shareTo, getPermissionList };
+    ref
+        .child(PERMISSIONS_KEY)
+        .child(permissionId)
+        .remove((error) => {
+                if (error) {
+                    alert('ha habido un problema al borrar el registro de comparticion');
+                    throw error;
+                    return;
+                }
+
+                dispatcher.dispatch({
+                    actionType: constants.REMOVE_ACTIVE_PERMISSION_END,
+                    data: {
+                        permissionId: permissionId
+                    }
+                });
+            });
+}
+
+
+export default { get, update, shareTo, getPermissionList, removeActivePermission };
