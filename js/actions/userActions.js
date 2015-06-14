@@ -130,11 +130,12 @@ function getPermissionList(userId) {
     });
 
     Promise
-        .all(
+        .all([
             permissionResource.getActivePermissions(userId),
             permissionResource.getPassivePermissions(userId)
-        )
-        .then((activePermissions, passivePermissions) => {
+        ])
+        .then((result) => {
+            let [activePermissions, passivePermissions] = result;
             dispatcher.dispatch({
                 actionType: constants.GET_PERMISSION_LIST_END,
                 data: {

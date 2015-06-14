@@ -41,7 +41,6 @@ export default class AccountManagement extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div>
                 <h1>Compartir y administrar permisos { this.state.meta.loading ? <i className="fa fa-spinner"></i> : null }</h1>
@@ -131,19 +130,27 @@ export default class AccountManagement extends React.Component {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Nombre</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
+                                    {
+                                        this.state.passivePermissions
+                                            .map((permission, index) => {
+                                                return (
+                                                    <tr key={`passivePermissionList${index}`}>
+                                                        <td>{permission.activeUser.email}</td>
+                                                        <td>{permission.activeUser.name}</td>
+                                                    </tr>
+                                                );
+                                            })
+                                    }
+
+
+
+
+
                                 </tbody>
                             </table>
 
