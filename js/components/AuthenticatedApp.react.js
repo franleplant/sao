@@ -65,7 +65,6 @@ export default class AuthenticatedApp extends React.Component {
                                 <li><Link to="home">Home</Link></li>
                                 <li><Link to="pacientes">Pacientes</Link></li>
                                 <li><Link to="crearConsulta" onClick={this.onNewCareClick.bind(this)}>Atender</Link></li>
-                                <li><Link to="registrarse">Signup</Link></li>
                             </ul>
 
 
