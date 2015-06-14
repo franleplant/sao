@@ -5,6 +5,7 @@ import loginActions from '../actions/loginActions.js';
 import Firebase from 'firebase';
 import patientActions from '../actions/patientActions.js';
 import careActions from '../actions/careActions.js';
+import InformationDomainSelector from './informationDomianSelector.react.js';
 
 var ref = new Firebase('https://luminous-fire-4753.firebaseio.com/');
 
@@ -68,24 +69,19 @@ export default class AuthenticatedApp extends React.Component {
                             </ul>
 
 
-                            <ul className="nav navbar-nav navbar-right">
-                                <li>
-                                    <p
-                                        className="navbar-text"
-                                        >
-                                        <Link to="administrarUsuario">{this.state.username}</Link>
-                                    </p>
-                                </li>
-                                <li>
-                                    <button
-                                        onClick={this.logout.bind(this)}
-                                        type="button"
-                                        className="btn btn-default navbar-btn"
-                                        >
-                                        Logout
-                                    </button>
-                                </li>
-                            </ul>
+                            <button
+                                onClick={this.logout.bind(this)}
+                                type="button"
+                                className="btn btn-default navbar-btn navbar-right"
+                                >
+                                Logout
+                            </button>
+
+                            <InformationDomainSelector/>
+
+                            <p className="navbar-text navbar-right" style={{ marginRight: '10px'}}>
+                                <Link to="administrarUsuario" className="navbar-link navbar-right">{this.state.username}</Link>
+                            </p>
                         </div>
                     </div>
                 </nav>

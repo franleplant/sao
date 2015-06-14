@@ -53,7 +53,7 @@ browser
     .elementByCss('form [name=patientName]')
         .type(prefix + randomString)
     .elementByCss('form [name=patientEmail]')
-        .type(randomString + '@' + prefix + 'test')
+        .type(randomString + '@' + prefix + '.test')
     .elementByCss('form [name=patientDNI]')
         .type(randomNumber)
     .elementByCss('form [name=patientDOB]')
@@ -75,7 +75,7 @@ browser
         .type('test 123')
     .elementByCss('form [name=patientOSplan]')
         .type('test 123')
-    .elementByCss('form')
+    .elementByCss('form [type=submit]')
         .submit()
 
     .sleep(2000)

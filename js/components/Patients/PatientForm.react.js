@@ -11,6 +11,7 @@ import Audit from '../dumb/Audit.react.js';
 import patientResource from '../../patientResource.js';
 import careResource from '../../careResource.js';
 import Odontogram from '../dumb/Odontogram.react.js';
+import userResource from '../../userResource.js';
 
 //TODO: refactor this shit
 var patientsRef;
@@ -23,9 +24,9 @@ var patientsRef;
 export default class PatientForm extends React.Component {
     constructor(props) {
         super(props);
-        patientsRef = (new Firebase('https://luminous-fire-4753.firebaseio.com/users'))
-                    .child(sessionStore.getUserId())
-                    .child('patients');
+        // Replace sessionStore for di store
+        patientsRef = userResource.getRef()
+                        .child('patients');
         this.state = {
             locOptions: [],
             patientName: '',

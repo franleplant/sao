@@ -90,12 +90,7 @@ function search(searchText) {
             getRef().once('value', (snapshot) => {
                 var patients = snapshot.val()
 
-                if (!patients) {
-                    reject('no results!');
-                    return;
-                }
-
-                resolve(patients);
+                resolve(patients || {});
             });
         });
 

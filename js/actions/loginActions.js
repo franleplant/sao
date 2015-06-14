@@ -11,6 +11,8 @@ export default {
         router.transitionTo('/');
         dispatcher.dispatch({
             type: constants.LOGIN,
+            // Duplicate action type to add compatibility with improved store patterns
+            actionType: constants.LOGIN,
             authData: authData
         })
     },

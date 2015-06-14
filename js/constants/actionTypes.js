@@ -51,3 +51,8 @@ export let user = {
     REMOVE_ACTIVE_PERMISSION_START: Symbol('user: remove active permission start'),
     REMOVE_ACTIVE_PERMISSION_END: Symbol('user: remove active permission end')
 }
+
+
+export let informationDomain = {
+    SET_INFORMATION_DOMAIN: Symbol('information domain: set')
+}

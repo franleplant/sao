@@ -77,7 +77,7 @@ export default class Patients extends React.Component {
         return (
             <div>
                 <h1>
-                    Pacientes!
+                    Pacientes
                     <button
                         className="btn btn-primary pull-right"
                         type="button"

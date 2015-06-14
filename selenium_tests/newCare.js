@@ -98,8 +98,8 @@ browser
         .type(randomString)
 
     // Submit
-    .elementByCss('form')
-        .submit()
+    .elementByCss('form [type=submit]')
+        .click()
 
     // Accept the success alert
     .sleep(2000)

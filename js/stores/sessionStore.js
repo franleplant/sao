@@ -20,6 +20,7 @@ class SessionStore {
             }
         }
 
+
         //Input
         // Save the dispatch order
         this.dispatchToken = dispatcher.register((action) => {

@@ -2,6 +2,7 @@ import React from 'react/addons';
 import patientResource from '../../patientResource.js';
 import patientActions from '../../actions/patientActions.js';
 import patientStore from '../../stores/patientStore.js';
+import Promise from 'bluebird';
 
 export default class SearchPatients extends React.Component {
     constructor(props) {
@@ -63,6 +64,10 @@ export default class SearchPatients extends React.Component {
                     searchResult: result,
                     loading: false
                 })
+
+                if (!result.length) {
+                    alert('no se han encontrado resultados')
+                }
             })
     }
 

@@ -5,6 +5,7 @@ import userResource from '../userResource.js';
 import permissionResource from '../permissionResource.js';
 import Firebase from 'firebase';
 import sharingPermissionStore from '../stores/sharingPermissionStore.js';
+import sessionStore from '../stores/sessionStore.js';
 
 
 const FIREBASE_URL = 'https://luminous-fire-4753.firebaseio.com';
@@ -124,7 +125,7 @@ function shareTo(activeUserID, passiveUserEmail) {
 
 // We are not giving a fuck about write/read permissions
 // for simplicity for now
-function getPermissionList(userId) {
+function getPermissionList(userId = sessionStore.getId()) {
     dispatcher.dispatch({
         actionType: constants.GET_PERMISSION_LIST_START
     });
@@ -134,8 +135,7 @@ function getPermissionList(userId) {
             permissionResource.getActivePermissions(userId),
             permissionResource.getPassivePermissions(userId)
         ])
-        .then((result) => {
-            let [activePermissions, passivePermissions] = result;
+        .then(([activePermissions, passivePermissions]) => {
             dispatcher.dispatch({
                 actionType: constants.GET_PERMISSION_LIST_END,
                 data: {
