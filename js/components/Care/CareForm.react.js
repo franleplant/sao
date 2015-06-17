@@ -171,7 +171,7 @@ export default class CareForm extends React.Component {
 
         return (
             <div>
-                { this.state.loading ? <i className="fa fa-spinner"></i> : null }
+                { this.state.loading ? <i className="fa fa-spinner fa-spin"></i> : null }
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <form onSubmit={this.submit.bind(this)}>

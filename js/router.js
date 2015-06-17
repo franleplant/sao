@@ -24,6 +24,7 @@ import EditCare from './components/Care/EditCare.react.js';
 // User module
 import AccountManagement from './components/AccountManagement.react.js';
 import EditUser from './components/User/EditUser.react.js';
+import EditPrices from './components/User/EditPrices.react.js';
 import SharingManagement from './components/User/SharingManagement.react.js';
 
 
@@ -54,6 +55,7 @@ var routes = (
             <Route path="micuenta" handler={AccountManagement}>
                 <Route name="administrarUsuario" path="usuario" handler={EditUser}/>
                 <Route name="administrarCompartir" path="compartir" handler={SharingManagement}/>
+                <Route name="administrarPrecios" path="precios" handler={EditPrices}/>
             </Route>
         </Route>
     </Route>

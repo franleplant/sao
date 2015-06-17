@@ -104,7 +104,7 @@ export default class Patients extends React.Component {
                         >
                         <i className="fa fa-search"></i>
                         Buscar
-                        { this.state.loading ? <i className="fa fa-spinner"></i> : null}
+                        { this.state.loading ? <i className="fa fa-spinner fa-spin"></i> : null}
                     </button>
                 </form>
 

@@ -43,7 +43,7 @@ export default class AccountManagement extends React.Component {
     render() {
         return (
             <div>
-                <h1>Compartir y administrar permisos { this.state.meta.loading ? <i className="fa fa-spinner"></i> : null }</h1>
+                <h1>Compartir y administrar permisos { this.state.meta.loading ? <i className="fa fa-spinner fa-spin"></i> : null }</h1>
 
                 <div className="panel panel-default">
                     <div className="panel-heading">

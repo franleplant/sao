@@ -232,7 +232,7 @@ export default class UserForm extends React.Component {
                     disabled={props.loading}
                     >
                     {props.editMode ? 'Guardar' : 'Crear Cuenta'}
-                    <i className="fa fa-spinner" hidden={!props.loading}></i>
+                    <i className="fa fa-spinner fa-spin" hidden={!props.loading}></i>
                 </button>
 
                 {

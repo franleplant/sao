@@ -167,7 +167,7 @@ export default class SearchPatients extends React.Component {
                         onClick={this.search.bind(this)}
                         >
                         Buscar
-                        { this.state.loading ? <i className="fa fa-spinner"></i> : null}
+                        { this.state.loading ? <i className="fa fa-spinner fa-spin"></i> : null}
                     </button>
                 </div>
             </div>

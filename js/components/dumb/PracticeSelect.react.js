@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import ReactMixin from 'react-mixin';
 import practiceList from '../../../scripts/practiceList.js';
 
 export default class PracticeSelectForm extends React.Component {
@@ -33,6 +32,3 @@ export default class PracticeSelectForm extends React.Component {
         );
     }
 }
-
-
-ReactMixin(PracticeSelectForm.prototype, React.addons.LinkedStateMixin);

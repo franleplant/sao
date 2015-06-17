@@ -127,7 +127,7 @@ export default class AppointmentGrid extends React.Component {
                             </th>
                             <th>
                                 Pacientes &nbsp;
-                                { this.state.loading ? <i className="fa fa-spinner"></i> : null }
+                                { this.state.loading ? <i className="fa fa-spinner fa-spin"></i> : null }
                             </th>
                         </tr>
                     </thead>

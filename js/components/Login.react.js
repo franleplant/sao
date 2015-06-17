@@ -94,7 +94,7 @@ export default class Login extends React.Component {
                                     disabled={this.state.loading}
                                     >
                                     Iniciar Sesion
-                                    <i className="fa fa-spinner" hidden={!this.state.loading}></i>
+                                    <i className="fa fa-spinner fa-spin" hidden={!this.state.loading}></i>
                                 </button>
 
 

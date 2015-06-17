@@ -3,14 +3,23 @@ import Router, {Route, Link, RouteHandler, DefaultRoute} from 'react-router';
 
 const USER_TAB = 'user';
 const SHARE_TAB = 'share';
+const PRICES_TAB = 'prices';
 
 export default class AccountManagement extends React.Component {
     constructor(props, context) {
         super(props);
         this.context = context;
 
-        var path = context.router.getCurrentPath()
-        var activeTab = path.indexOf('compartir') !== -1 ? SHARE_TAB : USER_TAB;
+        let path = context.router.getCurrentPath()
+
+        let activeTab;
+        if (path.indexOf('compartir') !== -1) {
+            activeTab =  SHARE_TAB;
+        } else if (path.indexOf('precios') !== -1) {
+            activeTab =  PRICES_TAB;
+        } else {
+            activeTab =  USER_TAB;
+        }
 
         this.state = {
             activeTab: activeTab
@@ -38,6 +47,9 @@ export default class AccountManagement extends React.Component {
                     </li>
                     <li role="presentation" className={this.state.activeTab === SHARE_TAB ? 'active' : null}>
                         <Link to="administrarCompartir" onClick={this.onTabClick.bind(this, SHARE_TAB)}>Compartir</Link>
+                    </li>
+                    <li role="presentation" className={this.state.activeTab === PRICES_TAB ? 'active' : null}>
+                        <Link to="administrarPrecios" onClick={this.onTabClick.bind(this, PRICES_TAB)}>Precios</Link>
                     </li>
                 </ul>
 
