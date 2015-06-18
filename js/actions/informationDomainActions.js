@@ -6,6 +6,7 @@ import router from '../router.js';
 export default { set };
 
 function set(userId, userEmail) {
+    router.transitionTo('/');
     router.refresh();
     dispatcher.dispatch({
         actionType: constants.SET_INFORMATION_DOMAIN,

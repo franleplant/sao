@@ -3,6 +3,7 @@ import patientResource from '../../patientResource.js';
 import patientActions from '../../actions/patientActions.js';
 import patientStore from '../../stores/patientStore.js';
 import Promise from 'bluebird';
+import {Link} from 'react-router';
 
 export default class SearchPatients extends React.Component {
     constructor(props) {
@@ -53,6 +54,10 @@ export default class SearchPatients extends React.Component {
     }
 
     search() {
+        if (!this.state.searchText) {
+            return;
+        }
+
         this.setState({
             loading: true
         })
@@ -165,10 +170,19 @@ export default class SearchPatients extends React.Component {
                         className="btn btn-default"
                         name="search-patient-button"
                         onClick={this.search.bind(this)}
+                        disabled={!this.state.searchText}
                         >
                         Buscar
                         { this.state.loading ? <i className="fa fa-spinner fa-spin"></i> : null}
                     </button>
+                </div>
+                <div className="form-group col-xs-1">
+                    <Link
+                        to="crearPaciente"
+                        className="btn btn-default"
+                        >
+                        Crear Paciente
+                    </Link>
                 </div>
             </div>
         )
