@@ -17,6 +17,9 @@ export default class EditUser extends React.Component {
         userStore.onChange(this._onChange);
 
         userActions.get();
+        this.setState({
+           loading: true
+        })
     }
 
     componentWillUnmount() {
@@ -26,6 +29,9 @@ export default class EditUser extends React.Component {
     _onChange() {
         var newState = userStore.getState();
         this.setState(newState);
+        this.setState({
+           loading: false
+        })
     }
 
     onUserFormChange(user) {
@@ -45,7 +51,7 @@ export default class EditUser extends React.Component {
     render() {
         return (
             <div>
-                <h1>Mi cuenta</h1>
+                <h1>Mi cuenta <i className="fa fa-spinner fa-spin" hidden={!this.state.loading}></i></h1>
                 <div className="panel panel-default">
                     <div className="panel-body">
 

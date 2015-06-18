@@ -49,6 +49,7 @@ export default {
 
                         // When everythin goes fine then redirect to the login page
                         router.transitionTo('/login');
+                        alert('Te has registrado exitosamente, por favor inicia sesion');
                         dispatcher.dispatch({
                             type: constants.SINGUP
                         })

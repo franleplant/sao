@@ -22,6 +22,13 @@ function get() {
                 throw new Error('something went wrong when fetching user data').stack;
             }
 
+            // Remove all user data that we dont want to deal with.
+            // Ideally we would do this filtering before making the request, but for
+            // now it works
+            delete user.appointments;
+            delete user.cares;
+            delete user.patients;
+            delete user.prices;
 
             dispatcher.dispatch({
                 actionType: constants.SET,
