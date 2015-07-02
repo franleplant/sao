@@ -6,7 +6,12 @@ Sistema de Administracion Odontologica (Odontologic Administration System)
 ## Intro
 
 This is part of an academic work where small teams create applications from scratch
-with a process greatly formal.
+with a mostly formal process that follows standard software life cycle.
+
+This proyect is mostly a **prototype** since they were time constraints.
+It also was my first experience with React and Flux, so, mostly the earlier chunks
+are not as neat as I'd like them to be. Nevertheless this code has some nice patterns inside all the mess,
+for example, the `Odontogram` component will be likely to be refactored into its own module and published to npm.
 
 ## Developing
 
