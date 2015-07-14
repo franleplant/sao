@@ -195,32 +195,6 @@ export default class CareForm extends React.Component {
                                 <SearchPatients/>
                             </div>
 
-
-                            <div className="panel panel-default">
-                                <div className="panel-heading">Odontograma</div>
-                                <div className="panel-body">
-
-                                    <Odontogram
-                                        teethState={this.state.care.selectedPatient.odontogramData}
-                                        onChange={this.onOdontogramChange.bind(this)}
-                                        />
-
-                                </div>
-                            </div>
-
-
-                            <div className="panel panel-default">
-                              <div className="panel-heading">Practicas</div>
-                                <div className="panel-body">
-
-                                    <CarePracticesForm
-                                        value={this.state.care.carePractices}
-                                        onChange={this.onCarePracticesChange.bind(this)}
-                                        />
-
-                                </div>
-                            </div>
-
                             <div className="panel panel-default">
                               <div className="panel-heading">Multimedia</div>
                                 <div className="panel-body">
@@ -232,7 +206,7 @@ export default class CareForm extends React.Component {
                                         {
                                             this.state.care.files && this.state.care.files.map((fileUrl, index) => {
                                                 return (
-                                                    <div className="col-sm-6 col-md-4" key={`thumbnails ${index}`}>
+                                                    <div className="col-sm-12" key={`thumbnails ${index}`}>
                                                         <div className="thumbnail">
                                                             <img src={fileUrl}/>
                                                             <div className="caption">
@@ -263,6 +237,33 @@ export default class CareForm extends React.Component {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="panel panel-default">
+                                <div className="panel-heading">Odontograma</div>
+                                <div className="panel-body">
+
+                                    <Odontogram
+                                        teethState={this.state.care.selectedPatient.odontogramData}
+                                        onChange={this.onOdontogramChange.bind(this)}
+                                        />
+
+                                </div>
+                            </div>
+
+
+                            <div className="panel panel-default">
+                              <div className="panel-heading">Practicas</div>
+                                <div className="panel-body">
+
+                                    <CarePracticesForm
+                                        value={this.state.care.carePractices}
+                                        onChange={this.onCarePracticesChange.bind(this)}
+                                        />
+
+                                </div>
+                            </div>
+
+
 
 
                             <div className="form-group">
