@@ -13,6 +13,8 @@ export default class Home extends React.Component {
         this._onChange = this._onChange.bind(this);
 
         this.state = homeStore.getState();
+
+        this.state.businessHours = {enabled: true};
     }
 
     componentDidMount() {
@@ -42,8 +44,9 @@ export default class Home extends React.Component {
         this.context.router.transitionTo('editarTurno', {appointmentId: appointmentId});
     }
 
-    onDateChange(date) {
+    onDateChange(date, businessHours) {
         homeActions.selectDate(date);
+        this.setState({ businessHours })
     }
 
     render() {
@@ -54,6 +57,7 @@ export default class Home extends React.Component {
                     <button
                         className="btn btn-primary pull-right"
                         onClick={this.newAppointment.bind(this)}
+                        disabled={!this.state.businessHours.enabled}
                         >
                         Nuevo Turno
                     </button>
@@ -66,6 +70,7 @@ export default class Home extends React.Component {
                     <div className="col-xs-9">
                         <AppointmentGrid
                             date={moment(this.state.date).format('YYYY-MM-DD')}
+                            businessHours={this.state.businessHours}
                             onEdit={this.editAppointment.bind(this)}
                             onCreate={this.newAppointmentWithTime.bind(this)}
                             />

@@ -4,6 +4,7 @@ import Router, {Route, Link, RouteHandler, DefaultRoute} from 'react-router';
 const USER_TAB = 'user';
 const SHARE_TAB = 'share';
 const PRICES_TAB = 'prices';
+const HOURS_TAB = 'hours';
 
 export default class AccountManagement extends React.Component {
     constructor(props, context) {
@@ -17,6 +18,8 @@ export default class AccountManagement extends React.Component {
             activeTab =  SHARE_TAB;
         } else if (path.indexOf('precios') !== -1) {
             activeTab =  PRICES_TAB;
+        } else if (path.indexOf('horarios') !== -1) {
+            activeTab =  HOURS_TAB;
         } else {
             activeTab =  USER_TAB;
         }
@@ -50,6 +53,9 @@ export default class AccountManagement extends React.Component {
                     </li>
                     <li role="presentation" className={this.state.activeTab === PRICES_TAB ? 'active' : null}>
                         <Link to="administrarPrecios" onClick={this.onTabClick.bind(this, PRICES_TAB)}>Precios</Link>
+                    </li>
+                    <li role="presentation" className={this.state.activeTab === HOURS_TAB ? 'active' : null}>
+                        <Link to="administrarHorarios" onClick={this.onTabClick.bind(this, HOURS_TAB)}>Horarios</Link>
                     </li>
                 </ul>
 

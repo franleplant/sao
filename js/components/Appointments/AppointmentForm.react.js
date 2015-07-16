@@ -27,7 +27,8 @@ export default class AppointmentForm extends React.Component {
             selectedDate: moment(homeStore.getState().date).format('YYYY-MM-DD'),
             selectedPatientId: '',
             // Not used for now
-            selectedPatient: {}
+            selectedPatient: {},
+            duration: 1
         }
     }
 
@@ -92,7 +93,8 @@ export default class AppointmentForm extends React.Component {
         var appointment = {
             selectedTime: this.state.selectedTime,
             selectedDate: this.state.selectedDate,
-            selectedPatientId: this.state.selectedPatient.patientId
+            selectedPatientId: this.state.selectedPatient.patientId,
+            duration: this.state.duration
         };
 
         if (!this.props.appointmentId)  {
@@ -127,7 +129,7 @@ export default class AppointmentForm extends React.Component {
                         <form onSubmit={this.submit.bind(this)}>
 
                             <fieldset className="row">
-                                <div className="form-group col-xs-6">
+                                <div className="form-group col-xs-4">
                                     <label>Fecha</label>
                                     <input
                                         type="date"
@@ -137,7 +139,7 @@ export default class AppointmentForm extends React.Component {
                                         />
                                 </div>
 
-                                <div className="form-group col-xs-6">
+                                <div className="form-group col-xs-4">
                                     <label>Hora</label>
                                     <select
                                         required
@@ -146,6 +148,24 @@ export default class AppointmentForm extends React.Component {
                                         defaultValue={this.state.selectedTime}
                                         >
                                         {options}
+                                    </select>
+                                </div>
+                                <div className="form-group col-xs-4">
+                                    <label>Duracion</label>
+                                    <select
+                                        required
+                                        className="form-control"
+                                        valueLink={this.linkState('duration')}
+                                        defaultValue={this.state.duration}
+                                        >
+                                        <option value="1">15 min</option>
+                                        <option value="2">30 min</option>
+                                        <option value="3">45 min</option>
+                                        <option value="4">1 hora</option>
+                                        <option value="5">1 hora y 15 min</option>
+                                        <option value="6">1 hora y 30 min</option>
+                                        <option value="7">1 hora y 45 min</option>
+                                        <option value="6">2 horas</option>
                                     </select>
                                 </div>
                             </fieldset>

@@ -14,8 +14,10 @@ export default class AppointmentGrid extends React.Component {
 
         this._onChange = this._onChange.bind(this);
 
+
         this.state = {
-            loading: true
+            loading: true,
+            businessHours: props.businessHours || {}
         }
 
         this.appointmentList = [];
@@ -49,7 +51,8 @@ export default class AppointmentGrid extends React.Component {
         appointmentListActions.getDailyData(newProps.date);
 
         this.setState({
-            loading: true
+            loading: true,
+            businessHours: newProps.businessHours
         });
     }
 
@@ -74,6 +77,7 @@ export default class AppointmentGrid extends React.Component {
     }
 
     render() {
+        console.log(JSON.stringify(this.state, null, 2))
         var hash = {};
 
         // Create a hash of times for improved performance
@@ -88,31 +92,43 @@ export default class AppointmentGrid extends React.Component {
         })
 
 
+        let rowBuilder = (appointments) => {
+            if (!appointments) {
+                return <td colSpan="10"></td>
+            }
 
-        var rows = timeSlots.map((time) => {
-            return (
-                <tr key={time} ref={time} onClick={(event) => {this.onTimeSlotClick.call(this, event, time)}}>
-                    <td>{time}</td>
-                    <td>
-                        <p className="text-1-3x">
-                        {
-                            hash[time] && hash[time].map((index) => {
-                                //TODO: add a nice tool tip with info
-                                var appointment = this.appointmentList[index];
-                                var patient = appointment.selectedPatient;
-                                return (
-                                    <span
-                                        className="label label-primary margin-left-1x cursor-pointer"
-                                        key={appointment.appointmentId}
-                                        onClick={(event) => { this.onAppointmentClick.call(this, event, appointment.appointmentId) }}
-                                        >
-                                        {patient.name + ' ' + patient.tel}
-                                    </span>
-                                );
-                            })
-                        }
+            return appointments.map((index) => {
+                //TODO: add a nice tool tip with info
+                var appointment = this.appointmentList[index];
+                var patient = appointment.selectedPatient;
+                return (
+                    <td rowSpan={`${appointment.duration || 1}`}>
+                        <p className="text-1-3x max-height-20px">
+                            <span
+                                className="label label-primary margin-left-1x cursor-pointer inline-block"
+                                style={{
+                                    height: `${35 * (appointment.duration || 1)}px`,
+                                    lineHeight: 'inherit'
+                                }}
+                                key={appointment.appointmentId}
+                                onClick={(event) => { this.onAppointmentClick.call(this, event, appointment.appointmentId) }}
+                                >
+                                {patient.name + ' ' + patient.tel}
+                            </span>
                         </p>
                     </td>
+                );
+            })
+        }
+
+        var rows = timeSlots.map((time) => {
+            let businessHours = this.state.businessHours;
+            let disabled = !businessHours.enabled || time < businessHours.startHour || time > businessHours.endHour
+            console.log(disabled)
+            return (
+                <tr key={time} ref={time} onClick={(event) => {if (disabled) return; this.onTimeSlotClick.call(this, event, time)}} className={disabled ? 'disabled' : undefined}>
+                    <td>{time}</td>
+                        {rowBuilder(hash[time])}
                 </tr>
             );
         })

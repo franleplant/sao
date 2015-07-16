@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import moment from 'moment';
+import userResource from '../../userResource.js';
 
 //TODO:
 //- Refactor this, make it more clear
@@ -30,8 +31,42 @@ export default class MiniCalendar extends React.Component {
 
         this.state = {
             // keep the last selected date :)
-            date: moment(props.value)
+            date: moment(props.value),
+            businessHours: [0,0,0,0,0,0,0],
+            meta: {
+                loading: false
+            }
+
         }
+    }
+
+    componentDidMount() {
+        this.setState({
+            meta: {
+                loading: true
+            }
+        })
+        userResource
+            .getRef()
+            .child('businessHours')
+            .once('value', (snapshot) => {
+                let hours = snapshot.val();
+                this.setState({
+                    meta: {
+                        loading: false
+                    }
+                })
+                if (!hours) return;
+
+                this.setState({
+                    businessHours: hours
+                }, () => {
+                    this.onChange.call(this)
+                })
+            })
+
+
+
     }
 
     previousMonth() {
@@ -69,7 +104,7 @@ export default class MiniCalendar extends React.Component {
         }
 
         // Invoke outside hanlder with native js date
-        onChangeHandler(this.state.date.toDate())
+        onChangeHandler(this.state.date.toDate(), this.state.businessHours[this.state.date.day()])
     }
 
     render() {
@@ -99,6 +134,8 @@ export default class MiniCalendar extends React.Component {
                                     'emptyCal' :
                                     week[day] === this.state.date.date() ?
                                     'active' :
+                                    this.state.businessHours[day] && !this.state.businessHours[day].enabled ?
+                                    'disabled' :
                                     undefined
                                     }
                                 >
