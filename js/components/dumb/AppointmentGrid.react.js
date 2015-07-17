@@ -26,7 +26,7 @@ export default class AppointmentGrid extends React.Component {
     componentDidMount() {
         // Very simple way of scrolling the hours table
         var node = React.findDOMNode(this);
-        node.querySelectorAll('td')[60].scrollIntoView(true);
+        node.querySelectorAll('td')[70].scrollIntoView(true);
 
         appointmentListStore.onChange(this._onChange);
 
@@ -59,7 +59,7 @@ export default class AppointmentGrid extends React.Component {
     componentWillUpdate() {
         // Very simple way of scrolling the hours table
         var node = React.findDOMNode(this);
-        node.querySelectorAll('td')[60].scrollIntoView(true);
+        node.querySelectorAll('td')[70].scrollIntoView(true);
     }
 
     onAppointmentClick(event, appointmentId) {
@@ -77,7 +77,6 @@ export default class AppointmentGrid extends React.Component {
     }
 
     render() {
-        console.log(JSON.stringify(this.state, null, 2))
         var hash = {};
 
         // Create a hash of times for improved performance
@@ -123,8 +122,7 @@ export default class AppointmentGrid extends React.Component {
 
         var rows = timeSlots.map((time) => {
             let businessHours = this.state.businessHours;
-            let disabled = !businessHours.enabled || time < businessHours.startHour || time > businessHours.endHour
-            console.log(disabled)
+            let disabled = !businessHours.enabled || time < businessHours.startHour || time > businessHours.endHour || !!this.props.isOooDate
             return (
                 <tr key={time} ref={time} onClick={(event) => {if (disabled) return; this.onTimeSlotClick.call(this, event, time)}} className={disabled ? 'disabled' : undefined}>
                     <td>{time}</td>

@@ -85,6 +85,23 @@ export default class BusinessHoursManagement extends React.Component {
                 })
             })
 
+        userResource
+            .getRef()
+            .child('oooDates')
+            .once('value', (snapshot) => {
+                this.setState({
+                    meta: {
+                        loading: false
+                    }
+                })
+
+                let oooDates = snapshot.val();
+
+                if (!oooDates) return;
+
+                this.setState({ oooDates })
+            });
+
     }
 
     handleSubmit(event) {
@@ -110,7 +127,27 @@ export default class BusinessHoursManagement extends React.Component {
     }
 
     handleOooSubmit(event) {
+        event.preventDefault();
+
+        this.setState({
+            meta: {
+                loading: true
+            }
+        })
+
+        userResource
+            .getRef()
+            .child('oooDates')
+            .set(this.state.oooDates, () => {
+                this.setState({
+                    meta: {
+                        loading: false
+                    }
+                })
+
+            });
     }
+
     render() {
         let options = (startHour) => {
             let slots = timeSlots;
@@ -209,7 +246,7 @@ export default class BusinessHoursManagement extends React.Component {
 
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        Dias Ausentes
+                        Ausente por vacaciones
                     </div>
 
                     <div className="panel-body">
@@ -220,22 +257,33 @@ export default class BusinessHoursManagement extends React.Component {
                                 </p>
                             </div>
 
-                            <div className="col-xs-12">
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Comienzo</th>
-                                            <th>Final</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                            <div className="col-xs-6 form-group">
+                                <label>Desde</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    required
+                                    value={this.state.oooDates.start}
+                                    onChange={(event) => {this.state.oooDates.start = event.target.value; this.forceUpdate();}}
+                                    />
+                            </div>
+                            <div className="col-xs-6 form-group">
+                                <label>Hasta</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    required
+                                    min={this.state.oooDates.start}
+                                    value={this.state.oooDates.end}
+                                    onChange={(event) => {this.state.oooDates.end = event.target.value; this.forceUpdate();}}
+                                    />
                             </div>
 
-                            <button type="submit" className="btn btn-default" disabled={this.state.meta.loading}>
-                                Guardar { this.state.meta.loading ? <i className="fa fa-spinner fa-spin"></i> : null }
-                            </button>
+                            <div className="col-xs-12">
+                                <button type="submit" className="btn btn-default" disabled={this.state.meta.loading}>
+                                    Guardar { this.state.meta.loading ? <i className="fa fa-spinner fa-spin"></i> : null }
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

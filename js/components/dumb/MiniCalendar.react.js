@@ -32,6 +32,7 @@ export default class MiniCalendar extends React.Component {
         this.state = {
             // keep the last selected date :)
             date: moment(props.value),
+            oooDates: {},
             businessHours: [0,0,0,0,0,0,0],
             meta: {
                 loading: false
@@ -65,7 +66,22 @@ export default class MiniCalendar extends React.Component {
                 })
             })
 
+         userResource
+            .getRef()
+            .child('oooDates')
+            .once('value', (snapshot) => {
+                let oooDates = snapshot.val();
+                this.setState({
+                    meta: {
+                        loading: false
+                    }
+                })
+                if (!oooDates) return;
 
+                this.setState({ oooDates }, () => {
+                    this.onChange.call(this)
+                })
+            })
 
     }
 
@@ -104,7 +120,7 @@ export default class MiniCalendar extends React.Component {
         }
 
         // Invoke outside hanlder with native js date
-        onChangeHandler(this.state.date.toDate(), this.state.businessHours[this.state.date.day()])
+        onChangeHandler(this.state.date.toDate(), this.state.businessHours[this.state.date.day()], this.state.oooDates)
     }
 
     render() {
@@ -124,6 +140,10 @@ export default class MiniCalendar extends React.Component {
         }
         var cal = calMatrix.map((week) => {
                     var ret = [];
+                    let businessHours = this.state.businessHours;
+                    let oooDates = this.state.oooDates;
+                    let cDate = this.state.date;
+                    let dFormat ='YYYY-MM-DD';
 
                     for  (var day = 0; day < week.length; day++) {
                         ret.push(
@@ -134,7 +154,11 @@ export default class MiniCalendar extends React.Component {
                                     'emptyCal' :
                                     week[day] === this.state.date.date() ?
                                     'active' :
-                                    this.state.businessHours[day] && !this.state.businessHours[day].enabled ?
+                                    (businessHours[day] && !businessHours[day].enabled) ||
+                                    (
+                                        oooDates.start <= moment(cDate).date(week[day]).format(dFormat) &&
+                                        oooDates.end >= moment(cDate).date(week[day]).format(dFormat)
+                                    ) ?
                                     'disabled' :
                                     undefined
                                     }
