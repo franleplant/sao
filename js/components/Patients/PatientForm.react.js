@@ -2,6 +2,7 @@ import React from 'react/addons';
 import ReactMixin from 'react-mixin';
 import Firebase from 'firebase';
 import {Link} from 'react-router';
+import _ from 'lodash';
 import sessionStore from '../../stores/sessionStore.js';
 import argutils from '../../argutils.js';
 import OSSelect from '../dumb/OSSelect.react.js';
@@ -181,16 +182,24 @@ export default class PatientForm extends React.Component {
 
 
     render() {
-        let cares = Object
-                        .keys(this.state.cares || {})
-                        .map((careId, index) => {
-                            return (
-
-                                <Link to="editarConsulta" params={{careId: careId}} className="list-group-item" key={`care${index}`}>
-                                    {this.state.cares[careId].selectedDate}
-                                </Link>
-                            );
+        let cares = _.values(
+                        _.forOwn(this.state.cares, (care, id) => {
+                            care.id = id;
                         })
+                    )
+                    .reverse()
+                    .map((care, index) => {
+                        return (
+                            <Link
+                                to="editarConsulta"
+                                params={{careId: care.id}}
+                                className="list-group-item"
+                                key={`care${index}`}
+                                >
+                                {care.selectedDate}
+                            </Link>
+                        );
+                    })
 
         return (
             <div>
